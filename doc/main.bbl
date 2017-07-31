@@ -1,0 +1,51 @@
+\begin{thebibliography}{1}
+
+\bibitem{schulz-zander_opensdwn:_2015}
+Julius Schulz-Zander, Carlos Mayer, Bogdan Ciobotaru, Stefan Schmid, and Anja
+  Feldmann.
+\newblock {OpenSDWN}: programmatic control over home and enterprise {WiFi}.
+\newblock pages 1--12. ACM Press, 2015.
+
+\bibitem{allahdadi_predicting_2013}
+Anisa Allahdadi, Ricardo Morla, Ana Aguiar, and Jaime~S. Cardoso.
+\newblock Predicting short 802.11 sessions from radius usage data.
+\newblock In {\em Local {Computer} {Networks} {Workshops} ({LCN} {Workshops}),
+  2013 {IEEE} 38th {Conference} on}, pages 1--8. IEEE, 2013.
+
+\bibitem{suresh_towards_2012}
+Lalith Suresh, Julius Schulz-Zander, Ruben Merz, Anja Feldmann, and Teresa
+  Vazao.
+\newblock Towards programmable enterprise {WLANS} with {Odin}.
+\newblock In {\em Proceedings of the first workshop on {Hot} topics in software
+  defined networks}, pages 115--120. ACM, 2012.
+
+\bibitem{mateljan_cloud_2010}
+Vladimir Mateljan, D.~Cisic, and D.~Ogrizovic.
+\newblock Cloud database-as-a-service ({DaaS})-{ROI}.
+\newblock In {\em {MIPRO}, 2010 proceedings of the 33rd {International}
+  convention}, pages 1185--1188. IEEE, 2010.
+
+\bibitem{mckeown_openflow:_2008}
+Nick McKeown, Tom Anderson, Hari Balakrishnan, Guru Parulkar, Larry Peterson,
+  Jennifer Rexford, Scott Shenker, and Jonathan Turner.
+\newblock {OpenFlow}: enabling innovation in campus networks.
+\newblock {\em ACM SIGCOMM Computer Communication Review}, 38(2):69--74, 2008.
+
+\bibitem{li_performance_2013}
+Yishan Li and Sathiamoorthy Manoharan.
+\newblock A performance comparison of {SQL} and {NoSQL} databases.
+\newblock In {\em Communications, computers and signal processing ({PACRIM}),
+  2013 {IEEE} pacific rim conference on}, pages 15--19. IEEE, 2013.
+
+\bibitem{megapath_choosing_nodate}
+MegaPath.
+\newblock {CHOOSING} {THE} {RIGHT} {MANAGED} {WIFI} {SOLUTION}.
+
+\bibitem{callegati_performance_2014}
+Franco Callegati, Walter Cerroni, Chiara Contoli, and Giuliano Santandrea.
+\newblock Performance of multi-tenant virtual networks in openstack-based cloud
+  infrastructures.
+\newblock In {\em Globecom {Workshops} ({GC} {Wkshps}), 2014}, pages 81--85.
+  IEEE, 2014.
+
+\end{thebibliography}
