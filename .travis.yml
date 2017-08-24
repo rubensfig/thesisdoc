@@ -1,0 +1,17 @@
+before_install:
+- "sudo apt-get update && sudo apt-get install --no-install-recommends texlive-fonts-recommended texlive-latex-extra texlive-fonts-extra texlive-latex-recommended dvipng"
+script:
+- mkdir -p _build 
+- pdflatex -interaction=nonstopmode -output-directory _build chapters/main.tex
+- biblatex chapters/main.tex
+- pdflatex -interaction=nonstopmode -output-directory _build chapters/main.tex
+deploy:
+  provider: releases
+  api_key:
+    secure: aabcaf4c1827e71783fc8f7fc5e559a8c251816 
+  file:
+  - _build/your_file_1.pdf
+  - _build/your_file_2.pdf
+  skip_cleanup: true
+  on:
+    tags: true
