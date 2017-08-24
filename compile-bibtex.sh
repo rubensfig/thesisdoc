@@ -1,13 +1,14 @@
 #!/bin/bash
+rm main.pdf
 cd ./doc/chapters
 
 rm *.aux
 cd ..
 rm *.pdf
 
-pdflatex -interaction=nonstopmode -output-directory ../_build main.tex 
+pdflatex -interaction=nonstopmode -output-directory ../ main.tex 
 bibtex main.tex
-pdflatex -interaction=nonstopmode -output-directory ../_build main.tex
+pdflatex -interaction=nonstopmode -output-directory .. main.tex
 
 make clean
 
