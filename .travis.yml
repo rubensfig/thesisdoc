@@ -3,7 +3,7 @@ before_install:
 script:
 - mkdir -p _build 
 - pdflatex -interaction=nonstopmode -output-directory _build chapters/main.tex
-- biblatex chapters/main.tex
+- bibtex chapters/main.tex
 - pdflatex -interaction=nonstopmode -output-directory _build chapters/main.tex
 deploy:
   provider: releases
