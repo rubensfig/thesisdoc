@@ -4,6 +4,9 @@ cd ./doc/chapters
 rm *.aux
 cd ..
 rm *.pdf
-pdflatex main.tex
+
+pdflatex -interaction=nonstopmode -output-directory . main.tex 
 bibtex main.tex
-pdflatex main.tex
+pdflatex -interaction=nonstopmode -output-directory . main.tex
+
+make clean
