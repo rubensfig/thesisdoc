@@ -10,8 +10,7 @@ deploy:
   api_key:
     secure: aabcaf4c1827e71783fc8f7fc5e559a8c251816 
   file:
-  - _build/your_file_1.pdf
-  - _build/your_file_2.pdf
+  - _build/main.pdf
   skip_cleanup: true
   on:
     tags: true
