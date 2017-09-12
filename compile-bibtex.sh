@@ -1,13 +1,13 @@
 #!/bin/bash
 rm main.pdf
-cd ./doc/chapters
+cd ./doc/
 
 rm *.aux
-cd ..
-rm *.pdf
 
-pdflatex -interaction=nonstopmode -output-directory ../ main.tex 
-bibtex main.tex
+pwd
+
+pdflatex -interaction=nonstopmode  main.tex 
+bibtex main.aux
 pdflatex -interaction=nonstopmode -output-directory .. main.tex
 
 make clean

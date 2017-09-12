@@ -3,6 +3,9 @@ before_install:
 script:
 - mkdir _build
 - sh compile-bibtex.sh
+branches:
+  only:
+   - master
 deploy:
   provider: releases
   api_key:
