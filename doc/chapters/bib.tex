@@ -13,9 +13,11 @@ American universities started to join in the this network, called ARPANET.
 %%FIND CITATION FOR THESE IMAGES
 \begin{figure}[!tbph]
   \centering
-  \subfloat[Early ARPANET schematics, appr. 1969]{\includegraphics[width=0.4\textwidth]{bib/early_arpanet}\label{fig:arpa_1}}
+  \subfloat[Early ARPANET schematics, appr. 1969]{\includegraphics[width=0.4\textwidth]{bib/early_arpanet}}
   \hfill
-  \subfloat[More sites connected to the ARPANET, September 1977]{\includegraphics[width=.5\textwidth]{bib/later_arpanet}\label{fig:arpa_2}}
+  \subfloat[More sites connected to the ARPANET, September 1977]{\includegraphics[width=.5\textwidth]{bib/later_arpanet}}
+  \caption {ARPANET evolution}
+  \label{fig:arpa}
 \end{figure}
 
 \p As the advantages of having an interconnected network of computers became clearer, and with the surge of some others, 
@@ -53,6 +55,36 @@ Telecom and Media groups, direct data collection, and some estimates.
 
 \p The previous points while obvious estimations, show a clear evolution in the way that Internet is usually accessed, and that is the 
 
+%%Trends in cloud datacenters/ cloud environments
 
- 
+\p 
+
+\section {Software Defined Networking}
+\hspace {5mm}
+ As described in the previous section, there is a clear evolution of requirements, and this evolution was possible due to the adaptation of the exiting technologies to support better, and more efficient protocols that could carry 
+the large amount of data that is transmitted every second. With that in mind, and in order to reduce costs to the service providers, simplify deployment and maintenance operations, developments in Software-Defined Networking (SDN) and Network Function Virtualization have been growing since 2010.
+
+\p This new paradigm introduces programmability in the configuration and management of networks, by consolidating the control of network devices to a single central controller, achieving separation of the control and the 
+data plane, and supporting a more dynamic and flexible infrastructure. Another important paradigm, that follows the development of SDN, is the concept of Network Function Virtualization. This concept allows to remove the amount of 
+        \textit {middleboxes}\footnote {Computer networking device that does some operations on traffic, excepting packet forwarding. Examples include caches, IDS's, NAT's, ..}, by replacing these with generic software 
+applications.
+
+\p The essence of SDN/NFV is described in a short manner if the Open Networking Foundation (ONF) paper: \textit{ In the SDN architecture, the control and data planes are decoupled,  network intelligence and state are 
+logically centralized, and the underlying network infrastructure is abstracted from the applications}. The following picture defines both of the approaches to network, the traditional one, where the data and control plane
+are just one, and the SDN way, that considers that application and control traffic should be considered in two different ways. 
+
+\begin{figure}[!tbph]
+  \centering
+  \subfloat[Traditional networking architecture]{\includegraphics[width=0.4\textwidth]{bib/network_trad}\label{fig:net_trad}}
+  \hfill
+  \subfloat[SDN architecture]{\includegraphics[width=.4\textwidth]{bib/network_sdn}\label{fig:net_sdn}}
+  \caption {Traditional vs SDN network architecture}
+\end{figure}
+
+\subsection {Why?}
+\subsection {Challenges}
+\subsection {Observed implementations in the industry}
+
+\section {Cloud Computing}
+\section {Databases} 
 
