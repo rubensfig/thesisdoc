@@ -22,10 +22,11 @@
 \BOOKMARK [2][-]{subsection.4.1.1}{4.1.1 OpenFlow details}{section.4.1}% 22
 \BOOKMARK [1][-]{section.4.2}{4.2 Cloud computing and SaaS}{chapter.4}% 23
 \BOOKMARK [2][-]{subsection.4.2.1}{4.2.1 Containerization vs Virtualization}{section.4.2}% 24
-\BOOKMARK [1][-]{section.4.3}{4.3 Infrastructure Management/ Configuration}{chapter.4}% 25
-\BOOKMARK [2][-]{subsection.4.3.1}{4.3.1 Netconf}{section.4.3}% 26
-\BOOKMARK [2][-]{subsection.4.3.2}{4.3.2 SNMP}{section.4.3}% 27
-\BOOKMARK [1][-]{section.4.4}{4.4 Databases and SDN}{chapter.4}% 28
-\BOOKMARK [0][-]{chapter.5}{5 API Design}{}% 29
-\BOOKMARK [0][-]{chapter.6}{6 Designed System}{}% 30
-\BOOKMARK [0][-]{section*.10}{References}{}% 31
+\BOOKMARK [1][-]{section.4.3}{4.3 Link discovery and control}{chapter.4}% 25
+\BOOKMARK [1][-]{section.4.4}{4.4 Infrastructure Management/ Configuration}{chapter.4}% 26
+\BOOKMARK [2][-]{subsection.4.4.1}{4.4.1 Data Models}{section.4.4}% 27
+\BOOKMARK [2][-]{subsection.4.4.2}{4.4.2 Management Protocols}{section.4.4}% 28
+\BOOKMARK [1][-]{section.4.5}{4.5 Databases and SDN}{chapter.4}% 29
+\BOOKMARK [0][-]{chapter.5}{5 API Design}{}% 30
+\BOOKMARK [0][-]{chapter.6}{6 Designed System}{}% 31
+\BOOKMARK [0][-]{section*.10}{References}{}% 32
