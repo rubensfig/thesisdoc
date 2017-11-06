@@ -15,32 +15,26 @@ analysis of how to monitor and control the SDN platform; and finally in section 
 \end{figure}
 
 Given that this chapter focuses on a more technical view of the technologies supporting the various components of the developed system, the previous image is defining the logical separation between layers, the relationship between 
-these layers, and the protocols used for connection. In a general case, we can define two essential regions, Northbound and Southbound, because this separation provides us with two main interfaces: \textbf{Southbound}, 
+these layers, and the protocols used for connection. In a general case, we can define two essential regions: \textbf{Southbound}, 
 providing interfaces between controller and data plane; and \textbf{Northbound}, providing connection between the network infrastructure, and applications and services.
-
-\par By following the logical separation as provided in the previous figure, we can define the requirements needed for each of the interfaces.
 
 \subsection {Southbound}
 \subsubsection {OpenFlow}
 
 One of the most important components of current SDN technologies, and one of the key components that allowed for the proliferation of SDN platforms, OpenFlow is a protocol that was released in order to improve experimentation
-in networks, due to a lack of inovation in this field. The way this problem was approached was to develop a protocol that allowed for the creation of programmable networks, and also to deal with a way to decrease 
-dependency on closed hardware platforms.
+in networks, due to a lack of inovation in this field. The way this problem was approached was to develop a protocol that allowed for the creation of programmable networks, also decreasing dependency on closed hardware platforms.
 
 \begin{figure}[!tbph]
   \centering
   {\includegraphics[width=0.6\textwidth]{technology/openflowopenflowlabel{fig:net_trad}}
 \end{figure}
 
-\section {Cloud computing and SaaS}
-\subsection {Containerization vs Virtualization}
+\section {Cloud computing}
 \section {Link discovery and control}
 \section {Infrastructure Management/ Configuration}
 \subsection {Data Models}
 \subsection {Management Protocols}
-\subsubsection {SNMP}
 \subsubsection {NETCONF}
 \subsubsection {gRPC}
-\section {Databases and SDN} %% ??
 
 %% PRESENT PROMETHEUS
