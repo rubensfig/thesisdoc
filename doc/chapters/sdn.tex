@@ -1,58 +1,23 @@
 \chapter{Software Defined Networking} \label{chap:sdn} %% chapter 3
 
-\section {Computer Networking}
+Computer networking is a vital part of the services that are offered today, and as such, the performance in technology backing these services is central to the quality of these services. As the service providers reorganize their
+data centers in the cloud computing domain, enabling several improvements in the predictability, quality of service and ease of use of their services. New technologies are then required to make sure that their services are adapted
+to the fast changing landscape of networking services. One of the most notable innovations in this field is called Software Defined Networking, because its architecture allows for two essential features
 
-\subsection {Historical context}
-\hspace {5mm} 
+\begin {itemize}
+    \item \textbf{Separation of network planes} SDN allows for the separation of the network control plane from the data forwarding plane by having network "intelligence" present in the network controllers, and having them
+control the forwarding elements that live in the Data Plane
+    \item \textvf{Centralization of network management functions} By isolating the management on a separate plane, there is possibility of developing a single controller that can regulate the entire network, having unrestricted access to every element present in the network, simplifying management, monitoring, application of QoS policies, flow optimization, ...
+\end {itemize}
 
-A computer network is a way to transfer digital information from point A to point B, via an established link
-between the two. In the early days, the demand to create an interconnected network of data sharing 
-appeared from academic research and military needs, and since the introduction of these innovations, many 
-American universities started to join in the this network, called ARPANET.
+In this chapter we explore the essential characteristics of SDN, the technologies that provide the back end for the development of this technology, and current implementations of the most popular SDN controllers, so that we can 
+see the features that should be present while developing a management interface for SDN controllers.
 
-%%FIND CITATION FOR THESE IMAGES
-\begin{figure}[!tbph]
-  \centering
-  \subfloat[Early ARPANET schematics, appr. 1969]{\includegraphics[width=0.4\textwidth]{bib/early_arpanet}\label{fig:arpa_1}}
-  \hfill
-  \subfloat[More sites connected to the ARPANET, September 1977]{\includegraphics[width=.5\textwidth]{bib/later_arpanet}\label{fig:arpa_2}}
-\end{figure}
-
-\p As the advantages of having an interconnected network of computers became clearer, and with the surge of some others, 
-such as CYCLADES, the french investigation research network, the need to connect the existing networks was rising, 
-and that was one of the first steps of creating a global network, later known as the Internet. Some of the essential mechanisms that can still be found to this day were also developed in the ARPANET, like FTP and e-mail.
-
-\p One of them was introduced in 1981, RFC 793 \cite{}, and with it TCP was "invented".
-The main motivation for this development was the introduction of an end-to-end, connection oriented, and reliable protocol that allowed for the standardization of 
-several different protocols. Also in this document, the definition of a OSI model, like the one that is prevalent today, or the definitions of reliability, are present, and continue
-to be relevant until today.
-
-\begin{figure}[!tbph]
-  \centering
-  \includegraphics[width=0.2\textwidth]{bib/osi_model}
-  \label{fig:osi_model}
-  \caption{The current OSI model}
-\end{figure}
-
-%%COMECAR A INTRODUZIR WIFI 
-One 
-
-\subsection {Market data}
-\hspace {5mm} 
-
-%%CISCO REPORT: https://www.cisco.com/c/en/us/solutions/collateral/service-provider/visual-networking-index-vni/vni-hyperconnectivity-wp.html
-\p By continuing to evolve and increase in both functionalities and users, the Internet as we know it is a global network, encompassing several protocols, and allows for instant communication of people around the world.
-A report indicating this evolution allows for some interesting conclusions about the state of the Internet market until 2021. This forecast was developed based on data originating from projections made from some 
-Telecom and Media groups, direct data collection, and some estimates.
-
-\begin {description}
-    \item [Global IP traffic] As the report mentions, the monthly traffic, per capita, in 2016 is around 13 GB, and in 2021 is projected to be at 35 GB
-    \item [Mobile devices traffic] While today wired devices still make up for the majority of IP traffic, in 2021, traffic originating from Wi-Fi and mobile devices should account for 63 percent of the total traffic
-    \item [Smartphone/ PC traffic] By comparing the predicted evolution of smartphone/ pc traffic, the trends indicate that smartphone traffic should exceed fixed PC traffic.
-\end {description}
-
-\p The previous points while obvious estimations, show a clear evolution in the way that Internet is usually accessed, and that is the 
-
-
- 
-
+\section {Switches}
+\subsection {OVS}
+\section {OpenStack}
+\section {OpenFlow}
+\section {SDN Controllers}
+\subsection {Floodlight}
+\subsection {OpenDaylight}
+\section {SDN Northbound}

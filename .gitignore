@@ -1,3 +1,9 @@
 *.log
 *.aux
 ./resources
+*pdf
+*.out
+*.lof
+*.lot
+
+
