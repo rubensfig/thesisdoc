@@ -7,7 +7,7 @@ to the fast changing landscape of networking services. One of the most notable i
 \begin {itemize}
     \item \textbf{Separation of network planes} SDN allows for the separation of the network control plane from the data forwarding plane by having network "intelligence" present in the network controllers, and having them
 control the forwarding elements that live in the Data Plane
-    \item \textvf{Centralization of network management functions} By isolating the management on a separate plane, there is possibility of developing a single controller that can regulate the entire network, having unrestricted access to every element present in the network, simplifying management, monitoring, application of QoS policies, flow optimization, ...
+    \item \textbf{Centralization of network management functions} By isolating the management on a separate plane, there is possibility of developing a single controller that can regulate the entire network, having unrestricted access to every element present in the network, simplifying management, monitoring, application of QoS policies, flow optimization, ...
 \end {itemize}
 
 In this chapter we explore the essential characteristics of SDN, the technologies that provide the back end for the development of this technology, and current implementations of the most popular SDN controllers, so that we can 
@@ -17,6 +17,28 @@ see the features that should be present while developing a management interface 
 \subsection {OVS}
 \section {OpenStack}
 \section {OpenFlow}
+
+As the growth of the networking infrastructure of the past few decades became evident, the need for an enviroment that allows for experimentation and testing of different protocols and equipment became evident. If networking 
+research would depend on the previously existing methods, then new ways of creating and developing protocols would become increasingly hard to implement and develop. As such, there was need for a framework that could 
+enable testing of new ideas on close to realistic settings. So, on 28 February 2011 the version 1.1 of OpenFlow was released, and this proposal quickly became the standard for networking in a Software Defined Network. Since
+2011, this protocol has suffered some revisions, and the latest version supported is version 1.5.1. Since this framework has evolved quite a bit, this section focuses on the versions 1.3, which are the versions that 
+are used in development of this dissertation. 
+\par Several reasons led to the quick standardization of this protocol, which are related not only to the initial requirements of the platform, like the capability of supporting high-performance and low-cost implementations, 
+and the capability of ensuring separation between production and testing traffic, but also the extensibility that the open source development model provides, removing the limitations that closed or commercial solutions give the 
+network researchers.
+\par The big advantage of OpenFlow is that it is, from the data forwarding plane point of view, easy to process. Since the control decisions are made by the controller, which lives in a separate plane, all the switch needs to do
+is correctly match the incoming packets, and forward them according to the rules established by the controller. The components that are part of this system and enable this functionality are:
+
+\begin {itemize}
+    \item \textbf {FlowTables} This element describes the main component of the switching capabilities of the OpenFlow switch. Inside the switch there are several flow tables that can be used to match incoming packets,
+and process them in the rules that are specified by the controller. These rules can contain actions that affect the path of the packets, and these actions usually include forwarding to a port, packet modification, among
+others. Classification is done via matching one or more field present in the packet, for example the switch input port, the MAC and IP addresses, IP protocol, basically all information required to correctly process the 
+incoming packet. The required actions for an OpenFlow switch are the capability of forwarding to a set of output ports, allowing the packet to move across the network; to send them to the controller, in the case of a
+miss of match; and finally the ability to drop packets, which is useful for DDoS mitigation, or more security concerns.
+    \item \textbf {Secure Channel} 
+    \item \textbf {OpenFlow Protocol}
+\end {itemize}
+
 \section {SDN Controllers}
 \subsection {Floodlight}
 \subsection {OpenDaylight}
