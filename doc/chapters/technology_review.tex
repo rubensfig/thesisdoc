@@ -1,5 +1,16 @@
 \chapter{Network Management} \label{chap:nm} %% chapter 3
 
+As networks grow larger and more complex, systems must be put in place that allow for closely monitoring the resources that make up the network, while also allowing for a certain freedom for the possible constant change of the 
+network. As such, typical vendor solutions don't really fit into this ever changing landscape, since they present very solid and vertically integrated solutions. The SDN paradigm, however, is able to solve this issue, since it 
+enables for the centralized control of the underlying networks, which provides for visibility and even control over the network, simplifying network diagnosis or troubleshooting. 
+\par Although SDN is a promising paradigm in terms of networking management, it also introduces some points of failure that are non existing, or not as impactful in current networking deployments. This is related, for example,
+to the centralization of the controller, which makes it susceptible to Denial-of-Service attacks or even the possibility of some malicious attacker that could possibly exploit the privileged view that the SDN controller has.
+\par This chapter focuses on the management of networks, where we explore what is most necessary to obtain a comprehensive understanding of the network; formalize the statistics that can be reported via OpenFlow; see some 
+research that has been done in the management of SDN applications, including what existing controllers provide us; and finally explore the way that DDos detection and mitigation is usually implemented.
+
+
 \section {OpenFlow Statistics}
+
+
 
 
