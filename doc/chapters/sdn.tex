@@ -13,8 +13,6 @@ control the forwarding elements that live in the Data Plane
 In this chapter we explore the essential characteristics of SDN, the technologies that provide the back end for the development of this technology, and current implementations of the most popular SDN controllers, so that we can 
 see the features that should be present while developing a management interface for SDN controllers.
 
-\section {Switches}
-\subsection {OVS}
 \section {OpenStack}
 \section {OpenFlow}
 
@@ -35,9 +33,31 @@ and process them in the rules that are specified by the controller. These rules 
 others. Classification is done via matching one or more field present in the packet, for example the switch input port, the MAC and IP addresses, IP protocol, basically all information required to correctly process the 
 incoming packet. The required actions for an OpenFlow switch are the capability of forwarding to a set of output ports, allowing the packet to move across the network; to send them to the controller, in the case of a
 miss of match; and finally the ability to drop packets, which is useful for DDoS mitigation, or more security concerns.
-    \item \textbf {Secure Channel} 
-    \item \textbf {OpenFlow Protocol}
+    \item \textbf {OpenFlow Protocol} Through the establishment of the OpenFlow Protocol between the switch and the controller, there is the definintion of several messages that allow for the control of the switch. This protocol
+enables capabilities such as adding, deleting and updating flow mods in the switch, that are refered to as \textit {Controller-to-Switch} messages. Other relevant message types are the \textit {Asynchronous}, that enable the
+notification of some event that ocurred, this type includes the Packet-In message, that is a type of message that is sent to the controller when a certain packet has no match in the flow tables present in the switch; and the 
+\textit{ Synchronous} message that enable functionality such as the Hello message, that is used to start the connection between the switch and the controller.
+    \item \textbf {Secure Channel} OpenFlow defines the channel that is between the switch and the controller as a secure communications channel. As the messages that are sent to the switch are critical for the correct operation 
+of the system, as indicated in the previous point, the channel should be criptographically secure, to prevent spoofing of this information. As such, the channel is tipically transported over TLS.
 \end {itemize}
+
+% XXX SOURCE This images were taken from : open flow switch specification  https://3vf60mmveq1g8vzn48q2o71a-wpengine.netdna-ssl.com/wp-content/uploads/2014/10/openflow-switch-v1.3.5.pdf
+\begin{figure} [h]
+    \begin{subfigure}
+    \includegraphics[width=0.25\textwidth]{sdn/open_flow_switch_pipeline}
+    \end{subfigure}
+    \begin{subfigure}
+    \includegraphics[width=0.6\textwidth]{sdn/open_flow_tables}
+    \end{subfigure}
+\caption{Images describing OpenFlow components. On the left, an overview to the entire system, and on the right a view at the table structure of the OpenFlow Switch}
+\end{figure}
+
+\subsection {Open vSwitch}
+
+\par Although the OpenFlow protocol itself is well developed and well documented, there still needs to be support from switch applications to support this protocol. Although hardware switches are usually very expensive, and 
+
+\subsubsection {Open vSwitch}
+
 
 \section {SDN Controllers}
 \subsection {Floodlight}
