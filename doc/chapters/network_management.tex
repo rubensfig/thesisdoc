@@ -148,9 +148,24 @@ and ports, so that the measured metrics can serve as a baseline for the decision
 getting the data: by continuously sampling packets from the switches; or applying sampling techniques, and generalizing the information from the sampled data \cite{CITE - low_overhead_te_elephants_detec}. The problem here lies
 in the collection of the statistics in poses a problem for large scale deployments, where continuously polling the network devices introduces both overhead and very large amounts of data to be parsed, or the data is not enough
 to detect failures in a short amount of time.
-\par In the next section we present the mechanisms that can be used to store and publish statistics, and explore the meaning of flow, packet and port statistics.
+
+\section {Statistics}
+
+\subsection {OpenFlow}
+
+After exploring the requirements for network management, and the way the SDN model can support developing better systems, we now focus on the possibilites for obtaining this information from the networking devices. The OpenFlow 
+protocol maintains a set of counters for each flow entry, port and group statistics, and this information can be queried to obtain a general view on the status of each OF switch. By sending specific controller-to-switch messages,
+the switch will return a set of the maintained statistics, which can then be parsed and analysed further. 
+\par Sending the port statistics message returns an array with the measured counters for each port. These counters include information like the amount of received and transmitted bytes/ packets, errors and dropped packets, and the
+duration that the port is alive. 
+\par The next important message is the \textsc{OFMP\_FLOW} message, since this allows for getting the individual flow statistics, and obtain the information about each flow entry, including the time that it has been set on the switch,
+the number of packets/bytes in the flow, and the match fields. Also worth noting are the aggregate flow messages which describe how many packets are in the total flow entries, and also the number of flow entries that exist.
+\par Also relevant is the information that is retrieved using the group statistics, as they allow to monitor the number of flows that direct to the group, and again the packet/ byte count that are matched with this group.
+\par As we can see, the information provided from these messages allows for a comprehensive view of the state of each switch, and a network management system (NMS) should utilize this information to achieve an understading of the 
+state of the network. One problem arises, however, when the periodic requests generate too much information, and the control channel is overflowed with messages of port statistics, which is a possible scenario when the
+flow tables start getting too large. As such, a different alternative is to sample a small amount of packets from the switch, send the packet headers to the controller. One popular standard for applying this technique is 
+\textit{sFlow}, and is described in the next section.
+
+\subsection {sFlow}
 
 
-\section {OpenFlow}
-
- 
