@@ -40,11 +40,13 @@ The Simple Network Management Protocol is an IETF defined protocol that allows f
 SNMP allows for a simplified approach to network monitoring, since it reduces the complexity of the functions that the management agent needs to comply with, which bring several advantages, like reducing
 the costs for development of management tools; provides a way to monitor, independently from different hardware providers the resources; and also supports freedom in extending the protocol in order to include other aspects of 
 network operation. \cite{CITE - RFC 1157} %% XXX cite https://tools.ietf.org/html/rfc1157
-\par  The architectural model of SNMP can be described as the following components:
+\par  The architectural model of SNMP can be described in figure \ref{fig:snmp}.
     
 \begin{figure} [!htbp]
+    \centering
     \includegraphics[width=.6\textwidth]{nm/snmp_arch}
     \caption{Architectural components of SNMP}
+    \label{fig:snmp}
 \end{figure}
 
 The management database is one of the most important components of this system, because it serves as a reference to the entities that are managed in the SNMP protocol. The formal name for this database is the MIB - Management 
@@ -74,6 +76,7 @@ and the entire DC can run on the most optimal possible way. The organization in 
 to the correct destination, even if a link to a switch fails.
 
 \begin{figure} [!htbp]
+    \centering
     \includegraphics[width=1\textwidth]{nm/fattree}
     \caption{Visual representation of the fat tree topology commonly used in data centers}
     \label{nm/fattree}
