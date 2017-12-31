@@ -93,10 +93,11 @@ the impossibility of separating the different classes of data centers, since dep
 \begin {itemize}
     \item The placement of VMs and servers effects the bandwidth and link capacity, due to the variety of applications that can be running on the servers at any time, and this non-uniform placement of VMs contributes to higher
         amounts of traffic originating from the same rack
-    \item The majority of flows \footnote {flows are usually defined as} are described as being small in size, and short in duration, which are usually described as \textit {mice} flows. The counterpart to these are the 
-        \textit {elephant} flows, which occupy a very large share of the bandwidth, and degrade application performance, due to choking effect to the latency-sensitive mice flows. Applications are tied to the type of traffic they
-        generate, where online gaming, VoIP and multimedia broadcasting usually originate mice flows, where the large data transfers and file-sharing originate in elephant flows. However, these flows which account for 80\% of 
-        total traffic only occur less than 10\% of total flows \cite {CITE - Broadcom Engineered Elephant flow for boosting ... }.
+    \item The majority of flows \footnote {flows are sequences of packets sent from a source to a certain destination (host, anycast or multicast domain)} are described as being small in size, and short in duration,
+        which are usually described as \textit {mice} flows. 
+        The counterpart to these are the \textit {elephant} flows, which occupy a very large share of the bandwidth, and degrade application performance, due to choking effect to the latency-sensitive mice flows. 
+        Applications are tied to the type of traffic they generate, where online gaming, VoIP and multimedia broadcasting usually originate mice flows, where the large data transfers and file-sharing originate in elephant flows. 
+        However, these flows which account for 80\% of total traffic only occur less than 10\% of total flows \cite {CITE - Broadcom Engineered Elephant flow for boosting ... }.
     \item In a normal situation, link utilization is low in the layers apart from the core switches. In addition to this discovery, losses are associated with spikes in traffic, instead being related to high utilization 
         of the link, which is one of the effects of the previously mentioned elephant flows.
 \end {itemize}
@@ -164,11 +165,27 @@ duration that the port is alive.
 \par The next important message is the \textsc{OFMP\_FLOW} message, since this allows for getting the individual flow statistics, and obtain the information about each flow entry, including the time that it has been set on the switch,
 the number of packets/bytes in the flow, and the match fields. Also worth noting are the aggregate flow messages which describe how many packets are in the total flow entries, and also the number of flow entries that exist.
 \par Also relevant is the information that is retrieved using the group statistics, as they allow to monitor the number of flows that direct to the group, and again the packet/ byte count that are matched with this group.
-\par As we can see, the information provided from these messages allows for a comprehensive view of the state of each switch, and a network management system (NMS) should utilize this information to achieve an understading of the 
-state of the network. One problem arises, however, when the periodic requests generate too much information, and the control channel is overflowed with messages of port statistics, which is a possible scenario when the
-flow tables start getting too large. As such, a different alternative is to sample a small amount of packets from the switch, send the packet headers to the controller. One popular standard for applying this technique is 
-\textit{sFlow}, and is described in the next section.
+\par The information provided from these messages allows for a comprehensive view of the state of each switch, and a network management system (NMS) should utilize this information to achieve an understanding of the 
+state of the network. 
 
 \subsection {sFlow}
 
+One problem arises, however, when periodic requests generate too much information, and the control channel is overflowed with messages of port statistics, which is a possible scenario when the
+flow tables start getting too large. As such, a different alternative is to sample a small amount of packets from the switch, send the packet headers to the controller. One approach to this method is \textit{sFlow}, 
+a standard for collection, analysis and storage of network flows and traffic, for each device and its interfaces. sFlow is implemented using embedded agents on switches and routers, which compile interface and flow samples and 
+exports them to the sFlow collector via datagrams. 
+\par Due to the problems that arise with continuously collecting traffic data, packet sampling has emerged as a valid solution to this problem, by collecting every \textit{n}-th packet randomly. The simplicity of the 
+technique allows for reducing the complexity of sFlow agents, and having the sampling operation being done in hardware, resulting in the collection of the samples being done at the same speed of the channel it is monitoring. This
+reduces the losses that are inherent to the sampling process, which leads to biased analysis of the traffic \cite {CITE - packet_sample_anomaly}.
 
+\begin{figure} [!htbp]
+    \centering
+    \includegraphics[width=.6\textwidth]{nm/sflow_diagram}
+    \caption{Architectural components of sFlow}
+    \label{fig:sflow}
+\end{figure}
+
+\par Figure \ref{fig:sflow} shows the basic architecture that composes the sFlow system. One advantage of this system is the number of systems that incorporate sFlow agents \footnote {Complete list of compliant devices: 
+http://www.sflow.org/products/network.php}, allowing for a detailed analysis of flows, and enabling flexibility for scalability in the network. By utilizing a sFlow collector that can accurately collect and process the datagrams 
+incoming from the Agents, this protocol can be used to control most of the central aspects in network management, like troubleshooting network problems; controlling congestion on the network; or even analysing the possible 
+security threats internal and external to the network.

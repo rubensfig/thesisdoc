@@ -13,6 +13,49 @@ control the forwarding elements that live in the Data Plane
 In this chapter we explore the essential characteristics of SDN, the technologies that provide the back end for the development of this technology, and current implementations of the most popular SDN controllers, so that we can 
 see the features that should be present while developing a management interface for SDN controllers.
 
+\section {Introduction}
+
+As described in the previous section, there is a clear evolution of requirements, and this evolution was possible due to the adaptation of the exiting technologies to support better, and more efficient protocols that could carry 
+the large amount of data that is transmitted every second. With that in mind, and in order to reduce costs to the service providers, simplify deployment and maintenance operations, developments in Software-Defined Networking (SDN) 
+have been growing since 2010.
+
+\par This new paradigm introduces programmability in the configuration and management of networks, by consolidating the control of network devices to a single central controller, achieving separation of the control and the 
+data plane, and supporting a more dynamic and flexible infrastructure. Another important paradigm, that follows the development of SDN, is the concept of Network Function Virtualization. This concept allows to remove the amount of 
+\textit {middleboxes}\footnote {Computer networking device that does some operations on traffic, excepting packet forwarding. Examples include caches, IDS's, NAT's, ..}, by replacing these with generic software 
+applications.
+
+\par The essence of SDN is described in a short manner by the Open Networking Foundation (ONF) paper: \textit{ In the SDN architecture, the control and data planes are decoupled,  network intelligence and state are 
+logically centralized, and the underlying network infrastructure is abstracted from the applications}. The following picture defines both of the approaches to network, the traditional one and the SDN way, that considers 
+that application and control traffic should be handled separately.
+
+\begin{figure}[!tbph]
+  \centering
+  \subfloat[Traditional networking architecture]{\includegraphics[width=0.4\textwidth]{bib/network_trad}\label{fig:net_trad}}
+  \hfill
+  \subfloat[SDN architecture]{\includegraphics[width=.4\textwidth]{bib/network_sdn}\label{fig:net_sdn}}
+  \caption {Traditional vs SDN network architecture}
+\end{figure}
+
+\par One example of the operation of a switch in the SDN model is the following:
+
+\begin {itemize} 
+    \item A switch runs an agent, and this agent is connected to a controller;
+    \item This controller runs software that can operate the network, managing flow control rules, and collecting information, enabling a full view of the network from a central node
+    \item While this controller can be logically centralized, for fault-tolerance and high availability purposes it can be distributed, and by optimizing datamodels and providing caches, one of the earliest ONOS prototypes was
+able to achieve a distributed Network OS that could be applied to production networks \cite {berde_onos:_2014}
+\end {itemize}
+
+\par After analysing some examples of deployment of the SDN model, the analysed literature provides some insights on the requirements that platforms using this paradigm need to obey \cite {masutani_requirements_2014}.
+ 
+\begin {itemize} 
+    \item \textbf{High Performance}   
+    \item \textbf{High Availability} 
+    \item \textbf{Fault Tolerance}   
+    \item \textbf{Monitoring}   
+    \item \textbf{Programmability}   
+    \item \textbf{Security}   
+\end {itemize}
+
 \section {OpenStack}
 \section {OpenFlow}
 
@@ -52,14 +95,6 @@ of the system, as indicated in the previous point, the channel should be criptog
 \caption{Images describing OpenFlow components. On the left, an overview to the entire system, and on the right a view at the table structure of the OpenFlow Switch}
 \end{figure}
 
-\subsection {Open vSwitch}
-
-\par Although the OpenFlow protocol itself is well developed and well documented, there still needs to be support from switch applications to support this protocol. Although hardware switches are usually very expensive, and 
-
-\subsubsection {Open vSwitch}
-
-
 \section {SDN Controllers}
 \subsection {Floodlight}
 \subsection {OpenDaylight} \label{chap:odl}
-\section {SDN Northbound}
