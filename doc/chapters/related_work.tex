@@ -12,10 +12,17 @@ system administrators can quickly respond to changes, possibly even giving some 
 of false alarms reduces the operators capabilities to act on actual failures. 
 \par This chapter focuses on the recent research done in order to implement systems that rely on statistical analysis for monitoring the state of the networks and detection of abnormalities.
 
-\section {Network monitoring}
-
-
-
 \section {Traffic anomaly detection}
+
+Detection of network anomalies is subject to intense research, and as such, several methods were developed, that assume different levels of control over the network and provide different results to different applications. Our goal
+in this section is then to provide a description of the different types of network issues that can occur, and some proposed solutions for these issues.
+\par In regards to the detection of elephant flows, the usual mechanisms that are employed are \cite {CITE - http://shiftleft.com/mirrors/www.hpl.hp.com/personal/Praveen_Yalagandula/papers/INFOCOM11.pdf}:
+
+\begin {itemize}
+    \item By having the services/ server signal the controller that their flows are elephants prior to the transmission. This is the most accurate way to "detect" and employ QoS techniques, but since applications and services
+need to support this feature this is not commonly used.
+    \item Via sampling the packets on the network, and employing packet header tests, or packet signature analysis for detecting deviations from the standard network behaviour. This assumes that the knowledge of the state of the 
+network under normal conditions is known, so that techniques like entropy 
+\end {itemize}
 
 \section {Control charts}
