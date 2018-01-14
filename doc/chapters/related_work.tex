@@ -12,17 +12,37 @@ system administrators can quickly respond to changes, possibly even giving some 
 of false alarms reduces the operators capabilities to act on actual failures. 
 \par This chapter focuses on the recent research done in order to implement systems that rely on statistical analysis for monitoring the state of the networks and detection of abnormalities.
 
-\section {Traffic anomaly detection}
+\section {Elephant flow detection}
 
 Detection of network anomalies is subject to intense research, and as such, several methods were developed, that assume different levels of control over the network and provide different results to different applications. Our goal
 in this section is then to provide a description of the different types of network issues that can occur, and some proposed solutions for these issues.
-\par In regards to the detection of elephant flows, the usual mechanisms that are employed are \cite {CITE - http://shiftleft.com/mirrors/www.hpl.hp.com/personal/Praveen_Yalagandula/papers/INFOCOM11.pdf}:
+\par The problem of detection of traffic anomalies has been subject to extensive research, and several different approaches have been proposed. These methods are based on different techniques 
+\cite {http://shiftleft.com/mirrors/www.hpl.hp.com/personal/Praveen_Yalagandula/papers/INFOCOM11.pdf}:
 
 \begin {itemize}
-    \item By having the services/ server signal the controller that their flows are elephants prior to the transmission. This is the most accurate way to "detect" and employ QoS techniques, but since applications and services
-need to support this feature this is not commonly used.
-    \item Via sampling the packets on the network, and employing packet header tests, or packet signature analysis for detecting deviations from the standard network behaviour. This assumes that the knowledge of the state of the 
-network under normal conditions is known, so that techniques like entropy 
+    \item Modifications to the applications and services to notify the controller about the state of the traffic on each service. Despite this approach resulting in the most accurate "detection" of network anomalies, the support 
+for this technique is not extensive, due to the required changes to each service, and it does not account for abrupt changes on the traffic
+    \item By setting hard limits on the transmission capabilities of each port and switch, the controller is ensured of the non existence of flows that could impact network performance. This is a mitigation strategy that
+does not scale well to very large networks, since it requires the storage of the rules imposed to every port, and can potentially lead to the inefficient use of network resources, reducing flexibly on the DCN's.
+    \item By employing sampling and collection techniques, using mechanisms like sFlow \ref{subsec:sflow}, and building the profiles of the normal state of the network, this method can detect outliers that deviate from the
+normal state of the network. Utilizing this method reduces impact that continuously polling the network might have, while reducing impact on the packet and byte counts 
+\cite {https://www.cert.org/flocon/2006/presentations/packet_sample_anomoly2006.pdf}, but the loss of information inherent to sampling may be a challenge on successful deployment, which should account for optimal sampling 
+strategies and inference from the obtained statistics.
+    \item Periodic polling of the statistics from the switch, and employing statistical analysis methods to determine change points in the state of the network.
 \end {itemize}
 
+\section {Time series analysis}
+
+Understanding processes and their results is a key factor in the success of implementing new features, or analysing existing ones for their efficiency and output. This analysis, important for the different fields in engineering,
+economics, health, allows obtaining information about the normal and abnormal state of each underlying process, provide forecasts and predictions on short and long term behaviour of the relevant data, classify and cluster 
+information, and more. The act of collecting and processing the data, over a period of time is called \textit{time series analysis}. 
+\par Monitoring systems provides a guarantee in quality engineering, since they allow to follow a system and its properties, and notify operators if changes happen that impact the normal status of a relevant parameter. These changes
+can be occasional or systematic, but should the state of the system deviate from the limits set by the operators, researching the cause of the errors can reveal some errors or malfunctions in the system. \textit{Change detection}
+is the study of the different parameters of the system, and determining the points where these cause a significant deviation from the normal operation. In network traffic analysis, these methods can be applied to determine when 
+the behaviour of certain flows, that can be monitored over metrics originating from the controller and switches, impact the traffic characteristics. One key part on the application of changepoint detection is the understanding 
+and selection of the proper metrics to monitor, to ensure that these are sensitive to the traffic changes. One other important consideration in applying changepoint detection mechanisms is the reduction of false alarms, that occur 
+when the metrics are too sensitive to traffic changes, and limit the network operators capability of accurately responding to real network issues. 
+\par Change detection mechanisms are classified as follow \cite { CITE -https://www.net.in.tum.de/fileadmin/TUM/NET/NET-2010-06-1.pdf#cite.feinstein03}:
+
+\section {Change Detection}
 \section {Control charts}
