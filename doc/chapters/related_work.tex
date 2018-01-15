@@ -44,5 +44,20 @@ and selection of the proper metrics to monitor, to ensure that these are sensiti
 when the metrics are too sensitive to traffic changes, and limit the network operators capability of accurately responding to real network issues. 
 \par Change detection mechanisms are classified as follow \cite { CITE -https://www.net.in.tum.de/fileadmin/TUM/NET/NET-2010-06-1.pdf#cite.feinstein03}:
 
+\begin {itemize}
+    \item One of the most important distinctions in change detection theory is the difference between online and offline detection. Offline, or batch detection methods consider a fixed length of observations, and retrospectively 
+analyse the dataset to determine the time where the change, or changes took place. Online detection, or sequential detection, unlike batch detection which uses all the available observations to detect the changes, including the
+ones obtained after the change took place, is based on the determination of the change points based on the arrival of the new data, allowing for determining the change as fast as possible.
+\cite { CITE - http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.425.1477&rep=rep1&type=pdf}. 
+    % TODO - Bayesian change detection
+    \item An important criteria for the classification of changepoint detection algorithms is the knowledge of the distribution that the system has before the change occurs. A Bayesian system considers the 
+    \item Finally, the last important distinction is related to the scalability, and relate to the amount of data that needs to be stored to accurately implement detection on new samples. Parametric approaches rely on learning a 
+probability distribution from the monitored variables, and using this learned data to estimate the unknown parameters, after which the training data can be discarded. Non-parametric models however, do not take into consideration the
+distribution of the monitored variables, and analyse statistical properties instead. The cost of this analysis is that the previous data must be stored to provide better results, but this problem can be mitigated using 
+algorithms using sliding window or moving averages.
+\end {itemize}
+
+\subsection {Formal definition}
+
 \section {Change Detection}
 \section {Control charts}
