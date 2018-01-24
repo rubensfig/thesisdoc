@@ -1,0 +1,147 @@
+\chapter {Management API}
+
+Due to the capabilities of Basebox of being a SDN controller used in data centers and a mission critical component for the network operators, it needed management capabilities, so that managing and operating infrastructure becomes 
+an easier task. As such, the original problem presented was to build an interface extending the original work, so that the network statistics and the information of the topology could be easily displayed. There were several steps
+then necessary to understand the problem, and be able to choose the best approach to this problem. The requirements for the proposed system were:
+
+\begin {itemize}
+    \item Display the topology information reported by CAWR, including the internal switch links, and the LACP discovered bond interfaces on the servers
+    \item Display the port and link statistics for both switches
+    \item Design an alerting system, so that network operators can be informed of changes on the network state
+    \item Provide some diagnostic capabilities
+\end {itemize}
+
+\par The development of the work was the divided on two parts: the first part would be to implement the API needed to export the port statistics from baseboxd and CAWR, including a Graphical User Interface (GUI); and the second 
+part was to study the alerting system, that would look into the statistics provided by the controllers, and design some rules so that QoS rules could be applied in the final product. This section describes the technologies needed 
+to implement the API for Basebox.
+
+\section {Data models}
+
+Data models are abstract concepts that map the properties of entities and organizes their data, also defining how they relate to each other. To create a switch management interface, the entities we want to model are then 
+the switches themselves, with attributes like the switch name, and the port counters, and the relationships of the data will allow us to display the links and topology of the network. One of the considerations that were taken into 
+account when choosing the data models was the compatibility with standardized data models by the organizational entities like the IETF and the OpenConfig. 
+\par The \textit{ NETCONF } network configuration model, which we explore further in \ref{ssec:netconf} also defines a data modelling language known as \textit{ YANG }, which is used in this protocol to model its configuration 
+and data,and the remote procedure calls \cite { CITE - rfc 6020 }. By utilizing models defined in this language, the following condition is met: since this is a specific language for configuration and monitoring of networking 
+devices, the existing data models will be similar to the ones that should be employed in the development of the management API. YANG data model defines the hierarchy of data between a NETCONF client and server with the objective
+of smooth integration with the existing system's infrastructure. 
+\par The systems we aim to model with these requirements are then two: the topology between the servers and switches, and the port statistics for each port one the switch. Since there is no data model that would accurately describe
+both of them correctly, for the topology we chose the IETF network data model \footnote {https://github.com/YangModels/yang/blob/master/experimental/ietf-extracted-YANG-modules/ietf-network\%402017-12-13.yang}, and the 
+OpenConfig interfaces data model \footnote {https://github.com/openconfig/public/tree/1040d11c089c74084c64c234bee3691ec70e8a9f/release/models/interfaces}, which contains the counters for each port.
+
+\subsection {Topology}
+
+The topology data model maps a collection of nodes, and the relationships between each node, called a link. This also allows for describing the network in a vertical hierarchy, by displaying relationships between several layers,
+which can then be used to display the entire networking stack, for example displaying the physical links between nodes, their connections at layer 2 and layer 3 of the OSI model, and the virtualised relationships that the elements 
+could have in a cloud deployement. As the development of the product continues, and more features are added, for example, layer 3 routing, then we require a flexible data model that can be extended to support the new capabilities.
+
+\begin{figure} [!htbp]
+    \centering
+    \includegraphics[width=.3\textwidth]{bisdn/network_stack_topologies}
+    \caption{Topology hierarchy achievable with this example \cite {CITE - https://www.ietf.org/id/draft-ietf-i2rs-yang-network-topo-20.txt}}
+\end{figure}
+
+\par Mapping the data model to the real world data is then adding the two types of information the data model expects: the first one composed of adding the different networks that composed the entire topology, including their
+nodes and network types; and then using the previous information to build the links between each of the nodes, using the termination points the model exposes. In the implementation of the management API there was no need to implement 
+underlying networks, but the extensibility this provides will be useful in the future.
+\par Displaying the topology proved useful for CAWR, which provides the big switch topology, since this controller is directly connected to the underlying switches, and can see the links among these networking devices. The connection
+to the bonded interface on the servers can also be monitored, since these can be configured to use LACP messages to report their status. To display the links between the switches, the information that LLDP provides is used, 
+and if the controller is extended to be able to use LLDP to the servers, the further information can be filled into this data model, and provide a richer view on the status of each server.
+
+\begin{figure} [h]
+    \begin{subfigure}
+    \includegraphics[width=0.5\textwidth]{bisdn/ietf_link}
+    \end{subfigure}
+    \begin{subfigure}
+    \includegraphics[width=0.5\textwidth]{bisdn/ietf_node}
+    \end{subfigure}
+\caption{The IETF description for the nodes and links in the draft proposal for network topologies \cite {CITE - https://www.ietf.org/id/draft-ietf-i2rs-yang-network-topo-20.txt} }
+\end{figure}
+
+\subsection {Port statistics}
+
+\par Modelling the port statistics to build a management interface requires first understanding of the OpenFlow statistics. As previously mentioned, OF switches maintain a set of counters, similar to SNMP, that provide information 
+about the state of the ports, group, flow and table stats. The statistics that are exposed from OF are the following:
+
+\begin{table}[]
+    \centering
+    \caption{OpenFlow port statistics}
+    \label{my-label}
+    \begin{tabular}{l | l || l | l}
+       uint64\_t & rx\_packets     & uint64\_t & tx\_packets;     \\ \hline
+       uint64\_t & rx\_bytes;      & uint64\_t & tx\_bytes;       \\ \hline
+       uint64\_t & rx\_bytes;      & uint64\_t & tx\_dropped;     \\ \hline
+       uint64\_t & rx\_errors;     & uint64\_t & tx\_errors;      \\ \hline
+       uint64\_t & rx\_frame\_err; & uint64\_t & tx\_over\_err;   \\ \hline
+       uint64\_t & rx\_crc\_err;   &                              \\ \hline
+       uint64\_t & collisions;     &                              \\ \hline
+       uint32\_t & duration\_sec;  &                              \\ \hline
+       uint32\_t & duration\_nsec; &                 
+    \end{tabular}
+\end{table}
+
+\par The chosen data model should then accurately model the fields that we need to expose, and the data type of counters we wish to measure. In this case, the prevalence of other controllers allows to use the same data models present 
+in their implementations. OpenConfig \footnote{http://www.openconfig.net/} maintains a set of vendor neutral data models, written in YANG, allowing network operators to use standardized models for their networking infrastructure.
+The entire set of published models can be accessed in their github page \footnote {https://github.com/openconfig/public}.
+
+\section {Protocols}
+
+None of the controllers had a clear way of obtaining the statistics apart from manually looking in the terminal and following the logs exposed and waiting for the appropriate output. There needs to be then a controllable, to export
+this information and displaying them in a clear way. The solution was to develop a Graphical User Interface (GUI) for easily displaying the live statistics from the server, however there still was the problem of having to 
+define the API that build the transport channel between baseboxd and CAWR to the GUI server. In this section we describe the two \textit {Remote Procedure Call (RPC)} systems that were researched, and focus on the advantages which
+led to the final decision of implementing gRPC on Basebox.
+
+\subsection {NETCONF} \label {ssec:netconf}
+
+Despite it's dominance on network management products, SNMP features some bad characteristics that pose an obstacle for the widespread use in network configuration, and not only network management, like 
+\cite {CITE - https://tools.ietf.org/html/rfc3535}: 
+
+\begin {itemize}
+    \item Incompleteness of the devices features
+    \item SNMP access can sometimes crash systems, or return wrong data
+    \item Unavailability of MIB modules, which forces users to use CLI's
+    \item Poor performance 
+    \item Security is difficult to handle
+\end {itemize}
+
+\par The IETF then, in light of this feedback obtained from network operators, started developing a protocol that allowed for the installation, manipulation and deletion of configuration of networking devices called NETCONF, which 
+enables devices to expose a full API to their systems. This protocol, based in client/ server communication and is based in the four layers, as can be seen in the following image:
+
+\begin{figure} [!htbp]
+    \centering
+    \includegraphics[width=.4\textwidth]{bisdn/netconf}
+    \caption{NETCONF protocol layers \cite {CITE - Basebox architecture}}
+\end{figure}
+
+\par Data models and operations, covered in detail in the previous section, is related to the Content layer on the image, so this will not be covered in this section. 
+\par Configuration of a network device can be complex, and managing separate configurations between device startup and normal operation is a difficult task, but there is occasional need for this capability. NETCONF defines the 
+existence of different \textit{datastores} to enable this feature, allowing the network operator to set an initial configuration, used when the device is initialized, and switching to the running datastore when the device is ready
+to maintain normal operation. This concept of datastores also enables the creation of a candidate datastore, providing the capability of testing configurations on the network device, checking for any possible errors, while making
+sure that there is no impact on the current configuration of the device. After the changes have been tested and validated, a <commit> operation can be used to deploy the new configuration to the running datastore.
+\par Another useful feature that is described in the NETCONF protocol, is the possibility of using the rollback-on-error capability. When rolling a new change, and if the system is enabled to support this feature,
+NETCONF can detect errors in the changes done to the configurations, and return the system to the previous state that is error free. 
+\par The NETCONF API provides several operations to interact with the managed devices to get system information and push new configurations. The set of supported operations in the base NETCONF protocol can be accessed in 
+\url{https://tools.ietf.org/html/rfc6241#section-7}. 
+\par In regards to the transport layer, NETCONF is able to run on top of several protocols. However, NETCONF requires that a persistent connection is maintained between devices, and this connection should be reliable, and support
+transmission failure. In addition, the security should be handled by the transport layer \cite { CITE - https://www.ietf.org/slides/slides-edu-netconf-yang-00.pdf}, providing the guarantee that transactions are done in a 
+cryptographically secure channel, between two authenticated hosts. As a results, typical NETCONF implementations are based on SSH or TLS protocols.
+
+\subsection {gRPC}  \label {ssec:grpc}
+
+The basic idea behind the RPC system is defining services by setting the interaction between remote systems, allowing for directly calling objects on remote systems. Based in the client/server communications 
+pattern, gRPC allows for interactions between different environments, even implemented with different programming languages, all based on the same data structure. This data structure can be serialized using another modelling 
+language, called \textit {protobuf}, which will define the data, which is defined as messages, and the services that contain the RPC calls between systems. Since this system is based on the HTTP2 transport layer, we are able to
+use the advantages that this protocol provides us.
+\par Despite the serialization language used in gRPC is based on protocol buffers, unlike YANG, there are some projects \footnote {https://github.com/openconfig/goyang} that enable the translation between YANG to protofile,
+which allows us to use the data models we chose, only adding one extra step to convert the files.
+\par Despite both protocols capability of meeting the requirements that were presented to us, the gRPC framework was chosen due to several reasons:
+
+\begin {itemize}
+    \item Both frameworks allow us to use the standardized data models currently proposed by the IETF and OpenConfig
+    \item NETCONF trades information as XML encoded information, for both the edit and get config operations; while gRPC allows to handle information in a way that’s native to the language implementation of the client/server
+    \item The integration with the existing system was easier: since gRPC has implementations for the languages that the controllers are developed on (i.e. C++/ Python), this framework was easier to implement 
+        than NETCONF, which would have required integration with third party tools, or a longer development cycle to make sure that the developed applications would met the requirements
+\end {itemize}
+
+\section {Results}
+
+
