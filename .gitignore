@@ -7,4 +7,6 @@
 *.lot
 *swp
 *orig
-
+*bbl
+*xdv
+*fls
