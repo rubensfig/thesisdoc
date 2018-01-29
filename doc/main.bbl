@@ -1,0 +1,122 @@
+\begin{thebibliography}{10}
+
+\bibitem{schwartz_alohanet-surfing_2009}
+M.~Schwartz and N.~Abramson.
+\newblock The {Alohanet}-surfing for wireless data [{History} of
+  {Communications}].
+\newblock {\em IEEE Communications Magazine}, 47(12), 2009.
+
+\bibitem{akyildiz_roadmap_2014}
+Ian~F. Akyildiz, Ahyoung Lee, Pu~Wang, Min Luo, and Wu~Chou.
+\newblock A roadmap for traffic engineering in {SDN}-{OpenFlow} networks.
+\newblock {\em Computer Networks}, 71:1--30, October 2014.
+
+\bibitem{masutani_requirements_2014}
+Hitoshi Masutani, Yoshihiro Nakajima, Takeshi Kinoshita, Tomoya Hibi, Hirokazu
+  Takahashi, Kazuaki Obana, Katsuhiro Shimano, and Masaki Fukui.
+\newblock Requirements and design of flexible {NFV} network infrastructure node
+  leveraging {SDN}/{OpenFlow}.
+\newblock In {\em Optical {Network} {Design} and {Modeling}, 2014
+  {International} {Conference} on}, pages 258--263. IEEE, 2014.
+
+\bibitem{hata_study_2013}
+Hiroaki Hata.
+\newblock A study of requirements for {SDN} switch platform.
+\newblock In {\em Intelligent {Signal} {Processing} and {Communications}
+  {Systems} ({ISPACS}), 2013 {International} {Symposium} on}, pages 79--84.
+  IEEE, 2013.
+
+\bibitem{sezer_are_2013}
+Sakir Sezer, Sandra Scott-Hayward, Pushpinder~Kaur Chouhan, Barbara Fraser,
+  David Lake, Jim Finnegan, Niel Viljoen, Marc Miller, and Navneet Rao.
+\newblock Are we ready for {SDN}? {Implementation} challenges for
+  software-defined networks.
+\newblock {\em IEEE Communications Magazine}, 51(7):36--43, 2013.
+
+\bibitem{tootoonchian_controller_2012}
+Amin Tootoonchian, Sergey Gorbunov, Yashar Ganjali, Martin Casado, and Rob
+  Sherwood.
+\newblock On {Controller} {Performance} in {Software}-{Defined} {Networks}.
+\newblock {\em Hot-ICE}, 12:1--6, 2012.
+
+\bibitem{tootoonchian_controller_2012-1}
+Amin Tootoonchian, Sergey Gorbunov, Yashar Ganjali, Martin Casado, and Rob
+  Sherwood.
+\newblock On {Controller} {Performance} in {Software}-{Defined} {Networks}.
+\newblock {\em Hot-ICE}, 12:1--6, 2012.
+
+\bibitem{bari_data_2013}
+Md.~Faizul Bari, Raouf Boutaba, Rafael Esteves, Lisandro~Zambenedetti
+  Granville, Maxim Podlesny, Md~Golam Rabbani, Qi~Zhang, and Mohamed~Faten
+  Zhani.
+\newblock Data {Center} {Network} {Virtualization}: {A} {Survey}.
+\newblock {\em IEEE Communications Surveys \& Tutorials}, 15(2):909--928, 2013.
+
+\bibitem{douligeris_ddos_2004}
+Christos Douligeris and Aikaterini Mitrokotsa.
+\newblock {DDoS} attacks and defense mechanisms: classification and
+  state-of-the-art.
+\newblock {\em Computer Networks}, 44(5):643--666, April 2004.
+
+\bibitem{kim_improving_2013}
+Hyojoon Kim and Nick Feamster.
+\newblock Improving network management with software defined networking.
+\newblock {\em IEEE Communications Magazine}, 51(2):114--119, 2013.
+
+\bibitem{kirkpatrick_software-defined_2013}
+Keith Kirkpatrick.
+\newblock Software-defined networking.
+\newblock {\em Communications of the ACM}, 56(9):16, September 2013.
+
+\bibitem{berde_onos:_2014}
+Pankaj Berde, William Snow, Guru Parulkar, Matteo Gerola, Jonathan Hart, Yuta
+  Higuchi, Masayoshi Kobayashi, Toshio Koide, Bob Lantz, Brian O'Connor, and
+  Pavlin Radoslavov.
+\newblock {ONOS}: towards an open, distributed {SDN} {OS}.
+\newblock pages 1--6. ACM Press, 2014.
+
+\bibitem{medved_opendaylight:_2014}
+Jan Medved, Robert Varga, Anton Tkacik, and Ken Gray.
+\newblock Opendaylight: {Towards} a model-driven sdn controller architecture.
+\newblock In {\em World of {Wireless}, {Mobile} and {Multimedia} {Networks}
+  ({WoWMoM}), 2014 {IEEE} 15th {International} {Symposium} on a}, pages 1--6.
+  IEEE, 2014.
+
+\bibitem{merriam_potential_2002}
+Robert~W. Merriam and Elisabeth Feil.
+\newblock The potential impact of an introduced shrub on native plant diversity
+  and forest regeneration.
+\newblock {\em Biological Invasions}, 4(4):369--373, 2002.
+
+\bibitem{yaar_pi:_2003}
+Abraham Yaar, Adrian Perrig, and Dawn Song.
+\newblock Pi: {A} path identification mechanism to defend against {DDoS}
+  attacks.
+\newblock In {\em Security and {Privacy}, 2003. {Proceedings}. 2003 {Symposium}
+  on}, pages 93--107. IEEE, 2003.
+
+\bibitem{schonwalder_network_2010}
+Jurgen Schonwalder, Martin Bjorklund, and Phil Shafer.
+\newblock Network configuration management using {NETCONF} and {YANG}.
+\newblock {\em IEEE communications magazine}, 48(9), 2010.
+
+\bibitem{feinstein_statistical_2003}
+Laura Feinstein, Dan Schnackenberg, Ravindra Balupari, and Darrell Kindred.
+\newblock Statistical approaches to {DDoS} attack detection and response.
+\newblock In {\em {DARPA} {Information} {Survivability} {Conference} and
+  {Exposition}, 2003. {Proceedings}}, volume~1, pages 303--314. IEEE, 2003.
+
+\bibitem{canini_automating_2011}
+Marco Canini, Dejan Kostic, Jennifer Rexford, and Daniele Venzano.
+\newblock Automating the testing of {OpenFlow} applications.
+\newblock In {\em Proceedings of the 1st {International} {Workshop} on
+  {Rigorous} {Protocol} {Engineering} ({WRiPE})}, 2011.
+
+\bibitem{popa_cost_2010}
+Lucian Popa, Sylvia Ratnasamy, Gianluca Iannaccone, Arvind Krishnamurthy, and
+  Ion Stoica.
+\newblock A {Cost} {Comparison} of {Datacenter} {Network} {Architectures}.
+\newblock In {\em Proceedings of the 6th {International} {COnference}},
+  Co-{NEXT} '10, pages 16:1--16:12, New York, NY, USA, 2010. ACM.
+
+\end{thebibliography}

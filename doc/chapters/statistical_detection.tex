@@ -1,11 +1,8 @@
 \chapter{Statistical Detection} \label{chap:stat_det} %% chapter 3
 
-\section {Introduction}
-
-As a result of the large scale of current data centers, maintaining control over these networks proves a difficult task, for example compared to more telecom networks. Networks operators must then adapt to the current situation
-by improving the monitoring infrastructures to allow faster response to problems and possible anomalies.  Building a feature complete management API for a SDN controller means that information obtained from the port and 
-flow statistics previously implemented should return information about the global state of the network, so that root-cause analysis of the source of network issues can be done faster and easier,
- which reflect on better service and lower costs for network operators. 
+As a result of the large scale of current data centers, maintaining control over these networks proves a difficult task. Networks operators must then adapt to the current situation by improving the monitoring infrastructures 
+to allow faster response to problems.  Building a feature complete management API for a SDN controller means that information obtained from the port and flow statistics previously implemented should return information 
+about the global state of the network, so that root-cause analysis of the source of network issues can be done faster and easier, which reflect on better service and lower costs for network operators. 
 \par Network behaviour analysis is defined by the constant monitoring of a network, so that events that compromise the "healthy" state of the network can be removed or mitigated. These include not only cases where the anomalies are
 caused with malicious intent, like the case of DDoS attacks, but also failure of network devices or changes in user behaviour \cite {traffic_anomaly_control_charts}. These systems are equipped with alarm capabilities, so that 
 system administrators can quickly respond to changes, possibly even giving some information about the source of the problem. However, the automation of these monitoring processes means that the possible existence
@@ -36,7 +33,7 @@ strategies and inference from the obtained statistics.
 Understanding processes and their results is a key factor in the success of implementing new features, or analysing existing ones for their efficiency and output. This analysis, important for the different fields in engineering,
 economics, health, allows obtaining information about the normal and abnormal state of each underlying process, provide forecasts and predictions on short and long term behaviour of the relevant data, classify and cluster 
 information, and more. The act of collecting and processing the data, over a period of time is called \textit{time series analysis}. 
-\par Monitoring systems provides a guarantee in quality engineering, since they allow to follow a system and its properties, and notify operators if changes happen that impact the normal status of a relevant parameter. These changes
+\par Monitoring systems provide a guarantee in quality engineering, since they allow to follow a system and its properties, and notify operators if changes happen that impact the normal status of a relevant parameter. These changes
 can be occasional or systematic, but should the state of the system deviate from the limits set by the operators, researching the cause of the errors can reveal some errors or malfunctions in the system. \textit{Change detection}
 is the study of the different parameters of the system, and determining the points where these cause a significant deviation from the normal operation. In network traffic analysis, these methods can be applied to determine when 
 the behaviour of certain flows, that can be monitored over metrics originating from the controller and switches, impact the traffic characteristics. One key part on the application of changepoint detection is the understanding 
@@ -58,8 +55,4 @@ algorithms using sliding window or moving averages.
 \end {itemize}
 
 \subsection {Change Detection}
-\subsubsection {Control charts}
-\subsection {Formal definition}
-
-A time series can be defined as a stream of observations $X = \{x_1, ... x_i\}$, where $x_i$ is a vector arriving at time $i$. 
-\subsection {Existing systems}
+\subsection {Control charts}
