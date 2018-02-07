@@ -54,5 +54,39 @@ distribution of the monitored variables, and analyse statistical properties inst
 algorithms using sliding window or moving averages.
 \end {itemize}
 
+\subsection {Forecasting models}
+
+\subsection {Mathematical formulations}
+
+A time series can be defined as a stream of observations $X = \{x_1, ... x_i\}$, where $x_i$ is a vector arriving at time $i$, and
+
+\begin {equation}
+\centering
+x_i = 
+\begin{bmatrix}
+B_{RX}\\
+P_{RX}\\
+B_{TX}\\
+P_{TX}\\
+\end{bmatrix}
+\end {equation}
+
+The time series $X$ can also be described as the sum of the following components: $S_t$, which refers to the seasonal component of the data; $T_t$, which defines the trend of the data, and $R_t$ is the residual.
+
+\begin {equation}
+\centering
+y_t = S_t + T_t + R_t
+\end {equation}
+
+Or:
+
+\begin {equation}
+\centering
+y_t = S_t * T_t * R_T
+\end {equation}
+
+
+
+
 \subsection {Change Detection}
 \subsection {Control charts}

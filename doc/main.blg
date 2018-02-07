@@ -1,0 +1,199 @@
+This is BibTeX, Version 0.99d (TeX Live 2016)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: main.aux
+A level-1 auxiliary file: chapters/abstract.aux
+White space in argument---line 26 of file main.aux
+ : \citation{CITE
+ :                - https://www.ietf.org/id/draft-ietf-i2rs-yang-network-topo-20.txt}
+I'm skipping whatever remains of this command
+White space in argument---line 27 of file main.aux
+ : \citation{CITE
+ :                - https://www.ietf.org/id/draft-ietf-i2rs-yang-network-topo-20.txt}
+I'm skipping whatever remains of this command
+White space in argument---line 28 of file main.aux
+ : \citation{CITE
+ :                - Basebox architecture}
+I'm skipping whatever remains of this command
+A level-1 auxiliary file: abbrevs.aux
+A level-1 auxiliary file: chapters/introduction.aux
+A level-1 auxiliary file: chapters/sdn.aux
+White space in argument---line 7 of file chapters/sdn.aux
+ : \citation{CITE
+ :                - sdn_reference_architecture_open_api.pdf}
+I'm skipping whatever remains of this command
+White space in argument---line 21 of file chapters/sdn.aux
+ : \citation{CITE
+ :                - sdn_challenges}
+I'm skipping whatever remains of this command
+White space in argument---line 22 of file chapters/sdn.aux
+ : \citation{CITE
+ :                - flow_table_management_sdn_switches}
+I'm skipping whatever remains of this command
+White space in argument---line 23 of file chapters/sdn.aux
+ : \citation{CITE
+ :                - https://hal.inria.fr/hal-00825087/document}
+I'm skipping whatever remains of this command
+A level-1 auxiliary file: chapters/network_management.aux
+White space in argument---line 3 of file chapters/network_management.aux
+ : \citation{CITE
+ :                - ITU T Recomendation}
+I'm skipping whatever remains of this command
+White space in argument---line 10 of file chapters/network_management.aux
+ : \citation{CITE
+ :                - RFC 1157}
+I'm skipping whatever remains of this command
+White space in argument---line 11 of file chapters/network_management.aux
+ : \citation{CITE
+ :                - RFC 1155}
+I'm skipping whatever remains of this command
+White space in argument---line 12 of file chapters/network_management.aux
+ : \citation{CITE
+ :                - RFC 1156}
+I'm skipping whatever remains of this command
+White space in argument---line 14 of file chapters/network_management.aux
+ : \citation{CITE
+ :                - OPENSDWN}
+I'm skipping whatever remains of this command
+White space in argument---line 15 of file chapters/network_management.aux
+ : \citation{CITE
+ :                - Data center virtualisation a survey}
+I'm skipping whatever remains of this command
+White space in argument---line 16 of file chapters/network_management.aux
+ : \citation{popa_cost_2010
+ :                          }
+I'm skipping whatever remains of this command
+White space in argument---line 20 of file chapters/network_management.aux
+ : \citation{CITE
+ :                - data_center_virt_survey}
+I'm skipping whatever remains of this command
+White space in argument---line 21 of file chapters/network_management.aux
+ : \citation{CITE
+ :                - dc_networks_chars}
+I'm skipping whatever remains of this command
+White space in argument---line 22 of file chapters/network_management.aux
+ : \citation{CITE
+ :                - dc_traffic_chars}
+I'm skipping whatever remains of this command
+White space in argument---line 23 of file chapters/network_management.aux
+ : \citation{CITE
+ :                - fb_datacenter}
+I'm skipping whatever remains of this command
+White space in argument---line 24 of file chapters/network_management.aux
+ : \citation{CITE
+ :                - Broadcom Engineered Elephant flow for boosting ... }
+I'm skipping whatever remains of this command
+White space in argument---line 28 of file chapters/network_management.aux
+ : \citation{CITE
+ :                - traffic_engineering_sdn}
+I'm skipping whatever remains of this command
+White space in argument---line 29 of file chapters/network_management.aux
+ : \citation{CITE
+ :                - traffic_engineering_sdn}
+I'm skipping whatever remains of this command
+White space in argument---line 34 of file chapters/network_management.aux
+ : \citation{CITE
+ :                - low_overhead_te_elephants_detec}
+I'm skipping whatever remains of this command
+White space in argument---line 37 of file chapters/network_management.aux
+ : \citation{CITE
+ :                - packet_sample_anomaly}
+I'm skipping whatever remains of this command
+A level-1 auxiliary file: chapters/bisdn.aux
+A level-1 auxiliary file: chapters/statistical_detection.aux
+White space in argument---line 11 of file chapters/statistical_detection.aux
+ : \citation{CITE
+ :                -https://www.net.in.tum.de/fileadmin/TUM/NET/NET-2010-06-1.pdf##cite.feinstein03}
+I'm skipping whatever remains of this command
+White space in argument---line 13 of file chapters/statistical_detection.aux
+ : \citation{CITE
+ :                - http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.425.1477&rep=rep1&type=pdf}
+I'm skipping whatever remains of this command
+A level-1 auxiliary file: chapters/monitoring_sdn_switches.aux
+A level-1 auxiliary file: chapters/management_api.aux
+White space in argument---line 3 of file chapters/management_api.aux
+ : \citation{CITE
+ :                - rfc 6020 }
+I'm skipping whatever remains of this command
+White space in argument---line 8 of file chapters/management_api.aux
+ : \citation{CITE
+ :                - https://www.ietf.org/id/draft-ietf-i2rs-yang-network-topo-20.txt}
+I'm skipping whatever remains of this command
+White space in argument---line 9 of file chapters/management_api.aux
+ : \citation{CITE
+ :                - https://www.ietf.org/id/draft-ietf-i2rs-yang-network-topo-20.txt}
+I'm skipping whatever remains of this command
+White space in argument---line 12 of file chapters/management_api.aux
+ : \citation{CITE
+ :                - https://www.ietf.org/id/draft-ietf-i2rs-yang-network-topo-20.txt}
+I'm skipping whatever remains of this command
+White space in argument---line 13 of file chapters/management_api.aux
+ : \citation{CITE
+ :                - https://www.ietf.org/id/draft-ietf-i2rs-yang-network-topo-20.txt}
+I'm skipping whatever remains of this command
+White space in argument---line 16 of file chapters/management_api.aux
+ : \citation{CITE
+ :                - https://tools.ietf.org/html/rfc3535}
+I'm skipping whatever remains of this command
+White space in argument---line 17 of file chapters/management_api.aux
+ : \citation{CITE
+ :                - Basebox architecture}
+I'm skipping whatever remains of this command
+White space in argument---line 18 of file chapters/management_api.aux
+ : \citation{CITE
+ :                - Basebox architecture}
+I'm skipping whatever remains of this command
+White space in argument---line 24 of file chapters/management_api.aux
+ : \citation{CITE
+ :                - https://www.ietf.org/slides/slides-edu-netconf-yang-00.pdf}
+I'm skipping whatever remains of this command
+A level-1 auxiliary file: chapters/meter_elephant.aux
+The style file: unsrt.bst
+Database file #1: Thesus.bib
+Warning--I didn't find a database entry for "http://rishabhpoddar.com/publications/SmartTime.pdf"
+Warning--I didn't find a database entry for "early_detection_sdn_ddos"
+Warning--I didn't find a database entry for "traffic_anomaly_control_charts"
+Warning--I didn't find a database entry for "http://shiftleft.com/mirrors/www.hpl.hp.com/personal/Praveen_Yalagandula/papers/INFOCOM11.pdf"
+Warning--I didn't find a database entry for "https://www.cert.org/flocon/2006/presentations/packet_sample_anomoly2006.pdf"
+Warning--empty booktitle in berde_onos:_2014
+You've used 19 entries,
+            1791 wiz_defined-function locations,
+            569 strings with 8166 characters,
+and the built_in function-call counts, 5515 in all, are:
+= -- 496
+> -- 288
+< -- 8
++ -- 103
+- -- 84
+* -- 402
+:= -- 857
+add.period$ -- 64
+call.type$ -- 19
+change.case$ -- 19
+chr.to.int$ -- 0
+cite$ -- 20
+duplicate$ -- 245
+empty$ -- 500
+format.name$ -- 84
+if$ -- 1245
+int.to.chr$ -- 0
+int.to.str$ -- 19
+missing$ -- 19
+newline$ -- 98
+num.names$ -- 19
+pop$ -- 51
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 132
+stack$ -- 0
+substring$ -- 357
+swap$ -- 79
+text.length$ -- 8
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 1
+while$ -- 57
+width$ -- 21
+write$ -- 219
+(There were 34 error messages)
