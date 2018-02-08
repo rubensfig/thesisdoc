@@ -71,22 +71,46 @@ P_{TX}\\
 \end{bmatrix}
 \end {equation}
 
-The time series $X$ can also be described as the sum of the following components: $S_t$, which refers to the seasonal component of the data; $T_t$, which defines the trend of the data, and $R_t$ is the residual.
+\par The time series $X$ can also be described as the sum of the following components: $S_t$, which refers to the seasonal component of the data; $T_t$, which defines the trend of the data, and $\epsilon_t$ represents the residual values,
+accounting for non expected variation and possible noise.
 
 \begin {equation}
 \centering
-y_t = S_t + T_t + R_t
+y_t = S_t + T_t + \epsilon_t
 \end {equation}
 
 Or:
 
 \begin {equation}
 \centering
-y_t = S_t * T_t * R_T
+y_t = S_t * T_t * \epsilon_t
 \end {equation}
 
+\par In regards to the classification of the trends according to the type of change, they can be classified as:
 
+\begin {itemize}
+  \item \textbf {Deterministic} when the trend consistently increase/decrease
+  \item \textbf {Stochastic} when the opposite happens
+\end {itemize}
 
+\par Approximating the trend to a certain model allows for generating predictions for the next values, since the relationship between two variables in the data is then known. The most common models present in trends are:
 
+\begin{table}[h]
+\centering
+\label{tab:trends}
+\begin{tabular}{|c|c|}
+\hline
+Linear      & $y = m \cdot x + b$ \\ \hline
+Polynomial  & $y = b + c_1 \cdot x + \dotso + c_n \cdot x^n$  \\ \hline
+Exponential & $y = c \cdot  x^b$     \\ \hline
+Logarithmic & $y = a \cdot ln(x) + b$        \\ \hline
+\end{tabular}
+\caption{Trend models}
+\end{table}
+
+\par Under the assumption that the underlying process can be modeled by previous historical values, and assuming this model remains true for future measurements, this can be used to generate forecasts for future values in the time series. A relevant indicator for the
+validity of the generated forecasts is the forecast error, that is calculated via the difference between the real measurements and the predicted value. Furthermore, by assuming a distribution for the forecast error, and a certain significance level, it is possible 
+to validate the generated forecasts, and detect values that do not fit the model, accusing a possible variation in the parameters of the model. As such, the prediction error is able to be employed in change detection algorithms.
+ 
 \subsection {Change Detection}
 \subsection {Control charts}
