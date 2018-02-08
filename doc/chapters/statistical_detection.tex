@@ -58,33 +58,20 @@ algorithms using sliding window or moving averages.
 
 \subsection {Mathematical formulations}
 
-A time series can be defined as a stream of observations $X = \{x_1, ... x_i\}$, where $x_i$ is a vector arriving at time $i$, and
+A time series can be defined as a stream of observations $X = \{x_1, ... x_i\}$, where $x_i$ is a vector arriving at time $i$. The time series $X$ can also be described as the sum of the following components: $S_t$,
+which refers to the seasonal component of the data; $T_t$, which defines the trend of the data, and $\epsilon_t$ represents the residual values, accounting for non expected variation and noise.
 
-\begin {equation}
-\centering
-x_i = 
-\begin{bmatrix}
-B_{RX}\\
-P_{RX}\\
-B_{TX}\\
-P_{TX}\\
-\end{bmatrix}
-\end {equation}
-
-\par The time series $X$ can also be described as the sum of the following components: $S_t$, which refers to the seasonal component of the data; $T_t$, which defines the trend of the data, and $\epsilon_t$ represents the residual values,
-accounting for non expected variation and possible noise.
-
-\begin {equation}
+\begin {equation*}
 \centering
 y_t = S_t + T_t + \epsilon_t
-\end {equation}
+\end {equation*}
 
 Or:
 
-\begin {equation}
+\begin {equation*}
 \centering
 y_t = S_t * T_t * \epsilon_t
-\end {equation}
+\end {equation*}
 
 \par In regards to the classification of the trends according to the type of change, they can be classified as:
 
@@ -108,9 +95,30 @@ Logarithmic & $y = a \cdot ln(x) + b$        \\ \hline
 \caption{Trend models}
 \end{table}
 
+\par Time series data usually present a non stationary behaviour, that are characterized by changes in the mean and variance. Statistical methods require, however, stationarity in the data. The presence of trends and cyclic behaviours
+is the most common violation of stationary, and can be removed through differencing.
+
+\begin {equation*}
+\centering
+\nabla X_t = X_t - X_{t-1} = (1-B)X_t
+\end {equation*}
+
+Where,
+
+\begin {equation*}
+\centering
+B X_t = X_{t-1}
+\end {equation*}
+
 \par Under the assumption that the underlying process can be modeled by previous historical values, and assuming this model remains true for future measurements, this can be used to generate forecasts for future values in the time series. A relevant indicator for the
 validity of the generated forecasts is the forecast error, that is calculated via the difference between the real measurements and the predicted value. Furthermore, by assuming a distribution for the forecast error, and a certain significance level, it is possible 
-to validate the generated forecasts, and detect values that do not fit the model, accusing a possible variation in the parameters of the model. As such, the prediction error is able to be employed in change detection algorithms.
+to validate the generated forecasts, and detect values that do not fit the model, accusing a possible variation in the parameters of the model. As such, the prediction error is able to be employed in change detection algorithms. This
+prediction error can be defined as:
+
+\begin {equation*}
+\centering
+
+\end {equation*}
  
 \subsection {Change Detection}
 \subsection {Control charts}
