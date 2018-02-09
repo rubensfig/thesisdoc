@@ -54,23 +54,21 @@ distribution of the monitored variables, and analyse statistical properties inst
 algorithms using sliding window or moving averages.
 \end {itemize}
 
-\subsection {Forecasting models}
-
 \subsection {Mathematical formulations}
 
 A time series can be defined as a stream of observations $X = \{x_1, ... x_i\}$, where $x_i$ is a vector arriving at time $i$. The time series $X$ can also be described as the sum of the following components: $S_t$,
-which refers to the seasonal component of the data; $T_t$, which defines the trend of the data, and $\epsilon_t$ represents the residual values, accounting for non expected variation and noise.
+which refers to the seasonal component of the data; $T_t$, which defines the trend of the data, and $R_t$ represents the residual values, accounting for non expected variation and noise.
 
 \begin {equation*}
 \centering
-y_t = S_t + T_t + \epsilon_t
+y_t = S_t + T_t + R_t
 \end {equation*}
 
 Or:
 
 \begin {equation*}
 \centering
-y_t = S_t * T_t * \epsilon_t
+y_t = S_t * T_t * R_t
 \end {equation*}
 
 \par In regards to the classification of the trends according to the type of change, they can be classified as:
@@ -80,7 +78,30 @@ y_t = S_t * T_t * \epsilon_t
   \item \textbf {Stochastic} when the opposite happens
 \end {itemize}
 
-\par Approximating the trend to a certain model allows for generating predictions for the next values, since the relationship between two variables in the data is then known. The most common models present in trends are:
+\par Approximating the time series data to a model allows for generating predictions for the next values, since the relationship between two variables in the data is then known. The Box-Jenkins method defines the steps of building the model as \cite{Box, 
+G.E.P. 
+and 
+J.M. 
+Jenkins, 
+1976, 
+Time 
+series 
+analysis: 
+Forecasting 
+and 
+control 
+(Holden-Day, 
+San 
+Francisco, 
+CA). }:
+
+\begin {enumerate}
+  \item \textbf{Identification}
+  \item \textbf{Fitting}
+  \item \textbf{Checking}
+\end {enumerate}
+
+The most common models present in trends are:
 
 \begin{table}[h]
 \centering
@@ -110,15 +131,23 @@ Where,
 B X_t = X_{t-1}
 \end {equation*}
 
-\par Under the assumption that the underlying process can be modeled by previous historical values, and assuming this model remains true for future measurements, this can be used to generate forecasts for future values in the time series. A relevant indicator for the
+\subsection {Forecasting}
+
+Under the assumption that the underlying process can be modeled by previous historical values, and assuming this model remains true for future measurements, the time series data historical behaviour can be used to generate forecasts for future values
+in the time series. 
+
+\subsection {Change Detection}
+
+ A relevant indicator for the
 validity of the generated forecasts is the forecast error, that is calculated via the difference between the real measurements and the predicted value. Furthermore, by assuming a distribution for the forecast error, and a certain significance level, it is possible 
 to validate the generated forecasts, and detect values that do not fit the model, accusing a possible variation in the parameters of the model. As such, the prediction error is able to be employed in change detection algorithms. This
 prediction error can be defined as:
 
 \begin {equation*}
 \centering
-
+\epsilon_t = x_t - \hat{x}_t
 \end {equation*}
- 
-\subsection {Change Detection}
+
+\subsection {Performance Evaluation}
+
 \subsection {Control charts}
