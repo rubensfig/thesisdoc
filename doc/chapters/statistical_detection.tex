@@ -78,30 +78,13 @@ y_t = S_t * T_t * R_t
   \item \textbf {Stochastic} when the opposite happens
 \end {itemize}
 
-\par Approximating the time series data to a model allows for generating predictions for the next values, since the relationship between two variables in the data is then known. The Box-Jenkins method defines the steps of building the model as \cite{Box, 
-G.E.P. 
-and 
-J.M. 
-Jenkins, 
-1976, 
-Time 
-series 
-analysis: 
-Forecasting 
-and 
-control 
-(Holden-Day, 
-San 
-Francisco, 
-CA). }:
+\par Approximating the time series data to a model allows for generating predictions for the next values, since the relationship between two variables in the data is then known. The Box-Jenkins method defines the steps of building the model as \cite{Box G.E.P. and G.E.P. Jenkins1976Time series analysis: Forecasting and control}:
 
 \begin {enumerate}
-  \item \textbf{Identification}
-  \item \textbf{Fitting}
-  \item \textbf{Checking}
+  \item \textbf{Identification} Model the data, by reducing the variables to a stationary state, and removing the possible seasonality in the series
+  \item \textbf{Fitting} Estimate the parameters for the model
+  \item \textbf{Checking} Verify if the model accurately fits the available data, returning to the identification step if its not adequate
 \end {enumerate}
-
-The most common models present in trends are:
 
 \begin{table}[h]
 \centering
@@ -117,36 +100,79 @@ Logarithmic & $y = a \cdot ln(x) + b$        \\ \hline
 \end{table}
 
 \par Time series data usually present a non stationary behaviour, that are characterized by changes in the mean and variance. Statistical methods require, however, stationarity in the data. The presence of trends and cyclic behaviours
-is the most common violation of stationary, and can be removed through differencing.
+is the most common violation of stationary, and table \ref{tab:trends} shows the most common trends present in the data, and the parameters that need to be learned from the time series in study. Removing systematic changes like trends
+and seasonal variation is possible with differencing:
 
 \begin {equation*}
 \centering
-\nabla X_t = X_t - X_{t-1} = (1-B)X_t
+\nabla X_t = X_t - X_{t-1}
 \end {equation*}
 
-Where,
+\par By modelling the time series data with moving average (MA), autoregression (AR) or a mix of the two (ARMA) processes, under the assumption that the underlying process can be modeled by previous historical values, and assuming
+this model remains true for future measurements, the time series data historical behaviour can be used to generate forecasts for future values in the time series. The one step ahead prediction is referred as $\hat{x}_t$.
+
+\par Exponential smoothing allows for generating predictions using the historical behaviour, but differs from normal MA methods by applying a set of weights to the data that exponentially decreases over time. Considering the time 
+series $X_t$, the prediction $\hat{x}_t$ can be obtained by the equation \ref{eq:exp_smooth}. In this model, the smoothing factor $\alpha (0 < \alpha < 1)$ is obtained empirically, and its value will determine the forgetting factor
+for the past observations.
 
 \begin {equation*}
 \centering
-B X_t = X_{t-1}
+\begin {split}
+&\hat{x}_1 = x_0 \\
+&\hat{x}_t = \alpha x_{t-1} + (1-\alpha)x_0, t > 1
+\end {split}
+\label{eq:exp_smooth}
 \end {equation*}
 
-\subsection {Forecasting}
+\par Due to its simplicity, this method is not suitable for situations where the data has trends, or seasonal behaviours \cite{CITE - http://labs.omniti.com/people/jesus/papers/holtwinters.pdf}. The solution for this problem is 
+introduced with double exponential smoothing, also know as Holt forecasting, and triple exponential smoothing, also known as Holt-Winters forecasting. These methods introduce further components to dampen the effects of cyclic 
+behaviours in the data. Double exponential smoothing is defined by \cite{CITE - https://www.net.in.tum.de/fileadmin/TUM/NET/NET-2010-06-1.pdf}:
 
-Under the assumption that the underlying process can be modeled by previous historical values, and assuming this model remains true for future measurements, the time series data historical behaviour can be used to generate forecasts for future values
-in the time series. 
+\begin {equation*}
+\centering
+\begin {split}
+&\hat{x}_t = L_{t-1} + T_{t-1} \\
+&L_t = \alpha x_t + (1-\alpha)(L_{t-1} + T_{t-1}) \\
+&T_t = \beta (L_t - L_{t-1}) + (1-\beta)T_{t-1}
+\end {split}
+\label{eq:exp_smooth}
+\end {equation*}
+
+\par And triple exponential smoothing is defined by:
+
+\begin {equation*}
+\centering
+\begin {split}
+&\hat{x}_t = L_{t-1} + T_{t-1} + I_{t-1}\\
+&L_t = \alpha x_t + (1-\alpha)(L_{t-1} + T_{t-1}) \\
+&T_t = \beta (L_t - L_{t-1}) + (1-\beta)T_{t-1} \\
+&I_t = \gamma (x_t - L_t) + (1-\gamma)I_{t-s}
+\end {split}
+\label{eq:exp_smooth}
+\end {equation*}
+
+\par The components these methods introduce account for the cyclic behaviours in the data: $L_t$ accounts for the baseline behaviour of the data, which is calculated on the simple method; $T_t$ smooths the trend with the $\beta$ 
+parameter; and $S_t$ accounts for the seasonal components with the $\gamma$ parameter. As with $\alpha$ these parameters are defined mostly by previous experience, but a common optimization is the minimization of the square sum 
+of prediction errors, defined by:
+
+\begin {equation*}
+SSE = \sum_{t=1}^T{(x_t-\hat{x}_{t})^2} = \sum_{t=1}^T{\epsilon_t^2}
+\end {equation*}
 
 \subsection {Change Detection}
 
- A relevant indicator for the
-validity of the generated forecasts is the forecast error, that is calculated via the difference between the real measurements and the predicted value. Furthermore, by assuming a distribution for the forecast error, and a certain significance level, it is possible 
-to validate the generated forecasts, and detect values that do not fit the model, accusing a possible variation in the parameters of the model. As such, the prediction error is able to be employed in change detection algorithms. This
-prediction error can be defined as:
+A relevant indicator for the validity of the generated forecasts is the forecast error, that is calculated via the difference between the real measurements and the predicted value. Furthermore, by assuming a distribution for 
+the forecast error, and a certain significance level, it is possible to validate the generated forecasts, and detect values that do not fit the model, accusing a possible variation in the parameters of the model. As such,
+the prediction error is able to be employed in change detection algorithms. This prediction error can be defined as:
 
 \begin {equation*}
 \centering
 \epsilon_t = x_t - \hat{x}_t
 \end {equation*}
+
+\par \textbf{Hypothesis testing} is used to perform a test of an assumption about two random variables. This hypothesis states that a certain relationship between the two variables exists with a certain significance value, and this
+relationship can be a relation in the means, the distribution of the observations, etc. The first step is set \textbf{null hypothesis}, which is the desired assumption to test, and is referred to as $H_0$, which is then tested
+against the \textbf{alternative hypothesis}, $H_1$, which is considered true if $H_0$ is rejected. 
 
 \subsection {Performance Evaluation}
 
