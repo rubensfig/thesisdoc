@@ -144,7 +144,7 @@ behaviours in the data. Double exponential smoothing is defined by \cite{CITE - 
 \centering
 \begin {split}
 &\hat{x}_t = L_{t-1} + T_{t-1} + I_{t-1}\\
-&L_t = \alpha x_t + (1-\alpha)(L_{t-1} + T_{t-1}) \\
+&L_t = \alpha (x_t - I_{t-s}) + (1-\alpha)(L_{t-1} + T_{t-1}) \\
 &T_t = \beta (L_t - L_{t-1}) + (1-\beta)T_{t-1} \\
 &I_t = \gamma (x_t - L_t) + (1-\gamma)I_{t-s}
 \end {split}
@@ -172,8 +172,21 @@ the prediction error is able to be employed in change detection algorithms. This
 
 \par \textbf{Hypothesis testing} is used to perform a test of an assumption about two random variables. This hypothesis states that a certain relationship between the two variables exists with a certain significance value, and this
 relationship can be a relation in the means, the distribution of the observations, etc. The first step is set \textbf{null hypothesis}, which is the desired assumption to test, and is referred to as $H_0$, which is then tested
-against the \textbf{alternative hypothesis}, $H_1$, which is considered true if $H_0$ is rejected. 
+against the \textbf{alternative hypothesis}, $H_1$, which is considered true if $H_0$ is rejected. The validity of $H_0$ is based on a comparison between the two data sets, according to a certain threshold, called the significance
+level. This significance level also defines the probability of wrongly rejecting or accepting a hypothesis, which are defined as following errors: \textbf{Type I error}, happening when the null hypothesis is rejected, but the 
+performed test is true, and the \textbf{Type II errors}, occurring when the opposite happens.
 
-\subsection {Performance Evaluation}
+\par In the context of change detection, the hypothesis test relies on $H_0$ stating that there is no change in the parameters of the sample, like the mean or the variation, and the second hypothesis $H_1$ stating the contrary.
+A relevant metric for designing change detection models for application under network traffic is the \textit{false alarm rate},
+due to the impact that incorrectly identifying the normal state of the network as abnormal can have on the operators capability of addressing real abnormalities. The previously presented statistical difference of errors 
+present in hypothesis testing are not relevant from the network operators point of view \cite{CITE - https://www.net.in.tum.de/fileadmin/TUM/NET/NET-2010-06-1.pdf},
+which implies that the design of the change detection mechanisms should reduce the false alarm rate. In section \ref{subsec:performance_evaluation} some mechanisms for these optimizations are explored.
 
-\subsection {Control charts}
+\par Originating from quality engineering, \textbf{control charts} are common ways of following the output of a certain process, with the aim of reducing variability associated to manufacturing processes. Control charts allow to 
+evaluate the possible sources of variation, and classify the output of the process, based on the mean or variation of the sampled process, as \textbf{in control} or \textbf{out of control}, depending on the causes of variation. 
+The process is considered in control when the parameters of the monitored variable, like $\mu_0$ or $\sigma^2$ are inside the predefined \textbf{control limits}, that are usually set as requirements for the process.
+
+\par 
+
+\subsection {Performance Evaluation} \label{subsec:performance_evaluation}
+
