@@ -176,17 +176,44 @@ against the \textbf{alternative hypothesis}, $H_1$, which is considered true if 
 level. This significance level also defines the probability of wrongly rejecting or accepting a hypothesis, which are defined as following errors: \textbf{Type I error}, happening when the null hypothesis is rejected, but the 
 performed test is true, and the \textbf{Type II errors}, occurring when the opposite happens.
 
+\par Originating from quality engineering, \textbf{control charts} are common ways of following the output of a certain process, with the aim of reducing variability associated to manufacturing processes. Control charts allow to 
+evaluate the possible sources of variation, and classify the output of the process, based on the mean or variation of the sampled process, as \textbf{in control} or \textbf{out of control}, depending on the causes of variation. 
+The process is considered in control when the parameters of the monitored variable, like $\mu_0$ or $\sigma^2$ are inside the predefined \textbf{control limits}, that are usually set as requirements for the process.
+The wide range of control charts allow for a flexibility in choosing the right one that fits each application. Common charts used are those proposed by Shewhart, where the measurements from the process in study provide a 
+statistic, like the mean, range, etc. Plotting these parameters allows for drawing the center line at $H_0$, and the control limits are defined by a multiple of the standard deviation. This control chart allows for 
+actions to the process be performed not only when the points are shown to be out of control, but also when there is a sequence of values above or below the center line, or a upward or downward trend is shown in the control charts.
+
 \par In the context of change detection, the hypothesis test relies on $H_0$ stating that there is no change in the parameters of the sample, like the mean or the variation, and the second hypothesis $H_1$ stating the contrary.
 A relevant metric for designing change detection models for application under network traffic is the \textit{false alarm rate},
 due to the impact that incorrectly identifying the normal state of the network as abnormal can have on the operators capability of addressing real abnormalities. The previously presented statistical difference of errors 
 present in hypothesis testing are not relevant from the network operators point of view \cite{CITE - https://www.net.in.tum.de/fileadmin/TUM/NET/NET-2010-06-1.pdf},
 which implies that the design of the change detection mechanisms should reduce the false alarm rate. In section \ref{subsec:performance_evaluation} some mechanisms for these optimizations are explored.
 
-\par Originating from quality engineering, \textbf{control charts} are common ways of following the output of a certain process, with the aim of reducing variability associated to manufacturing processes. Control charts allow to 
-evaluate the possible sources of variation, and classify the output of the process, based on the mean or variation of the sampled process, as \textbf{in control} or \textbf{out of control}, depending on the causes of variation. 
-The process is considered in control when the parameters of the monitored variable, like $\mu_0$ or $\sigma^2$ are inside the predefined \textbf{control limits}, that are usually set as requirements for the process.
+\par The CUSUM (\textbf{cu}mulative \textbf{su}m) control chart provides a test based on \textit{stopping rules}, where the alarms are raised when the parameter of the distribution, $\theta_t$ exceeds certain thresholds. In
+the parametric case, the CUSUM algorithm for detection of a change at $t_0$ from the observation $x_i$ is based on the log likelihood ratio defined by \cite {https://eprints.qut.edu.au/20572/3/ahmed2008npc.pdf}
 
-\par 
+\begin{equation*}
+\centering
+    S_t = \sum_{i=1}^k s_i = \sum_{i=1}^k\ln \frac {P_{\theta_1}(x_i)} {P_{\theta_0}(x_i)}.
+\end{equation*}
 
+\pagebreak
+
+\par The previous equation is related to the negative drift of $S_t$ under normal conditions, and the positive drift after a change is detected. The alarm is raised when a test statistic $g_t$ is larger than a threshold $h$, and can be obtained by 
+
+\begin{equation*}
+\centering
+    \begin{split}
+        &g_t = S_t - \min_{1 \leq i \leq t} Si \geq h
+    \end{split}
+\end{equation*}
+
+\par In the case when $P_{\theta}(x)$ is not known, the log likelihood parameter cannot be calculated, a non-parametric approach must be used, as mentioned in \cite{https://eprints.qut.edu.au/20572/3/ahmed2008npc.pdf}.  
+
+% \section {Adaptive Thresholds}
 \subsection {Performance Evaluation} \label{subsec:performance_evaluation}
+
+
+
+\section {Existing methods}
 
