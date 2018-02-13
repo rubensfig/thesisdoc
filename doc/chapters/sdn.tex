@@ -1,8 +1,10 @@
 \chapter{Software Defined Networking} \label{chap:sdn} %% chapter 3
 
-Computer networking is a vital part of the services that are offered today, and as such, the performance in technology backing these services is central to the quality of these services. As the service providers reorganize their
-data centers in the cloud computing domain, enabling several improvements in the predictability, quality of service and ease of use of their services. New technologies are then required to make sure that their services are adapted
-to the fast changing landscape of networking services. One of the most notable innovations in this field is called Software Defined Networking, because its architecture allows for two essential features
+Computer networking is a vital part of the services that are offered today, and as such, the performance in technology backing these services is central to the quality of these services. As the service providers move their
+data centers to cloud computing environments, enabling several improvements in the predictability, quality of service and ease of use of their services, new technologies are required to make sure that their services are adapted
+to the fast changing landscape of networking services. One of the most notable innovations in this field is called \textbf{Software Defined Networking}, which, as described by the Open Networking Foundation, \textit{ In the SDN 
+architecture, the control and data planes are decoupled, network intelligence and state are logically centralized, and the underlying network infrastructure is abstracted from the applications} \cite{CITE this - onf website}. 
+The two main contributions of this architecture is:
 
 \begin {itemize}
     \item \textbf{Separation of network planes} SDN allows for the separation of the network control plane from the data forwarding plane by having network "intelligence" present in the network controllers, and having them
@@ -12,13 +14,8 @@ control the forwarding elements that live in the Data Plane
 \end {itemize}
 
 \par This new paradigm introduces programmability in the configuration and management of networks, by consolidating the control of network devices to a single central controller, achieving separation of the control and the 
-data plane, and supporting a more dynamic and flexible infrastructure. Another important paradigm, that follows the development of SDN, is the concept of Network Function Virtualization. This concept allows to remove 
-\textit {middleboxes}\footnote {Computer networking device that does some operations on traffic, excepting packet forwarding. Examples include caches, IDS's, NAT's, ..}, by replacing these with generic software 
-applications.
-
-\par The essence of SDN is described in a short manner by the Open Networking Foundation (ONF), the maintainers of the OpenFlow protocol \ref{sec:of} paper: \textit{ In the SDN architecture, the control and data planes 
-are decoupled, network intelligence and state are logically centralized, and the underlying network infrastructure is abstracted from the applications}. The following picture defines both of the approaches to networking,
-the traditional one and the SDN way.
+data plane, and supporting a more dynamic and flexible infrastructure. Another important development following the development of SDN is the concept of Network Function Virtualization. This concept allows to remove 
+\textit {middleboxes}\footnote {Computer networking device that does some operations on traffic, excepting packet forwarding. Examples include caches, IDS's, NAT's, ..}, by replacing these with generic software applications.
 
 \begin{figure}[!tbph]
   \centering
@@ -28,11 +25,13 @@ the traditional one and the SDN way.
   \caption {Traditional vs SDN network architecture}
 \end{figure}
 
-\par By moving network infrastructure to SDN models, the difficulty of managing a network is greatly reduced, since the logical centralization of the control layer exposes the global view of the network, simplifying tasks such as
-setting forwarding rules. Furthermore, this also removes the challenge of configure each networking device individually, turning network operation and management into setting high level policies in the controllers, and letting 
-the protocols that handle connection between the devices and controllers set the actual rules. It is then possible to define Software-Defined Networking as the composed of two layers: \textbf{Northbound Interfaces}, 
-which are composed of Application Programming Interfaces (API) for communication between applications and the controller, enabling network services like routing, security, visualization and management; and the 
-\textbf {Southbound Interfaces} which main role is to connect the network devices between the controllers and network via protocols like OpenFlow (see section \ref{sec:of}), or P4 \footnote {https://p4.org/}. 
+\par By moving network infrastructure to SDN models, the difficulty of managing a network is greatly reduced, since the logical centralization of the control layer exposes the global view of the network, simplifying management tasks. 
+Furthermore, this also removes the challenge of configure each networking device individually, turning network operation and management into setting high level policies in the controllers, and letting 
+the protocols that handle connection between the devices and controllers set the actual rules. 
+
+\par Software-Defined Networking is defined as being composed of two layers: \textbf{Northbound Interfaces}, which are composed of Application Programming Interfaces (API) for communication between applications and the controller,
+enabling network services like routing, security, visualization and management; and the \textbf {Southbound Interfaces} which main role is to connect the network devices between the controllers and network via protocols like
+OpenFlow (see section \ref{sec:of}), or P4 \footnote {https://p4.org/}. 
 
 \begin{figure}[!tbph]
   \centering
@@ -57,15 +56,15 @@ These requirements are general principles for networks, but the addition of the 
 
 \section {OpenFlow} \label{sec:of}
 
-As the growth of the networking infrastructure of the past few decades became evident, the need for an enviroment that allows for experimentation and testing of different protocols and equipment became evident. If networking 
+With the growth of the networking infrastructure of the past few decades, the need for an environment that allows for experimentation and testing of different protocols and equipment became evident. If networking 
 research would depend on the previously existing methods, then new ways of creating and developing protocols would become increasingly hard to implement and develop. As such, there was need for a framework that could 
 enable testing of new ideas on close to realistic settings. So, on February 2011 the version 1.1 of OpenFlow was released, and this proposal quickly became the standard for networking in a Software Defined Network. Since
-2011, this protocol has suffered some revisions, and the latest version supported is version 1.5.1. Since this framework has evolved quite a bit, this section focuses on the versions 1.3, which are the versions that 
-are used in development of this dissertation. 
-\par Several reasons led to the quick standardization of this protocol, which are related not only to the initial requirements of the platform, like the capability of supporting high-performance and low-cost implementations, 
-and the capability of ensuring separation between production and testing traffic, but also the extensibility that the open source development model provides, removing the limitations that closed or commercial solutions give the 
-network researchers.
-\par The big advantage of OpenFlow is that it is, from the data forwarding plane point of view, easy to process. Since the control decisions are made by the controller, which lives in a separate plane, all the switch needs to do
+2011, this protocol has suffered some revisions, and the latest version supported is version 1.5.1. 
+
+\par Several reasons led to the quick standardization of this protocol, which are related not only to the initial requirements of the platform, like the capability of supporting high-performance and low-cost implementations, but 
+also the extensibility that the open source development model provides, removing the limitations that closed or commercial solutions give the network researchers.
+
+\par The big advantage of OpenFlow is that it is, from the data forwarding point of view, easy to process. Since the control decisions are made by the controller, which lives in a separate plane, all the switch needs to do
 is correctly match the incoming packets, and forward them according to the rules established by the controller. The components that are part of this system and enable this functionality are:
 
 \begin {itemize}
@@ -135,6 +134,10 @@ that can be achieved by combining all the networking devices with one management
 
 \section {SDN Controllers}
 
-\subsection {Floodlight}
-\subsection {OpenDaylight} \label{chap:odl}
+Responsible for 
+\subsection{Performance Overview}
+
+\subsection{Existing Platforms}
+\subsubsection {Floodlight}
+\subsubsection {OpenDaylight} \label{chap:odl}
 

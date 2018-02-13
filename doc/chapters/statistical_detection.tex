@@ -46,7 +46,7 @@ when the metrics are too sensitive to traffic changes, and limit the network ope
 analyse the dataset to determine the time where the change, or changes took place. Online detection, or sequential detection, unlike batch detection which uses all the available observations to detect the changes, including the
 ones obtained after the change took place, is based on the determination of the change points based on the arrival of the new data, allowing for determining the change as fast as possible.
 \cite { CITE - http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.425.1477&rep=rep1&type=pdf}. 
-    % TODO - Bayesian change detection
+    % TODO - Bayesian change detection, read Bayes filter
     \item An important criteria for the classification of changepoint detection algorithms is the knowledge of the distribution that the system has before the change occurs. A Bayesian system considers the 
     \item Finally, the last important distinction is related to the scalability, and relate to the amount of data that needs to be stored to accurately implement detection on new samples. Parametric approaches rely on learning a 
 probability distribution from the monitored variables, and using this learned data to estimate the unknown parameters, after which the training data can be discarded. Non-parametric models however, do not take into consideration the
@@ -128,6 +128,7 @@ for the past observations.
 introduced with double exponential smoothing, also know as Holt forecasting, and triple exponential smoothing, also known as Holt-Winters forecasting. These methods introduce further components to dampen the effects of cyclic 
 behaviours in the data. Double exponential smoothing is defined by \cite{CITE - https://www.net.in.tum.de/fileadmin/TUM/NET/NET-2010-06-1.pdf}:
 
+% Fix these equations = add initial value
 \begin {equation*}
 \centering
 \begin {split}
@@ -210,10 +211,35 @@ the parametric case, the CUSUM algorithm for detection of a change at $t_0$ from
 
 \par In the case when $P_{\theta}(x)$ is not known, the log likelihood parameter cannot be calculated, a non-parametric approach must be used, as mentioned in \cite{https://eprints.qut.edu.au/20572/3/ahmed2008npc.pdf}.  
 
-% \section {Adaptive Thresholds}
+%\section {Adaptive Thresholds}
+
+%Alarms are generated when a certain threshold is crossed 
+
 \subsection {Performance Evaluation} \label{subsec:performance_evaluation}
 
+\begin{table}[h]
+\centering
+\label{tab:confusion_matrix}
+\begin{tabular}{c|c|c}
+    
+          & $H_0$  &  $H_1$   \\   \hline
+    $H_0$ & TP     &  FP      \\   \hline
+    $H_1$ & FN     &  TN      \\   
+\end{tabular}
+\caption{Generalized confusion matrix for hypothesis testing}
+\end{table}
 
+The indicators for the performance of the change point identification are:
+
+Accuracy => $ \frac {TP + TN} {TP + TN + FP + FN} = \frac {TP + TN} {N_{alarms}}  $ \\
+Sensitivity => $ \frac {TP} {TP + FN}$ \\
+Precision => $ \frac {TP} {TP + FP}$
+
+The algorithm performance is defined by:
+
+MTFA (Mean Time Between False Alarms)
+MTD (Mean Time to Detection)
+ARL (Average Run Length)
 
 \section {Existing methods}
 
