@@ -160,7 +160,7 @@ of prediction errors, defined by:
 SSE = \sum_{t=1}^T{(x_t-\hat{x}_{t})^2} = \sum_{t=1}^T{\epsilon_t^2}
 \end {equation*}
 
-\subsection {Change Detection}
+\subsection {Change Detection} \label{subsec:change_detection}
 
 A relevant indicator for the validity of the generated forecasts is the forecast error, that is calculated via the difference between the real measurements and the predicted value. Furthermore, by assuming a distribution for 
 the forecast error, and a certain significance level, it is possible to validate the generated forecasts, and detect values that do not fit the model, accusing a possible variation in the parameters of the model. As such,
@@ -217,6 +217,9 @@ the parametric case, the CUSUM algorithm for detection of a change at $t_0$ from
 
 \subsection {Performance Evaluation} \label{subsec:performance_evaluation}
 
+The effectiveness of a statistical approach for change detection can be seen as the relationship between false and real alarms, since the trade-off with online detection is the number of falsely raised alarms, and the number of accurately reported changes.
+As mentioned in section \ref{subsec:change_detection} the possible wrong decisions are the type I and II errors, which are usually represented with error, or confusion matrices, seen in table \ref{tab:confusion_matrix}.
+
 \begin{table}[h]
 \centering
 \label{tab:confusion_matrix}
@@ -231,10 +234,13 @@ the parametric case, the CUSUM algorithm for detection of a change at $t_0$ from
 
 The indicators for the performance of the change point identification are:
 
-Accuracy => $ \frac {TP + TN} {TP + TN + FP + FN} = \frac {TP + TN} {N_{alarms}}  $ \\
-Sensitivity => $ \frac {TP} {TP + FN}$ \\
-Precision => $ \frac {TP} {TP + FP}$
-
+\begin{equation*}
+\begin{split}
+    &Accuracy    :  \frac {TP + TN} {TP + TN + FP + FN} = \frac {TP + TN} {N_{alarms}}   \\
+    &Sensitivity :  \frac {TP} {TP + FN} \\
+    &Precision   :  \frac {TP} {TP + FP}
+\end{split}
+\end{equation*}
 The algorithm performance is defined by:
 
 MTFA (Mean Time Between False Alarms)

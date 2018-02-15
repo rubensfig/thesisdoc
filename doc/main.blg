@@ -17,19 +17,23 @@ I'm skipping whatever remains of this command
 A level-1 auxiliary file: abbrevs.aux
 A level-1 auxiliary file: chapters/introduction.aux
 A level-1 auxiliary file: chapters/sdn.aux
-White space in argument---line 7 of file chapters/sdn.aux
+White space in argument---line 3 of file chapters/sdn.aux
+ : \citation{CITE
+ :                this - onf website}
+I'm skipping whatever remains of this command
+White space in argument---line 8 of file chapters/sdn.aux
  : \citation{CITE
  :                - sdn_reference_architecture_open_api.pdf}
 I'm skipping whatever remains of this command
-White space in argument---line 21 of file chapters/sdn.aux
+White space in argument---line 23 of file chapters/sdn.aux
  : \citation{CITE
  :                - sdn_challenges}
 I'm skipping whatever remains of this command
-White space in argument---line 22 of file chapters/sdn.aux
+White space in argument---line 24 of file chapters/sdn.aux
  : \citation{CITE
  :                - flow_table_management_sdn_switches}
 I'm skipping whatever remains of this command
-White space in argument---line 23 of file chapters/sdn.aux
+White space in argument---line 25 of file chapters/sdn.aux
  : \citation{CITE
  :                - https://hal.inria.fr/hal-00825087/document}
 I'm skipping whatever remains of this command
@@ -108,6 +112,22 @@ White space in argument---line 13 of file chapters/statistical_detection.aux
  : \citation{CITE
  :                - http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.425.1477&rep=rep1&type=pdf}
 I'm skipping whatever remains of this command
+White space in argument---line 14 of file chapters/statistical_detection.aux
+ : \citation{Box
+ :               G.E.P. and G.E.P. Jenkins1976Time series analysis: Forecasting and control}
+I'm skipping whatever remains of this command
+White space in argument---line 16 of file chapters/statistical_detection.aux
+ : \citation{CITE
+ :                - http://labs.omniti.com/people/jesus/papers/holtwinters.pdf}
+I'm skipping whatever remains of this command
+White space in argument---line 17 of file chapters/statistical_detection.aux
+ : \citation{CITE
+ :                - https://www.net.in.tum.de/fileadmin/TUM/NET/NET-2010-06-1.pdf}
+I'm skipping whatever remains of this command
+White space in argument---line 25 of file chapters/statistical_detection.aux
+ : \citation{CITE
+ :                - https://www.net.in.tum.de/fileadmin/TUM/NET/NET-2010-06-1.pdf}
+I'm skipping whatever remains of this command
 A level-1 auxiliary file: chapters/monitoring_sdn_switches.aux
 A level-1 auxiliary file: chapters/management_api.aux
 White space in argument---line 3 of file chapters/management_api.aux
@@ -154,10 +174,11 @@ Warning--I didn't find a database entry for "early_detection_sdn_ddos"
 Warning--I didn't find a database entry for "traffic_anomaly_control_charts"
 Warning--I didn't find a database entry for "http://shiftleft.com/mirrors/www.hpl.hp.com/personal/Praveen_Yalagandula/papers/INFOCOM11.pdf"
 Warning--I didn't find a database entry for "https://www.cert.org/flocon/2006/presentations/packet_sample_anomoly2006.pdf"
+Warning--I didn't find a database entry for "https://eprints.qut.edu.au/20572/3/ahmed2008npc.pdf"
 Warning--empty booktitle in berde_onos:_2014
 You've used 19 entries,
             1791 wiz_defined-function locations,
-            569 strings with 8166 characters,
+            570 strings with 8217 characters,
 and the built_in function-call counts, 5515 in all, are:
 = -- 496
 > -- 288
@@ -196,4 +217,4 @@ warning$ -- 1
 while$ -- 57
 width$ -- 21
 write$ -- 219
-(There were 34 error messages)
+(There were 39 error messages)
