@@ -124,7 +124,7 @@ SDKs for developing other applications on top of these.
 \par Considering OF enabled hardware switches, the processing of incoming packets is done as by matching a (up to) 15 field tuple \cite {CITE - flow_table_management_sdn_switches} to several flow tables, 
 that have rules sent from the controller. In these cases, the possibility of bottlenecks are due to several factors, including the latency of the installation of new flow rules, and the memory limitation on the hardware. Solutions 
 to the memory limitations in OF switches include DevoFlow \cite {CITE - https://hal.inria.fr/hal-00825087/document}, which utilizes wildcard rules to reduce the number of flow entries that are installed on the devices, while also
-aggregating traffic, which simplifies detection and management of the elephant flows, due to reduced control plane load; and SmartTime \cite {http://rishabhpoddar.com/publications/SmartTime.pdf} manages the timeouts
+aggregating traffic, which simplifies detection and management of the elephant flows, due to reduced control plane load; and SmartTime \cite {CITE - http://rishabhpoddar.com/publications/SmartTime.pdf} manages the timeouts
 for the rules on the switch, reducing this in the presence of microflows, and increasing the timeout in the case of the occurrence of longer lived flows, which improves memory utilization and reduces the load on the controller.
 
 \par Virtualised environments also allowed the development of Software Switches, due to the highly dynamic nature of virtual environments, where Virtual Machines (VMs) can move between physical compute nodes and frequent
@@ -134,8 +134,7 @@ that can be achieved by combining all the networking devices with one management
 
 \section {SDN Controllers}
 
-Responsible for 
-\subsection{Performance Overview}
+Central for operation of the networks, SDN controllers allow the orchestration of the multiple parts required for correctly operating a large scale network. Separate from the data traffic on the network, these are responsible
 
 \subsection{Existing Platforms}
 \subsubsection {Floodlight}

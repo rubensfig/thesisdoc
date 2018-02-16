@@ -218,34 +218,48 @@ the parametric case, the CUSUM algorithm for detection of a change at $t_0$ from
 \subsection {Performance Evaluation} \label{subsec:performance_evaluation}
 
 The effectiveness of a statistical approach for change detection can be seen as the relationship between false and real alarms, since the trade-off with online detection is the number of falsely raised alarms, and the number of accurately reported changes.
-As mentioned in section \ref{subsec:change_detection} the possible wrong decisions are the type I and II errors, which are usually represented with error, or confusion matrices, seen in table \ref{tab:confusion_matrix}.
+As mentioned in section \ref{subsec:change_detection} the possible wrong decisions are the type I and II errors, which are usually represented with error, or confusion matrices, seen in table \ref{tab:confusion_matrix}, 
+where the possible outcomes from the decision algorithm are displayed. The notation for this table indicate the possible values, True Positive (T\textsubscript{P}), False Positive (F\textsubscript{P}), False Negative 
+(F\textsubscript{N}) and True Negative (T\textsubscript{N}).
 
 \begin{table}[h]
 \centering
 \label{tab:confusion_matrix}
-\begin{tabular}{c|c|c}
-    
-          & $H_0$  &  $H_1$   \\   \hline
-    $H_0$ & TP     &  FP      \\   \hline
-    $H_1$ & FN     &  TN      \\   
+\begin{tabular}{ccc|c}
+                                                          &&  \multicolumn{2}{c}{Predicted}  \\ 
+                                                          && $H_0$  &  $H_1$                                    \\   \cline{2-4}
+        \multirow{2}{*}{\rotatebox[origin=c]{90}{Actual}} & \multicolumn{1}{l|}{$H_0$}    & T\textsubscript{P}     & F\textsubscript{P}       \\   \cline{2-4}
+                                                          & \multicolumn{1}{l|}{$H_1$}     & F\textsubscript{N}     & T\textsubscript{N}     \\   
 \end{tabular}
 \caption{Generalized confusion matrix for hypothesis testing}
 \end{table}
 
-The indicators for the performance of the change point identification are:
+\par In the following equations, we define the ratios that allow for measuring the performance of the algorithm, with Accuracy (A), measuring the correct decision of the algorithm; Sensitivity (S), indicating the capability of the 
+system to detect the change, and Precision (P) indicates the ability of the algorithm to accurately distinguish between true and false alarms. 
 
 \begin{equation*}
 \begin{split}
-    &Accuracy    :  \frac {TP + TN} {TP + TN + FP + FN} = \frac {TP + TN} {N_{alarms}}   \\
-    &Sensitivity :  \frac {TP} {TP + FN} \\
-    &Precision   :  \frac {TP} {TP + FP}
+    &A    =  \frac {T_P + T_N} {T_P + T_N + F_P + F_N} = \frac {T_P + T_N} {N_{alarms}}   \\
+    &S    =  \frac {T_P} {T_P + F_N} \\
+    &P    =  \frac {T_P} {T_P + F_P}
 \end{split}
 \end{equation*}
-The algorithm performance is defined by:
 
-MTFA (Mean Time Between False Alarms)
-MTD (Mean Time to Detection)
-ARL (Average Run Length)
+\pagebreak
+
+The performance of the change detection algorithms can also be defined by:
+
+\begin{itemize}
+    \item MTFA (Mean Time Between False Alarms) 
+    \item MTD (Mean Time to Detection)
+    \item ARL (Average Run Length)
+\end{itemize}
+
+% XXX - Quote this
+
+\par The ARL is the expected number of samples required before an alarm is provided, and it can be divided further in two important measures: ARL\textsubscript{0}, which specifies the expected number of required samples until the 
+alarm is raised, assuming that the process is in control; and the ARL\textsubscript{1}, indicating the expected number of samples until an alarm is raised, under the condition that the process is out of control. For optimal results
+for change detection, we require that ARL\textsubscript{0} is as large as possible, and ARL\textsubscript{1} be as small as possible.
 
 \section {Existing methods}
 
