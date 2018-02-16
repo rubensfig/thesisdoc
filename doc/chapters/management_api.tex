@@ -20,7 +20,7 @@ to implement the API for Basebox.
 Data models are abstract concepts that map the properties of entities and organizes their data, also defining how they relate to each other. To create a switch management interface, the entities we want to model are then 
 the switches themselves, with attributes like the switch name, and the port counters, and the relationships of the data will allow us to display the links and topology of the network. One of the considerations that were taken into 
 account when choosing the data models was the compatibility with standardized data models by the organizational entities like the IETF and the OpenConfig. 
-\par The \textit{ NETCONF } network configuration model, which we explore further in \ref{ssec:netconf} also defines a data modelling language known as \textit{ YANG }, which is used in this protocol to model its configuration 
+\par The \textit{ NETCONF } network configuration model, which we explore further in \ref{sec:netconf} also defines a data modelling language known as \textit{ YANG }, which is used in this protocol to model its configuration 
 and data,and the remote procedure calls \cite { CITE - rfc 6020 }. By utilizing models defined in this language, the following condition is met: since this is a specific language for configuration and monitoring of networking 
 devices, the existing data models will be similar to the ones that should be employed in the development of the management API. YANG data model defines the hierarchy of data between a NETCONF client and server with the objective
 of smooth integration with the existing system's infrastructure. 
@@ -90,7 +90,7 @@ this information and displaying them in a clear way. The solution was to develop
 define the API that build the transport channel between baseboxd and CAWR to the GUI server. In this section we describe the two \textit {Remote Procedure Call (RPC)} systems that were researched, and focus on the advantages which
 led to the final decision of implementing gRPC on Basebox.
 
-\subsection {NETCONF} \label {ssec:netconf}
+\subsection {NETCONF} \label {sec:netconf}
 
 Despite it's dominance on network management products, SNMP features some bad characteristics that pose an obstacle for the widespread use in network configuration, and not only network management, like 
 \cite {CITE - https://tools.ietf.org/html/rfc3535}: 

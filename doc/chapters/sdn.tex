@@ -93,7 +93,7 @@ of the system, as indicated in the previous point, the channel should be cryptog
     \caption{Images describing OpenFlow components. On the left, an overview to the entire system, and on the right a view at the table structure of the OpenFlow Switch}
 \end{figure}
 
-\section {Network Devices} 
+\section {Network Devices}
 
 Networking devices are a central part of network operation, performing routing, switching, management operations, and span the different layers of the OSI model. The investment in dedicated hardware to perform management functions can
 potentially be replaced by SDN controllers, offloading the QoS policies and traffic engineering (TE) functions from hardware to software. As such, in this section we focus on the devices that are responsible for the operation on 
@@ -134,9 +134,47 @@ that can be achieved by combining all the networking devices with one management
 
 \section {SDN Controllers}
 
-Central for operation of the networks, SDN controllers allow the orchestration of the multiple parts required for correctly operating a large scale network. Separate from the data traffic on the network, these are responsible
+Central for operation of the networks, SDN controllers allow the orchestration of the multiple parts required for correctly operating a large scale network. Separate from the data traffic on the network, these are responsible for the interaction
+between the Northbound networking applications and the Southbound devices, as described in figure \ref{fig:sdn_controller_arch}. 
+
+\begin{figure}[!tbph]
+  \centering
+  \includegraphics[width=0.4\textwidth]{sdn/sdn_controller_arch}
+  \label{fig:sdn_controller_arch}
+  \caption {SDN Interfaces division}
+\end{figure}
+
+\par Although the use case of the controllers will depend on each deployment and implementation, the basic use case is to provide connectivity across layer 2 and 3 networks, which is achieved via flow management, including operations like
+switching, forwarding and potentially load balancing. The logically centralized position augments this capability by keeping the state of the entire network, which facilitates route planning and management. 
+
+\par Despite the advantages that the controllers centralization provides, this also introduces a Single Point of Failure (SPOF) \cite{ CITE - https://arxiv.org/pdf/1308.6138.pdf}, exposing a weakness to Denial-of-Service (DoS) attacks and 
+controller failure. The potential catastrophic scenario related to controller downtime due to these failures means that an approach must be planned for disaster failure and recovery. High Availability setups are used to mitigate the potential
+failure of the controllers, by having multiple backups running. In order to ensure that the same network state in every controller, every switch must be connected to every controller, but as specified in section \ref{sec:fault_tolerance}, only the Master 
+controller writes the messages to the networking devices, which ensures that duplicate rules are not enforced. In case of controller failure, one of the backup controllers can take over the role of the previous master, without any outages on
+the network.
 
 \subsection{Existing Platforms}
+
+There are several controller implementations available for use, each with different interfaces, performance, and modularity. In \cite{CITE - https://pdfs.semanticscholar.org/1fae/98c9d3bed22a539155d5e93a8d420bd22837.pdf} a comparative study is
+performed on available SDN controllers at the time, and compare the different characteristics of each controller, like the available interfaces, the language of implementation, modularity, etc. In the following sections, we explore two of the 
+highest rated solutions, Floodlight and OpenDaylight.
+
 \subsubsection {Floodlight}
+
+\begin{figure}[!tbph]
+  \centering
+  \subfloat[Floodlight GUI]{\includegraphics[width=0.5\textwidth]{sdn/floodlight_gui}\label{fig:flood_gui}}
+  \hfill
+  \subfloat[Floodlight Topology]{\includegraphics[width=.5\textwidth]{sdn/floodlight_topology}\label{fig:flood_topo}}
+  \caption {Floodlight Web Views}
+\end{figure}
+
+Floodlight \footnote{http://www.projectfloodlight.org/floodlight/} is a java-based SDN controller, and is one the first open-source solutions to gain relevance in research and industry 
+\cite{http://zoo.cs.yale.edu/classes/cs434/cs434-2017-spring/readings/onos-hotsdn2014.pdf}. This controller provides the OpenFlow interface, and it enables adding several modules, either through extensions, or through the utilization of the provided
+REST interface, simplifying the addition of new features to the base controller.
+
+\par The REST interface provides an API to interact with the switch, which allows developers to get statistics, push flow entries, and more. It also provides an useful GUI for easier visualization of the topology, link state, and port statistics.
+ 
 \subsubsection {OpenDaylight} \label{chap:odl}
 
+OpenDaylight \footnote{https://www.opendaylight.org/} (ODL) is a major project supported by the major vendors. The main differences between ODL and other controllers is support for other protocols in the southbound interface, due to the creation of a Switch Abstraction Layer (SAL). 

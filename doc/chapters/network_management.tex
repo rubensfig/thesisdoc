@@ -102,8 +102,6 @@ the impossibility of separating the different classes of data centers, since dep
         of the link, which is one of the effects of the previously mentioned elephant flows.
 \end {itemize}
 
-\subsection {Limitations}
-
 \subsection {DCN and SDN}
 
 \par The centralized view that SDN controllers maintain over the networks allows for it to keep the information about the flows currently present in the network. As such, in the SDN paradigm, there is possibility to flexibly control 
@@ -127,7 +125,7 @@ entries on the switch. The information present in the packets serve to generate 
 reduce the number of match fields present in the flow mods, which reduces the number of flow entries on the switch and the controller messages. Another solution is related to distribute the controller among the network, 
 but keeping them connected via a separate channel.
 
-\subsubsection {Fault tolerance}
+\subsubsection {Fault tolerance} \label{sec:fault_tolerance}
 
 Although the switches are connected in a way that are able to mitigate link, or other switch failures, in the case of faults occurring there needs to be the possibility of creation of new forwarding rules. An even bigger 
 concern lies in the case when the controller fails, which will pose a larger problem in the network. For the case of node failure, fast recovery means that the OF controller can reactively react on link failures, by signaling the
