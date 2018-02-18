@@ -24,19 +24,16 @@ we based these applications on VMs and containers, and the installation files ca
 % XXX - Make a testing setup picture
 \begin{figure} 
     \centering
-    \includegraphics[width=0.4\textwidth]{}
-    \caption {PLACEHOLDER}
+    \includegraphics[width=0.5\textwidth]{meter_eleph/testing_setup}
+    \caption {The high level overview of the testing setup}
     \label{fig:test_setup}
 \end{figure} 
 
-\subsection {Performed tests}
-
-\subsubsection {}
-
+\par Figure \ref{fig:test_setup} describes the testing setup designed for testing during this dissertation. This setup provides a close approximation to setups used in the edge layers of data centers, and keeping the
+resource consumption of the virtualised network and controller to a minimum. In the diagram, the hosts are shown using the H\textsubscript{X} notation, ranging from 1 to 4, and the switches use the S\textsubscript{X} 
+notation. Information about the hosts, like the IP and MAC addresses can also be seen, and the port numbers used are also displayed.
 
 \section {Algorithm design}
-\subsection {Formal definition}
-
 
 \begin {equation*}
 \centering
@@ -49,10 +46,62 @@ P_{TX}\\
 \end{bmatrix}
 \end {equation*}
 
+\par $B_{XX}$ and $P_{XX}$ describe to the port statistics obtained from the controller, the byte (B\textsubscript{XX})and packet (P\textsubscript{XX}) counters, respectively, and the indexes describe if the counters
+account for the transmitted or received data in that port.
 
-\par $B_{XX}$ and $P_{XX}$ describe to the port statistics obtained from the controller, the byte and packet counters, respectively, and the indexes describe if the counters account for the transmitted or received data in that port.
-\par A time series $y_t$ can be decomposed in the following parameters: $S_t$ which accounts for the seasonal component of the time series data; $T_t$ accounting for the constant trend in the data, and $R_t$, which accounts for the 
-residuals. These can be combined to the following equation:
+\par Using the techniques presented in section \ref{subsec:change_detection}, we build algorithm \ref{alg:high_level}. This is a high level view of the steps required to obtain the detection, and in the following sections,
+we introduce each step, and provide some clarifications on the design decisions.
+
+\pagebreak
+
+\begin{algorithm}[H]
+    \caption{Elephant Detection Algorithm - High Level} \label{alg:high_level}
+    \begin{algorithmic}[1]
+        \Procedure {Elephant Flow Detection}{}
+            \State Initialization
+            \State Query controller
+            \Loop
+                \State Error calculation
+                \State Prediction
+                \State Detection
+                \If {Detection}
+                    \State Raise Alarm
+                \EndIf
+            \EndLoop
+        \EndProcedure 
+        \State \Return Alarm Times
+    \end{algorithmic}
+\end{algorithm}
+
+\subsection{Initialization}
+
+The initialization step of the algorithm is a crucial step for obtaining correct results in the algorithm. This step allows for the correct initialization of the model parameters, including the trend component, and to provide a 
+baseline for the expected traffic on the network. Due to these factors, it is assumed that no traffic abnormalities exist during this stage, but a longer period for initialization can account for short bursts of higher traffic.
+
+\begin{algorithm}[H]
+    \caption{Elephant Detection Algorithm - Initialization} \label{alg:high_level}
+    \begin{algorithmic}[1]
+        \Procedure {Initialization}{}
+            \State initialization period = 30s
+            \While {t <= initialization period}
+                \State x = Query controller
+                \State initialization measures += x
+                \State Determine prediction
+            \EndWhile
+            \State Linear Regression (initialization measures)
+        \State \Return Linear regression coefficient
+    \end{algorithmic}
+\end{algorithm}
+
+\par Detrending the data using the linear regression function comes from the fact that on the end of the initialization period, plotting the received packets, bytes results in figure \ref{fig:init_plot}.
+
+% Display initial graph of Received Bytes
+\begin{figure} 
+    \centering
+    \includegraphics[width=0.5\textwidth]{}
+    \caption {Plotting the initial measurements of B\textsubscript{RX}}
+    \label{fig:test_setup}
+\end{figure} 
 
 \section {Testing setup}
 \section {Tests}

@@ -177,4 +177,6 @@ REST interface, simplifying the addition of new features to the base controller.
  
 \subsubsection {OpenDaylight} \label{chap:odl}
 
-OpenDaylight \footnote{https://www.opendaylight.org/} (ODL) is a major project supported by the major vendors. The main differences between ODL and other controllers is support for other protocols in the southbound interface, due to the creation of a Switch Abstraction Layer (SAL). 
+OpenDaylight \footnote{https://www.opendaylight.org/} (ODL) is a major project supported by the major vendors. The main differences between ODL and other controllers is support for other protocols in the southbound interface, 
+due to the creation of a Service Abstraction Layer (SAL) \cite{CITE - opendaylight_sdn_controller_architecture}. In a high level overview, the creation of the Model-Driven SAL allows to extend the controller basic functionality
+by the addition of several plugins, which are used in combination with a RESTCONF interface, defining the data models for the data stores, and the RPCs for interaction between the data.
