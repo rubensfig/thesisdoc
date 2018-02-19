@@ -1,6 +1,6 @@
 \chapter{Elephant Flow Monitoring} \label{chap:me} 
 
-\section {Testing Environment}
+\section {Testing}
 
 The design of a testing environment must allow for the accurate simulation of the traffic conditions on the real DCNs, and should provide the flexibility to 
 understand and change the underlying topologies. There requirements clearly indicate a strong motivation for deploying a testing environment in a virtualised
@@ -21,7 +21,7 @@ was Floodlight \footnote { XXX - insert link here}, for it is continuously updat
 we based these applications on VMs and containers, and the installation files can be found on the following page \url {example.com}.
 
 \pagebreak
-% XXX - Make a testing setup picture
+
 \begin{figure} 
     \centering
     \includegraphics[width=0.5\textwidth]{meter_eleph/testing_setup}
@@ -32,6 +32,24 @@ we based these applications on VMs and containers, and the installation files ca
 \par Figure \ref{fig:test_setup} describes the testing setup designed for testing during this dissertation. This setup provides a close approximation to setups used in the edge layers of data centers, and keeping the
 resource consumption of the virtualised network and controller to a minimum. In the diagram, the hosts are shown using the H\textsubscript{X} notation, ranging from 1 to 4, and the switches use the S\textsubscript{X} 
 notation. Information about the hosts, like the IP and MAC addresses can also be seen, and the port numbers used are also displayed.
+
+\subsection{Performed tests}
+
+Mininet provides an API to interact with a virtual network and setup tests in a predictable manner. We utilize this API to develop a script that creates the network topology. For traffic generation, however, we require another tool that provides 
+specific funcionalities, like control of the packet interval and the packets data size. The tool \textit{hping} is a common tool used for packet generation and port mapping, and its simplicity allows for quickly deploy different tests
+against the designed setups.
+
+\par We consider two different test scenarios, the first where we assume no background traffic between the hosts, and the other where every host is communicating with each other. This has the purpose of simulating low traffic intensities in the network,
+and verify the behaviour of the designed algorithm in an approximation to real conditions.
+
+\par The utilization of Open vSwitch has, however some drawbacks that should be address when the tests are being designed. Figure \ref{fig:ovs_packet_loss} shows the decrease of 
+
+\begin{figure} 
+    \centering
+    \includegraphics[width=0.5\textwidth]{}
+    \caption {}
+    \label{fig:ovs_packet_loss}
+\end{figure} 
 
 \section {Algorithm design}
 
@@ -46,7 +64,7 @@ P_{TX}\\
 \end{bmatrix}
 \end {equation*}
 
-\par $B_{XX}$ and $P_{XX}$ describe to the port statistics obtained from the controller, the byte (B\textsubscript{XX})and packet (P\textsubscript{XX}) counters, respectively, and the indexes describe if the counters
+\par $B_{XX}$ and $P_{XX}$ describe to the port statistics obtained from the controller, the byte (B\textsubscript{XX}) and packet (P\textsubscript{XX}) counters, respectively, and the indexes describe if the counters
 account for the transmitted or received data in that port.
 
 \par Using the techniques presented in section \ref{subsec:change_detection}, we build algorithm \ref{alg:high_level}. This is a high level view of the steps required to obtain the detection, and in the following sections,
@@ -93,17 +111,23 @@ baseline for the expected traffic on the network. Due to these factors, it is as
     \end{algorithmic}
 \end{algorithm}
 
-\par Detrending the data using the linear regression function comes from the fact that on the end of the initialization period, plotting the received packets, bytes results in figure \ref{fig:init_plot}.
+\par Detrending the data using the linear regression function comes from the fact that on the end of the initialization period, plotting the received bytes results in figure \ref{fig:init_plot}.
 
 % Display initial graph of Received Bytes
 \begin{figure} 
     \centering
-    \includegraphics[width=0.5\textwidth]{}
+    \includegraphics[width=0.5\textwidth]{meter_eleph/init_period_lin}
     \caption {Plotting the initial measurements of B\textsubscript{RX}}
-    \label{fig:test_setup}
+    \label{fig:init_plot}
 \end{figure} 
 
-\section {Testing setup}
+\subsection{Error calculation}
+
+\subsection{Prediction}
+
+\subsection{Calculation}
+
+
 \section {Tests}
 \section {Results}
 
