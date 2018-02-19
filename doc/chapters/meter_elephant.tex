@@ -42,7 +42,9 @@ against the designed setups.
 \par We consider two different test scenarios, the first where we assume no background traffic between the hosts, and the other where every host is communicating with each other. This has the purpose of simulating low traffic intensities in the network,
 and verify the behaviour of the designed algorithm in an approximation to real conditions.
 
-\par The utilization of Open vSwitch has, however some drawbacks that should be address when the tests are being designed. Figure \ref{fig:ovs_packet_loss} shows the decrease of 
+% XXX - Find a citation for this, cant find it anywhere
+\par The utilization of Open vSwitch has, however some drawbacks that should be address when the tests are being designed. Figure \ref{fig:ovs_packet_loss} shows the increase of the packet loss as the number of flows in OVS increases.
+This limitation implies that in order for the tests to run successfully, there needs to be a care in the amount of flows that are generated.
 
 \begin{figure} 
     \centering
@@ -69,8 +71,6 @@ account for the transmitted or received data in that port.
 
 \par Using the techniques presented in section \ref{subsec:change_detection}, we build algorithm \ref{alg:high_level}. This is a high level view of the steps required to obtain the detection, and in the following sections,
 we introduce each step, and provide some clarifications on the design decisions.
-
-\pagebreak
 
 \begin{algorithm}[H]
     \caption{Elephant Detection Algorithm - High Level} \label{alg:high_level}
