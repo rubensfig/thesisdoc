@@ -46,10 +46,11 @@ and verify the behaviour of the designed algorithm in an approximation to real c
 \par The utilization of Open vSwitch has, however some drawbacks that should be address when the tests are being designed. Figure \ref{fig:ovs_packet_loss} shows the increase of the packet loss as the number of flows in OVS increases.
 This limitation implies that in order for the tests to run successfully, there needs to be a care in the amount of flows that are generated.
 
+% XXX - Redo this graphic
 \begin{figure} 
     \centering
-    \includegraphics[width=0.5\textwidth]{}
-    \caption {}
+    \includegraphics[width=0.5\textwidth]{meter_eleph/ovs_packet_loss}
+    \caption {OVS measured packet loss}
     \label{fig:ovs_packet_loss}
 \end{figure} 
 
@@ -85,10 +86,11 @@ we introduce each step, and provide some clarifications on the design decisions.
                 \If {Detection}
                     \State Raise Alarm
                 \EndIf
+                \State wait 2 seconds
             \EndLoop
+            \State \Return Alarm Times
         \EndProcedure 
-        \State \Return Alarm Times
-    \end{algorithmic}
+       \end{algorithmic}
 \end{algorithm}
 
 \subsection{Initialization}
@@ -121,11 +123,20 @@ baseline for the expected traffic on the network. Due to these factors, it is as
     \label{fig:init_plot}
 \end{figure} 
 
-\subsection{Error calculation}
+\subsection{Prediction and error calculation}
 
-\subsection{Prediction}
+Using the methods presented in \ref{subsec:change_detection}, we are able to predict the values that are expected in the following sample, and determine the error of the prediction. In this step, the most important consideration is the adjustment of
+the $\alpha$ factor, in order to provide the best possible results. This value determines the weight of the previous observations, and, as it can be seen in figure \ref{fig:error_plot}, a value closer to one, which indicates a stronger weight to
+recent observations provides a better result.
 
-\subsection{Calculation}
+\begin{figure} [H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{meter_eleph/error_plot}
+    \caption {Measured prediction error}
+    \label{fig:error_plot}
+\end{figure}
+
+\subsection{Detection}
 
 
 \section {Tests}
