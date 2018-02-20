@@ -133,7 +133,8 @@ language, called \textit {protobuf}, which will define the data, which is define
 use the advantages that this protocol provides us.
 \par Despite the serialization language used in gRPC is based on protocol buffers, unlike YANG, there are some projects \footnote {https://github.com/openconfig/goyang} that enable the translation between YANG to protofile,
 which allows us to use the data models we chose, only adding one extra step to convert the files.
-\par Despite both protocols capability of meeting the requirements that were presented to us, the gRPC framework was chosen due to several reasons:
+% XXX - Describe performance of gRPC/ Protobuf vs XML
+\par Despite of both protocols capability of meeting the requirements that were presented to us, the gRPC framework was chosen due to several reasons:
 
 \begin {itemize}
     \item Both frameworks allow us to use the standardized data models currently proposed by the IETF and OpenConfig
@@ -144,4 +145,6 @@ which allows us to use the data models we chose, only adding one extra step to c
 
 \section {Results}
 
-The main results for this part 
+By combination of the technologies presented in this chapter, we have developed a Graphical User Interface (GUI) that is able to connect to baseboxd and CAWR, draw the physical node topology, and display the port statistics. 
+This GUI can be accessed via a web page, since this provides an ease of access to the system. The web page was developed on top of the Django Framework \footnote{\url{https://www.djangoproject.com/}}, due to the Python implementation,
+due support for official gRPC integration and ease of implementation. For drawing the topology we used the JavaScript library D3.js \footnote{\url{https://d3js.org/}}.
