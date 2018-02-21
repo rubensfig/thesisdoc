@@ -20,10 +20,12 @@ to implement the API for Basebox.
 Data models are abstract concepts that map the properties of entities and organizes their data, also defining how they relate to each other. To create a switch management interface, the entities we want to model are then 
 the switches themselves, with attributes like the switch name, and the port counters, and the relationships of the data will allow us to display the links and topology of the network. One of the considerations that were taken into 
 account when choosing the data models was the compatibility with standardized data models by the organizational entities like the IETF and the OpenConfig. 
+
 \par The \textit{ NETCONF } network configuration model, which we explore further in \ref{sec:netconf} also defines a data modelling language known as \textit{ YANG }, which is used in this protocol to model its configuration 
 and data,and the remote procedure calls \cite { CITE - rfc 6020 }. By utilizing models defined in this language, the following condition is met: since this is a specific language for configuration and monitoring of networking 
 devices, the existing data models will be similar to the ones that should be employed in the development of the management API. YANG data model defines the hierarchy of data between a NETCONF client and server with the objective
 of smooth integration with the existing system's infrastructure. 
+
 \par The systems we aim to model with these requirements are then two: the topology between the servers and switches, and the port statistics for each port one the switch. Since there is no data model that would accurately describe
 both of them correctly, for the topology we chose the IETF network data model \footnote {https://github.com/YangModels/yang/blob/master/experimental/ietf-extracted-YANG-modules/ietf-network\%402017-12-13.yang}, and the 
 OpenConfig interfaces data model \footnote {https://github.com/openconfig/public/tree/1040d11c089c74084c64c234bee3691ec70e8a9f/release/models/interfaces}, which contains the counters for each port.
@@ -43,6 +45,7 @@ could have in a cloud deployement. As the development of the product continues, 
 \par Mapping the data model to the real world data is then adding the two types of information the data model expects: the first one composed of adding the different networks that composed the entire topology, including their
 nodes and network types; and then using the previous information to build the links between each of the nodes, using the termination points the model exposes. In the implementation of the management API there was no need to implement 
 underlying networks, but the extensibility this provides will be useful in the future.
+
 \par Displaying the topology proved useful for CAWR, which provides the big switch topology, since this controller is directly connected to the underlying switches, and can see the links among these networking devices. The connection
 to the bonded interface on the servers can also be monitored, since these can be configured to use LACP messages to report their status. To display the links between the switches, the information that LLDP provides is used, 
 and if the controller is extended to be able to use LLDP to the servers, the further information can be filled into this data model, and provide a richer view on the status of each server.
@@ -113,14 +116,18 @@ enables devices to expose a full API to their systems. This protocol, based in c
 \end{figure}
 
 \par Data models and operations, covered in detail in the previous section, is related to the Content layer on the image, so this will not be covered in this section. 
+
 \par Configuration of a network device can be complex, and managing separate configurations between device startup and normal operation is a difficult task, but there is occasional need for this capability. NETCONF defines the 
 existence of different \textit{datastores} to enable this feature, allowing the network operator to set an initial configuration, used when the device is initialized, and switching to the running datastore when the device is ready
 to maintain normal operation. This concept of datastores also enables the creation of a candidate datastore, providing the capability of testing configurations on the network device, checking for any possible errors, while making
 sure that there is no impact on the current configuration of the device. After the changes have been tested and validated, a <commit> operation can be used to deploy the new configuration to the running datastore.
+
 \par Another useful feature that is described in the NETCONF protocol, is the possibility of using the rollback-on-error capability. When rolling a new change, and if the system is enabled to support this feature,
 NETCONF can detect errors in the changes done to the configurations, and return the system to the previous state that is error free. 
+
 \par The NETCONF API provides several operations to interact with the managed devices to get system information and push new configurations. The set of supported operations in the base NETCONF protocol can be accessed in 
 \url{https://tools.ietf.org/html/rfc6241#section-7}. 
+
 \par In regards to the transport layer, NETCONF is able to run on top of several protocols. However, NETCONF requires that a persistent connection is maintained between devices, and this connection should be reliable, and support
 transmission failure. In addition, the security should be handled by the transport layer \cite { CITE - https://www.ietf.org/slides/slides-edu-netconf-yang-00.pdf}, providing the guarantee that transactions are done in a 
 cryptographically secure channel, between two authenticated hosts. As a results, typical NETCONF implementations are based on SSH or TLS protocols.
@@ -146,5 +153,47 @@ which allows us to use the data models we chose, only adding one extra step to c
 \section {Results}
 
 By combination of the technologies presented in this chapter, we have developed a Graphical User Interface (GUI) that is able to connect to baseboxd and CAWR, draw the physical node topology, and display the port statistics. 
-This GUI can be accessed via a web page, since this provides an ease of access to the system. The web page was developed on top of the Django Framework \footnote{\url{https://www.djangoproject.com/}}, due to the Python implementation,
-due support for official gRPC integration and ease of implementation. For drawing the topology we used the JavaScript library D3.js \footnote{\url{https://d3js.org/}}.
+This GUI can be accessed via a web page, since this provides an ease of access to the system. The web page was developed on top of the Django Framework \footnote{\url{https://www.djangoproject.com/}}, due to the Python implementation, support for official gRPC
+integration and ease of implementation. For drawing the topology we used the JavaScript library D3.js \footnote{\url{https://d3js.org/}}.
+
+\begin{figure} [H]
+    \begin{subfigure}
+        \centering
+        \includegraphics[width=.7\textwidth]{bisdn/cawr_gui}
+        \caption{Topology obtained from CAWR}
+    \end{subfigure}
+    \begin{subfigure}
+        \centering
+        \includegraphics[width=.5\textwidth]{bisdn/basebox_gui}
+        \caption{Single Port statistics from Baseboxd}
+    \end{subfigure}
+    \caption{GUI views of baseboxd (right), and CAWR (left)}
+\end{figure}
+
+\par Figure \ref{fig:cawr_gui} displays the topology that CAWR reports, and table \ref{tab:gui-mapping} displays the meaning of the icons present in the GUI. Since this system is to be used in a real time deployement, there is no interest in storing the 
+state of the network, which means that the topology must be drawn with every request to the server. Currently the topology is updated every two seconds, providing a balance between real time updates and the interval for requests to the controllers.
+
+\begin{table}[H]
+    \centering
+    \caption{GUI icons and their meaning}
+    \label{tab:gui-mapping}
+    \begin{tabular}{l | l}
+
+        \centering
+            \includegraphics[width=.05\textwidth]{bisdn/switch}
+        
+        & switch     & \\ \hline 
+
+            \includegraphics[width=.05\textwidth]{bisdn/host}
+        
+        & host     & \\ \hline 
+        
+        \includegraphics[width=.05\textwidth]{bisdn/bond}
+        
+        & port     & \\
+   \end{tabular}
+\end{table}
+
+\par The connection between both controllers to the GUI provides the view for both controllers, which means that CAWR will present the view for the physical switches, bonded ports and hosts, while the baseboxd only shows the giant switch created by CAWR.
+An advantage of this is the analysis of the global view of the state of the network, and further possibilities include the addition of displaying configured VLANs in each port, and even provide a way to configure them via a GUI. Interaction with the nodes is possible,
+and clicking on each provides an insight to the statistics related to that port.  
