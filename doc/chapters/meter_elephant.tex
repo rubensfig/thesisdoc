@@ -118,7 +118,7 @@ baseline for the expected traffic on the network. Due to these factors, it is as
 % Display initial graph of Received Bytes
 \begin{figure} 
     \centering
-    \includegraphics[width=0.5\textwidth]{meter_eleph/init_period_lin}
+    \includegraphics[width=0.4\textwidth]{meter_eleph/init_period_lin}
     \caption {Plotting the initial measurements of B\textsubscript{RX}}
     \label{fig:init_plot}
 \end{figure} 
@@ -126,24 +126,80 @@ baseline for the expected traffic on the network. Due to these factors, it is as
 \subsection{Prediction and error calculation}
 
 Using the methods presented in \ref{subsec:change_detection}, we are able to predict the values that are expected in the following sample, and determine the error of the prediction. In this step, the most important consideration is the adjustment of
-the $\alpha$ factor, in order to provide the best possible results. This value determines the weight of the previous observations, and, as it can be seen in figure \ref{fig:error_plot}, a value closer to one, which indicates a stronger weight to
-recent observations provides a better result.
+the $\alpha$ parameter, to determine the impact of the variation of this parameter. Figure \ref{fig:error_plot_alpha_var} displays the variation caused to the prediction error $\epsilon$ for two values of $\alpha$, and demonstrates the impact that a
+small ($\alpha = 0.2$) smoothing factor has on the prediction error. Due to this result, we assume higher ($\alpha \rightarrow 1$) values for the smoothing factor for posterior results.
 
 \begin{figure} [H]
     \centering
-    \includegraphics[width=0.5\textwidth]{meter_eleph/error_plot}
-    \caption {Measured prediction error}
-    \label{fig:error_plot}
+    \includegraphics[width=0.8\textwidth]{meter_eleph/error_plot_alpha_var}
+    \caption {Measured prediction error and effect of $\alpha$}
+    \label{fig:error_plot_alpha_var}
+\end{figure}
+
+\par Calculating the error was initially determined as
+
+\begin{equation}
+    \centering
+    \label{eq:division}
+    \epsilon = (x_i(t)/\hat{x}_i(t))^2,
+\end{equation}
+
+\par which provided the result present in figure \ref{fig:error_plot_division_sse}, and while it clearly indicates the deviations created by the elephant flows, it does not provide insight to the level of change caused by higher data sizes in the flows.
+A different approach was devised, and to obtain the values for the error calculation we consider the SSE (\ref{eq:sse}), to increase the impact of larger changes to the flow data size, and minimize smaller changes.
+
+\begin{figure} [H]
+    \centering
+    \begin{subfigure}
+        \includegraphics[width=0.7\textwidth]{meter_eleph/error_plot_division}
+    \end{subfigure}
+    \begin{subfigure}
+        \includegraphics[width=0.7\textwidth]{meter_eleph/error_plot_sse}
+    \end{subfigure}
+    \label{fig:error_plot_division_sse}
+    \caption{Different error calculation methods, on the top using SSE, and on the bottom using equation 8.1}
 \end{figure}
 
 \subsection{Detection}
 
-The detection component of the algorithm provides the logic for finding the points that are considered out of control. For this component we consider two possible techniques: the first, which simply compares the output of the error calculation, and compares 
-to a certain threshold; and a second, using the CUSUM algorithm. 
+The detection component of the algorithm provides the logic for finding the points that are out of control. For this component we consider two possible techniques: the first, which simply compares the output of the error calculation, to a certain threshold; 
+and a second, using the CUSUM algorithm. 
+
+\par For the first detection method, the rule is 
+
+\begin{equation*}
+    \centering
+    \label{eq:division}
+    \epsilon^2 \geq \delta,
+\end{equation*}
+
+\par and this method provides advantages mainly due to the simplicity of the technique, however previous knowledge of the change is required to determine a possible threshold $\delta$. After cross examining the plots for the decrease of bandwidth, 
+\ref{fig:bandwidth_loss} and the error predictions plots, we assume $\delta = 3$ for the threshold value. The detection result can be seen in figure \ref{fig:detect_dumb}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{meter_eleph/detect_dumb}
+    \caption {Simple detection}
+    \label{fig:detect_dumb}
+\end{figure} 
+
+\par Prior to deploying the CUSUM algorithm, in order to obtain the best-case scenario of the detection algorithm, we have collected the results for the prediction result, and applied the algorithm to the entire generated data set. Performing this step allows
+to obtain a general knowledge on the expected output of the algorithm, more specifically the expected number of alarms that are raised in a certain testing environment, so that application of the online algorithm may provide the closest possible results to the
+optimal offline version. Figure  \ref{fig:offline_cusum} shows the output of the algorithm applied to the errors associated to port 21's errors, which is connected to the host that generates the elephant flows, and the CUSUM algorithm implementation used was from 
+\url{https://github.com/demotu/BMC}.
+
+% XXX - Explain drift and threshold parameters
+\begin{figure} [H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{meter_eleph/offline_cusum_output}
+    \caption {Offline CUSUM output}
+    \label{fig:offline_cusum}
+\end{figure} 
+
+\par The adaptation of the CUSUM algorithm for utlization as an online technique is based on the utilization of a sliding window that is updated with every new sample. Applying this method has the advantages of using the CUSUM algorithm without needing
+extensive changes, while also reducing the amount of memory needed to apply this method. 
 
 % Sliding window 
 % 
 
-\section {Tests}
 \section {Results}
 

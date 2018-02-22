@@ -156,8 +156,9 @@ behaviours in the data. Double exponential smoothing is defined by \cite{CITE - 
 parameter; and $S_t$ accounts for the seasonal components with the $\gamma$ parameter. As with $\alpha$ these parameters are defined mostly by previous experience, but a common optimization is the minimization of the square sum 
 of prediction errors, defined by:
 
-\begin {equation*}
-SSE = \sum_{t=1}^T{(x_t-\hat{x}_{t})^2} = \sum_{t=1}^T{\epsilon_t^2}
+\begin {equation*} 
+    \label{eq:sse}
+    SSE = \sum_{t=1}^T{(x_t-\hat{x}_{t})^2} = \sum_{t=1}^T{\epsilon_t^2}
 \end {equation*}
 
 \subsection {Change Detection} \label{subsec:change_detection}
