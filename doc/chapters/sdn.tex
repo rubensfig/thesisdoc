@@ -1,4 +1,4 @@
-\chapter{Software Defined Networking} \label{chap:sdn} %% chapter 3
+\section{Software Defined Networking} \label{chap:sdn} %% chapter 3
 
 Computer networking is a vital part of the services that are offered today, and as such, the performance in technology backing these services is central to the quality of these services. As the service providers move their
 data centers to cloud computing environments, enabling several improvements in the predictability, quality of service and ease of use of their services, new technologies are required to make sure that their services are adapted
@@ -54,7 +54,7 @@ These requirements are general principles for networks, but the addition of the 
     \item Security   
 \end {itemize}
 
-\section {OpenFlow} \label{sec:of}
+\subsection {OpenFlow} \label{sec:of}
 
 With the growth of the networking infrastructure of the past few decades, the need for an environment that allows for experimentation and testing of different protocols and equipment became evident. If networking 
 research would depend on the previously existing methods, then new ways of creating and developing protocols would become increasingly hard to implement and develop. As such, there was need for a framework that could 
@@ -93,7 +93,7 @@ of the system, as indicated in the previous point, the channel should be cryptog
     \caption{Images describing OpenFlow components. On the left, an overview to the entire system, and on the right a view at the table structure of the OpenFlow Switch}
 \end{figure}
 
-\section {Network Devices}
+\subsection {Network Devices}
 
 Networking devices are a central part of network operation, performing routing, switching, management operations, and span the different layers of the OSI model. The investment in dedicated hardware to perform management functions can
 potentially be replaced by SDN controllers, offloading the QoS policies and traffic engineering (TE) functions from hardware to software. As such, in this section we focus on the devices that are responsible for the operation on 
@@ -132,7 +132,7 @@ network topology changes. Furthermore, standard Linux bridges cannot handle the 
 Open vSwitch is a soft switch that can join traditional switches on these platforms, replacing them where these couldn't be deployed. OVS switches are also compliant with the OpenFlow protocol, which clearly shows the flexibility
 that can be achieved by combining all the networking devices with one management protocol. 
 
-\section {SDN Controllers}
+\subsection {SDN Controllers}
 
 Central for operation of the networks, SDN controllers allow the orchestration of the multiple parts required for correctly operating a large scale network. Separate from the data traffic on the network, these are responsible for the interaction
 between the Northbound networking applications and the Southbound devices, as described in figure \ref{fig:sdn_controller_arch}. 
@@ -153,7 +153,7 @@ failure of the controllers, by having multiple backups running. In order to ensu
 controller writes the messages to the networking devices, which ensures that duplicate rules are not enforced. In case of controller failure, one of the backup controllers can take over the role of the previous master, without any outages on
 the network.
 
-\subsection{Existing Platforms}
+\subsubsection{Existing Platforms}
 
 There are several controller implementations available for use, each with different interfaces, performance, and modularity. In \cite{CITE - https://pdfs.semanticscholar.org/1fae/98c9d3bed22a539155d5e93a8d420bd22837.pdf} a comparative study is
 performed on available SDN controllers at the time, and compare the different characteristics of each controller, like the available interfaces, the language of implementation, modularity, etc. In the following sections, we explore two of the 

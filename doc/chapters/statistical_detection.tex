@@ -1,4 +1,4 @@
-\chapter{Statistical Detection} \label{chap:stat_det} %% chapter 3
+\section{Statistical Detection} \label{chap:stat_det} %% chapter 3
 
 As a result of the large scale of current data centers, maintaining control over these networks proves a difficult task. Networks operators must then adapt to the current situation by improving the monitoring infrastructures 
 to allow faster response to problems.  Building a feature complete management API for a SDN controller means that information obtained from the port and flow statistics previously implemented should return information 
@@ -9,7 +9,7 @@ system administrators can quickly respond to changes, possibly even giving some 
 of false alarms reduces the operators capabilities to act on actual failures. 
 \par This chapter focuses on the recent research done in order to implement systems that rely on statistical analysis for monitoring the state of the networks and detection of abnormalities.
 
-\section {Elephant flow detection}
+\subsection {Elephant flow detection}
 
 Detection of network anomalies is subject to intense research, and as such, several methods were developed, that assume different levels of control over the network and provide different results to different applications. Our goal
 in this section is then to provide a description of the different types of network issues that can occur, and some proposed solutions for these issues.
@@ -28,7 +28,7 @@ strategies and inference from the obtained statistics.
     \item Periodic polling of the statistics from the switch, and employing statistical analysis methods to determine change points in the state of the network.
 \end {itemize}
 
-\section {Time series analysis}
+\subsection {Time series analysis}
 
 Understanding processes and their results is a key factor in the success of implementing new features, or analysing existing ones for their efficiency and output. This analysis, important for the different fields in engineering,
 economics, health, allows obtaining information about the normal and abnormal state of each underlying process, provide forecasts and predictions on short and long term behaviour of the relevant data, classify and cluster 
@@ -54,7 +54,7 @@ distribution of the monitored variables, and analyse statistical properties inst
 algorithms using sliding window or moving averages.
 \end {itemize}
 
-\subsection {Mathematical formulations}
+\subsubsection {Mathematical formulations}
 
 A time series can be defined as a stream of observations $X = \{x_1, ... x_i\}$, where $x_i$ is a vector arriving at time $i$. The time series $X$ can also be described as the sum of the following components: $S_t$,
 which refers to the seasonal component of the data; $T_t$, which defines the trend of the data, and $R_t$ represents the residual values, accounting for non expected variation and noise.
@@ -161,7 +161,7 @@ of prediction errors, defined by:
     SSE = \sum_{t=1}^T{(x_t-\hat{x}_{t})^2} = \sum_{t=1}^T{\epsilon_t^2}
 \end {equation*}
 
-\subsection {Change Detection} \label{subsec:change_detection}
+\subsubsection {Change Detection} \label{subsec:change_detection}
 
 A relevant indicator for the validity of the generated forecasts is the forecast error, that is calculated via the difference between the real measurements and the predicted value. Furthermore, by assuming a distribution for 
 the forecast error, and a certain significance level, it is possible to validate the generated forecasts, and detect values that do not fit the model, accusing a possible variation in the parameters of the model. As such,
@@ -216,7 +216,7 @@ the parametric case, the CUSUM algorithm for detection of a change at $t_0$ from
 
 %Alarms are generated when a certain threshold is crossed 
 
-\subsection {Performance Evaluation} \label{subsec:performance_evaluation}
+\subsubsection {Performance Evaluation} \label{subsec:performance_evaluation}
 
 The effectiveness of a statistical approach for change detection can be seen as the relationship between false and real alarms, since the trade-off with online detection is the number of falsely raised alarms, and the number of accurately reported changes.
 As mentioned in section \ref{subsec:change_detection} the possible wrong decisions are the type I and II errors, which are usually represented with error, or confusion matrices, seen in table \ref{tab:confusion_matrix}, 
@@ -262,6 +262,6 @@ The performance of the change detection algorithms can also be defined by:
 alarm is raised, assuming that the process is in control; and the ARL\textsubscript{1}, indicating the expected number of samples until an alarm is raised, under the condition that the process is out of control. For optimal results
 for change detection, we require that ARL\textsubscript{0} is as large as possible, and ARL\textsubscript{1} be as small as possible.
 
-\section{Existing methods}
+\subsection{Existing methods}
 
 

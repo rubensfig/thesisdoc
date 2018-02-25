@@ -1,9 +1,7 @@
-\chapter{Network Management} \label{chap:nm} %% chapter 3
+\section{Network Management} \label{chap:nm} %% chapter 3
 
 \par This chapter focuses on the management of networks, where we explore what is most necessary to obtain a comprehensive understanding of the network; formalize the statistics that can be reported via OpenFlow; see some 
 research that has been done in the management of SDN applications, including what existing controllers provide us; and finally explore the way that DDoS detection and mitigation is usually implemented.
-
-\section {Introduction}
 
 \par As networks grow larger and more complex, systems must be put in place that allow for closely monitoring the resources that make up the network, while also allowing for a certain freedom for the possible constant change of the 
 network. As such, typical vendor solutions don't really fit into this ever changing landscape, since they present very solid and vertically integrated solutions. The SDN paradigm, however, is able to solve this issue, since it 
@@ -13,7 +11,7 @@ to the centralization of the controller, which makes it susceptible to Denial-of
 \par The topic of network management is very extensive, due to the several components that make up today's networks, and the vast amount of information that they provide. It can be summed up as the operation and maintenance 
 of network infrastructure so that the service it provides is not only "healthy", but also is operated at a level that keeps costs down for service providers. 
 
-\section {Requirements for management systems}
+\subsection {Requirements for management systems}
 
 \par As the complexity of the networks, and network devices that compose them grow bigger and bigger, the management systems should accommodate for the their necessities. As such, the basic groups of requirements for management 
 functions are that defined in the ITU-T X 700 Recommendation \cite {CITE - ITU T Recomendation} are:
@@ -34,7 +32,7 @@ status, which includes information ranging from CPU load to bandwith usage. Typi
 status changes. Using this information, the network operator can get insight on the performance or possible errors of the devices that are monitored. In the next section, we explore one of the most popular management protocols,
 SNMP.
 
-\section {SNMP}
+\subsection {SNMP}
 
 The Simple Network Management Protocol is an IETF defined protocol that allows for the interconnection of networking devices, and provide a structured way to retrieve relevant information about these devices. As the name suggests,
 SNMP allows for a simplified approach to network monitoring, since it reduces the complexity of the functions that the management agent needs to comply with, which bring several advantages, like reducing
@@ -62,7 +60,7 @@ the MIB allows for vendors to introduce their own databases into the MIB, while 
 \par Due to its permanence in the market, the protocol has suffered some large changes since its original design. SNMPv3 now supports important changes to the original one, most notably in the security aspects, introducing strong
 authentication and encryption capabilities.
 
-\section {Data Center Networks (DCN)}
+\subsection {Data Center Networks (DCN)}
 
 \par The rising demand of services like music and video streaming, or mass data storage, brings an increase of demand of compute and storage infrastructures, and the shift to the cloud computing model has led to a
 proliferation of large data-centers, containing thousands of physical nodes. Related to this growth is the focus on moving not only servers to a virtualised environment, by having one physical host several virtual machines and
@@ -82,7 +80,7 @@ to the correct destination, even if a link to a switch fails.
     \label{fig:fattree}
 \end{figure}
 
-\subsection {DCN Traffic}
+\subsubsection {DCN Traffic}
 
 \par So that solutions for network management in data-centers can be developed, first there needs to an understanding of the traffic characteristics and resource allocation, and utilize this information to shape the DC fabric.
 The several studies proposed in traffic engineering for traditional networks do need to be revised in DCN's, since metrics like propagation delay, can be negligible, due to the physical proximity of nodes in DC's 
@@ -102,7 +100,7 @@ the impossibility of separating the different classes of data centers, since dep
         of the link, which is one of the effects of the previously mentioned elephant flows.
 \end {itemize}
 
-\subsection {DCN and SDN}
+\subsubsection {DCN and SDN}
 
 \par The centralized view that SDN controllers maintain over the networks allows for it to keep the information about the flows currently present in the network. As such, in the SDN paradigm, there is possibility to flexibly control 
 the path that the packets take in the network, and improve performance of the network at a large scale. By joining the information available on DCN and SDN, the requirements for traffic engineering (TE) in SDN, from
@@ -151,9 +149,9 @@ getting the data: by continuously sampling packets from the switches; or applyin
 in the collection of the statistics in poses a problem for large scale deployments, where continuously polling the network devices introduces both overhead and very large amounts of data to be parsed, or the data is not enough
 to detect failures in a short amount of time.
 
-\section {Statistics}
+\subsection {Statistics}
 
-\subsection {OpenFlow}
+\subsubsection {OpenFlow}
 
 After exploring the requirements for network management, and the way the SDN model can support developing better systems, we now focus on the possibilites for obtaining this information from the networking devices. The OpenFlow 
 protocol maintains a set of counters for each flow entry, port and group statistics, and this information can be queried to obtain a general view on the status of each OF switch. By sending specific controller-to-switch messages,
@@ -166,7 +164,7 @@ the number of packets/bytes in the flow, and the match fields. Also worth noting
 \par The information provided from these messages allows for a comprehensive view of the state of each switch, and a network management system (NMS) should utilize this information to achieve an understanding of the 
 state of the network. 
 
-\subsection {sFlow}
+\subsubsection {sFlow}
 
 One problem arises, however, when periodic requests generate too much information, and the control channel is overflowed with messages of port statistics, which is a possible scenario when the
 flow tables start getting too large. As such, a different alternative is to sample a small amount of packets from the switch, send the packet headers to the controller. One approach to this method is \textit{sFlow}, 

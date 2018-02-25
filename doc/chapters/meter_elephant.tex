@@ -173,7 +173,7 @@ and a second, using the CUSUM algorithm.
 \end{equation*}
 
 \par and this method provides advantages mainly due to the simplicity of the technique, however previous knowledge of the change is required to determine a possible threshold $\delta$. After cross examining the plots for the decrease of bandwidth, 
-\ref{fig:bandwidth_loss} and the error predictions plots, we assume $\delta = 3$ for the threshold value. The detection result can be seen in figure \ref{fig:detect_dumb}.
+\ref{fig:bandwidth_loss} and the error predictions plots, we assume $\delta = 3$ for the threshold value. The change detection algorithm applied to port 21 can be seen in figure \ref{fig:detect_dumb}.
 
 \begin{figure}[H]
     \centering
@@ -195,11 +195,18 @@ optimal offline version. Figure  \ref{fig:offline_cusum} shows the output of the
     \label{fig:offline_cusum}
 \end{figure} 
 
-\par The adaptation of the CUSUM algorithm for utlization as an online technique is based on the utilization of a sliding window that is updated with every new sample. Applying this method has the advantages of using the CUSUM algorithm without needing
-extensive changes, while also reducing the amount of memory needed to apply this method. 
+\par The adaptation of the CUSUM algorithm for utilization as an online technique is based on a sliding window that is updated with every new sample. Applying this method has the advantages of using the CUSUM algorithm without needing
+extensive changes, while also reducing the amount of memory needed to apply this method. Choosing the window size is a central point to a successful implementation of the change detection mechanism, that is explored further in section
+\ref{sec:change_results}. Figure \ref{fig:online_cusum} displays the output of the online CUSUM algorithm in the same testing conditions as the ones present on the previous results. The points present in this figure are the time when
+the alarms are raised in relation to the time when the tests began.
 
-% Sliding window 
-% 
+\begin{figure} [H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{meter_eleph/online_cusum_output}
+    \caption {Online CUSUM output}
+    \label{fig:online_cusum}
+\end{figure} 
 
-\section {Results}
+\section {Results} \label{sec:change_results}
 
+% Window size graphs, comparaison to the real 

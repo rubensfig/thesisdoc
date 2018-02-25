@@ -1,4 +1,4 @@
-\chapter {BISDN} \label{chap:bisdn} %% chapter 3
+\section {BISDN} \label{chap:bisdn} %% chapter 3
 
 \begin{figure} [!htbp]
     \centering
@@ -16,9 +16,9 @@ by adding another controller, CAWR, and having this manage all the southbound sw
 \par In this chapter we focus on this product, on the first two sections some characteristics of the developed product are described, then we focus on the development of a management API, presenting the required technologies that 
 were implemented, and then finally display the results that were obtained in this part of the thesis.
 
-\section {Existing product}
+\subsection {Existing product}
 
-\subsection {baseboxd}
+\subsubsection {baseboxd}
 
 \begin{figure} [!htbp]
     \centering
@@ -35,7 +35,7 @@ Since baseboxd responds directly to the relevant netlink messages, it is one of 
 
 % XXX - insert picture of the observed ports from bbctrl01.labor
 
-\subsection {CAWR}
+\subsubsection {CAWR}
 
 CAWR – which stands for Capability AWare Routing – is a secondary OpenFlow controller that creates a giant switch abstraction from a set of whitebox switches. This giant switch integrates smoothly with baseboxd and allows for easy scaling and management of mulitple
 networking devices. As a secondary controller, it is placed in between baseboxd and the physical switches, and both its northbound and southbound interfaces are OpenFlow and following the OF-DPA standard.
