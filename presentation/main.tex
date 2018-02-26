@@ -18,6 +18,8 @@
 \usepackage[utf8x]{inputenc}
 \usepackage{xcolor}
 \usepackage{listings}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 \lstset
 {
     language=[LaTeX]TeX,
@@ -30,7 +32,7 @@
 }
 
 \title[Management Interface]{API design and implementation of a management interface for SDN whitebox switches }
-\author{Rubens Figueiredo}
+\author{Rubens Jesus Alves Figueiredo}
 \institute{FEUP}
 \date{\today}
 
@@ -123,9 +125,183 @@
         \centering
         \includegraphics[width=.7\textwidth]{bisdn/cawr}
     \end{figure}
-
 \end{frame}
+
 \section{Problem}
-\section{Elphant Flow Monitoring}
+
+\begin{frame}{Goals}
+    \begin{itemize}
+        \item Definition and implementation of a management stack for both controllers, to monitor port statistics and visualize topology changes
+            \pause 
+        \item Research and develop a solution for monitoring \textbf{elephant flows}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Elephant Flows}
+    \begin{itemize}
+        \item In typical Data Center Networks, their traffic characteristics show that \cite{CITE - http://pages.cs.wisc.edu/~tbenson/papers/imc192.pdf}:
+            \pause
+        \item For cloud data centers, the majority of traffic is internal to each rack
+            \pause
+        \item Link utilizations are low in aggregation and edge layers
+            \pause
+        \item Despite 90\% flows are small and last hundreds of milliseconds, total traffic volume is largely dominated by the remainder, called 
+            \textbf{elephant flows} \cite{Identifying_elephant_flows_through_periodically_sa}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Proposed Architecture}
+        \begin{figure}
+            \includegraphics[width=.7\textwidth]{proposed_work/proposed_system}
+        \end{figure}
+\end{frame}
+
+\begin{frame}{Testing Environment}
+    \begin{itemize}
+        \item Due to the differences between the OF-DPA compliant hardware switches and the standard OpenFlow implementation used in the virtualised 
+            network Mininet, testing the elephant flow detection mechanism proved impossible with Basebox, which led us to choosing a different controller
+            \pause 
+        \item The controller chosen was Floodlight, due to simplicity of installation and REST interface
+        \item For development of the Graphical User Interface, the standard Basebox topology was used
+    \end{itemize}
+    \begin{figure}
+        \includegraphics[width=.7\textwidth]{}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Testing Environment}
+    \begin{figure}
+        \includegraphics[width=.7\textwidth]{meter_eleph/testing_setup}
+    \end{figure}
+\end{frame}
+
+\section{Elephant Flow Monitoring}
+
+\begin{frame}{Impact}
+    \begin{figure}
+        \includegraphics[width=1\textwidth]{meter_eleph/bandwidth_loss_per_data_size}
+        \caption{The impact on the bandwidth of a link as the packet data sizes increase}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Proposed Algorithm}
+    \begin{algorithm}[H]
+        \caption{Elephant Detection Algorithm - High Level} \label{alg:high_level}
+        \begin{algorithmic}[1]
+            \Procedure {Elephant Flow Detection}{}
+                \State Initialization
+                \Loop
+                    \State Query controller
+                    \State Error calculation
+                    \State Prediction
+                    \State Detection
+                    \If {Detection}
+                        \State Raise Alarm
+                    \EndIf
+                    \State wait 2 seconds
+                \EndLoop
+                \State \Return Alarm Times
+            \EndProcedure 
+           \end{algorithmic}
+    \end{algorithm}
+\end{frame}
+
+\begin{frame}{Initialization}
+    \begin{figure}
+        \includegraphics[width=.5\textwidth]{meter_eleph/init_period_lin}
+        \caption{Initialization period plotted}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Error calculation}
+    \begin{figure}
+        \includegraphics[width=1\textwidth]{meter_eleph/error_plot_sse}
+        \caption{The prediction error obtained during the run time of the algorithm}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Detection}
+    \begin{figure}
+        \includegraphics[width=1\textwidth]{meter_eleph/detect_dumb}
+        \caption{First detection results}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Detection}
+    \begin{itemize}
+        \item Previous detection results are not ideal, purely comparing the output
+            of a value to a pre selected threshold, and raising several alarms
+            even no change has been detected
+            \pause
+        \item The CUSUM algorithm is commonly used for change detection mechanisms employed
+            in economics, health care, industrial engineering, ...
+        \item Allows for keeping track of a parameter of an output of a process, and 
+            compare it to pre selected thresholds, guaranteeing that the process is "in control"
+    \end{itemize}
+    \pause
+    \begin{figure}
+        \includegraphics[width=1\textwidth]{meter_eleph/offline_cusum_output}
+        \caption{Offline CUSUM output}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Detection}
+    \begin{itemize}
+        \item Adaptation of the CUSUM algorithm to an online context is based on a sliding window
+            method 
+    \end{itemize}
+    \pause
+    \begin{figure}
+        \includegraphics[width=.7\textwidth]{meter_eleph/online_cusum_output}
+        \caption{Online CUSUM output}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Evaluation of detection algorithm}
+    \begin{figure}
+        \includegraphics[width=.9\textwidth]{meter_eleph/evaluation_error}
+        \caption{Number of alarms, optimized and non optimized}
+    \end{figure}
+\end{frame}
+
 \section{Management API}
+
+\begin{frame}{Design}
+    \begin{itemize}
+        \item By modifying the controllers to expose already available information like port statistics
+            and link status, we created a simple GUI for simple visualization of this information
+            \pause
+        \item Based on a Remote Process Call framework, gRPC, we leverage this protocol's serialization model
+            and RPC definition to create the endpoints between the GUI client and the controllers
+            \pause
+        \item We model the data according to standardized Yang data models, as defined by OpenConfig and IETF
+            \pause
+        \item The GUI client is a web page based on the Django Framework
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Results}
+    \begin{figure}[!tbph]
+      \centering
+      \includegraphics[width=0.8\textwidth]{bisdn/cawr_gui}
+      \caption {CAWR topology, with the underlying switch topology}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Results}
+    \begin{figure}[!tbph]
+      \centering
+      \includegraphics[width=0.7\textwidth]{bisdn/basebox_gui}
+      \caption {baseboxd's statistics, with the statistics of a single port}
+    \end{figure}
+\end{frame}
+\section{Conclusion}
+
+\begin{frame}{}
+    TBD
+\end{frame}
+
 \end{document}
+
+%\begin{frame}{}
+%\end{frame}
