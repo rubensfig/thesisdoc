@@ -88,7 +88,6 @@ we introduce each step, and provide some clarifications on the design decisions.
                 \EndIf
                 \State wait 2 seconds
             \EndLoop
-            \State \Return Alarm Times
         \EndProcedure 
        \end{algorithmic}
 \end{algorithm}
@@ -125,16 +124,8 @@ baseline for the expected traffic on the network. Due to these factors, it is as
 
 \subsection{Prediction and error calculation}
 
-Using the methods presented in \ref{subsec:change_detection}, we are able to predict the values that are expected in the following sample, and determine the error of the prediction. In this step, the most important consideration is the adjustment of
-the $\alpha$ parameter, to determine the impact of the variation of this parameter. Figure \ref{fig:error_plot_alpha_var} displays the variation caused to the prediction error $\epsilon$ for two values of $\alpha$, and demonstrates the impact that a
-small ($\alpha = 0.2$) smoothing factor has on the prediction error. Due to this result, we assume higher ($\alpha \rightarrow 1$) values for the smoothing factor for posterior results.
-
-\begin{figure} [H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{meter_eleph/error_plot_alpha_var}
-    \caption {Measured prediction error and effect of $\alpha$}
-    \label{fig:error_plot_alpha_var}
-\end{figure}
+Using the methods presented in \ref{sec:change_detection}, we are able to predict the values that are expected in the following sample, and determine the error of the prediction. In this step, the most important consideration is the adjustment of
+the $\alpha$ parameter, to determine the impact of the variation of this parameter.
 
 \par Calculating the error was initially determined as
 
@@ -145,17 +136,14 @@ small ($\alpha = 0.2$) smoothing factor has on the prediction error. Due to this
 \end{equation}
 
 \par which provided the result present in figure \ref{fig:error_plot_division_sse}, and while it clearly indicates the deviations created by the elephant flows, it does not provide insight to the level of change caused by higher data sizes in the flows.
-A different approach was devised, and to obtain the values for the error calculation we consider the SSE (\ref{eq:sse}), to increase the impact of larger changes to the flow data size, and minimize smaller changes.
+
+Due to this result, we assume higher ($\alpha \rightarrow 1$) values for the smoothing factor for posterior results. different approach was devised,
+and to obtain the values for the error calculation we consider the SSE (\ref{eq:sse}), to increase the impact of larger changes to the flow data size,
+and minimize smaller changes.
 
 \begin{figure} [H]
     \centering
-    \begin{subfigure}
-        \includegraphics[width=0.7\textwidth]{meter_eleph/error_plot_division}
-    \end{subfigure}
-    \begin{subfigure}
-        \includegraphics[width=0.7\textwidth]{meter_eleph/error_plot_sse}
-    \end{subfigure}
-    \label{fig:error_plot_division_sse}
+    \includegraphics[width=0.7\textwidth]{meter_eleph/error_plot_sse}
     \caption{Different error calculation methods, on the top using SSE, and on the bottom using equation 8.1}
 \end{figure}
 
@@ -207,6 +195,6 @@ the alarms are raised in relation to the time when the tests began.
     \label{fig:online_cusum}
 \end{figure} 
 
-\section {Results} \label{sec:change_results}
+\section {Results and Evaluation} \label{sec:change_result}
 
-% Window size graphs, comparaison to the real 
+Analysing the output of the algorithm provides the information that 
