@@ -20,6 +20,10 @@
 \usepackage{listings}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\usepackage[citestyle=numeric]{biblatex}
+
+\addbibresource{thesis_references.bib}
+
 \lstset
 {
     language=[LaTeX]TeX,
@@ -109,8 +113,8 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Basebox}
-\end{frame}
+%\begin{frame}{Basebox}
+%\end{frame}
 
 \begin{frame}{Basebox}
     \begin{figure}[!tbph]
@@ -139,14 +143,14 @@
 
 \begin{frame}{Elephant Flows}
     \begin{itemize}
-        \item In typical Data Center Networks, their traffic characteristics show that \cite{CITE - http://pages.cs.wisc.edu/~tbenson/papers/imc192.pdf}:
+        \item In typical Data Center Networks, their traffic characteristics show that \cite{mori_identifying_2004}:
             \pause
         \item For cloud data centers, the majority of traffic is internal to each rack
             \pause
         \item Link utilizations are low in aggregation and edge layers
             \pause
         \item Despite 90\% flows are small and last hundreds of milliseconds, total traffic volume is largely dominated by the remainder, called 
-            \textbf{elephant flows} \cite{Identifying_elephant_flows_through_periodically_sa}
+            \textbf{elephant flows} \cite{benson_network_2010}
     \end{itemize}
 \end{frame}
 
@@ -301,7 +305,7 @@
     TBD
 \end{frame}
 
-\end{document}
-
+\printbibliography
+\end{document} 
 %\begin{frame}{}
 %\end{frame}

@@ -1,8 +1,30 @@
 \section {Traffic engineering in data centers}
 
-Understanding the impact that of elephant flows in the normal operation of data centers require understanding the traffic characteristics of typical cloud data center. Designing a cloud data center is a considered a 
-challenging task, since the observed workloads may differ based on services that are deployed. Furthermore, DCNs requirements is information that is not usually public, which poses a greater challenge for researchers.
+Understanding the impact that of elephant flows in the normal operation of a data center requires understanding the traffic characteristics of the typical cloud 
+data center. The geographical proximity and localization of large data centers optimizes the interoperability that applications may require by minimizing 
+propagation delay that could be present if the links between servers was larger, however cloud data centers used for costumer faced applications and those employed
+in data intensive tasks may present different requirements, which poses a problem in optimizing the network. Furthermore, absence of publicly available data
+contributes to the challenge of researching data centers \cite{CITE - network_traffic_characteristics_wild.pdf}.
 
-\subsection {Cloud data center topology} 
-\subsection {DCN Optimizations} 
-\subsection {Effects of anomalous traffic} 
+\par Typical cloud data centers operate at a ratio of 1:1000 staff members to servers \cite{CITE - cloud_dc_research_problems}, which points to an essential need for 
+extensible automation and failure recovery plans for optimal operation. Automation is central for cost reduction strategies in data centers, reducing the 
+impact of failures caused by human errors.
+
+\par Cost management is also achieved by improving power consumption, which correlates with improved methods for balancing load on the servers 
+\cite{CITE - performance_optimization_virtual_machine_placement}. Load balancing is the concept of moving the load of an overloaded server to an underutilized one,
+which reduces performance degradation, and increase recovery from failures \cite{CITE - server_storage_virtualization}. In a virtualised environment the possibility
+of moving Virtual Machines (VMs) across servers and racks facilitates distributing the load without downtime, but the migration decision is not trivial due to the
+large amount of variables involved, for example, the bandwidth, memory and CPU that is available on each server supporting the migrated VM. Furthermore, if an
+applications workload changes over time, one decision may not apply for further migration \cite{CITE - multi_objective_vm_cloud_dc}. Netshare
+\cite{CITE - netshare_predictable_bw_allocation.pdf} proposes a system that optimizes bandwidth allocation by imposing max-min sharing on services, using a 
+centralized controller for orchestration. 
+
+\par In regards to network traffic \cite{mori_identifying_2004, benson_network_2010},
+
+\begin{itemize}
+    \item for cloud data centers, the majority of traffic is internal to each rack,
+    \item link utilizations are low in aggregation and edge layers,
+    \item 90\% flows are small and last hundreds of milliseconds, but total traffic volume is largely dominated by the remainder, called \textbf{elephant flows}.
+\end{itemize}
+
+\par 
