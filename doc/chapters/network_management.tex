@@ -80,26 +80,6 @@ to the correct destination, even if a link to a switch fails.
     \label{fig:fattree}
 \end{figure}
 
-\subsubsection {DCN Traffic}
-
-\par So that solutions for network management in data-centers can be developed, first there needs to an understanding of the traffic characteristics and resource allocation, and utilize this information to shape the DC fabric.
-The several studies proposed in traffic engineering for traditional networks do need to be revised in DCN's, since metrics like propagation delay, can be negligible, due to the physical proximity of nodes in DC's 
-\cite{CITE - data_center_virt_survey}. However, studies on DCN's have proven difficult, since many data-center operators do not wish to publish information about their applications and services. Also contributing to this fact is
-the impossibility of separating the different classes of data centers, since deployments across campus, private and cloud data-centers serve different purposes and have different applications.
-\par By collecting data from different types of DC's, several studies have been made about the traffic characteristics \cite{ CITE - dc_networks_chars, CITE - dc_traffic_chars, CITE - fb_datacenter}:
-
-\begin {itemize}
-    \item The placement of VMs and servers effects the bandwidth and link capacity, due to the variety of applications that can be running on the servers at any time, and this non-uniform placement of VMs contributes to higher
-        amounts of traffic originating from the same rack
-    \item The majority of flows \footnote {flows are sequences of packets sent from a source to a certain destination (host, anycast or multicast domain)} are described as being small in size, and short in duration,
-        which are usually described as \textit {mice} flows. 
-        The counterpart to these are the \textit {elephant} flows, which occupy a very large share of the bandwidth, and degrade application performance, due to choking effect to the latency-sensitive mice flows. 
-        Applications are tied to the type of traffic they generate, where online gaming, VoIP and multimedia broadcasting usually originate mice flows, where the large data transfers and file-sharing originate in elephant flows. 
-        However, these flows which account for 80\% of total traffic only occur less than 10\% of total flows \cite {CITE - Broadcom Engineered Elephant flow for boosting ... }.
-    \item In a normal situation, link utilization is low in the layers apart from the core switches. In addition to this discovery, losses are associated with spikes in traffic, instead being related to high utilization 
-        of the link, which is one of the effects of the previously mentioned elephant flows.
-\end {itemize}
-
 \subsubsection {DCN and SDN}
 
 \par The centralized view that SDN controllers maintain over the networks allows for it to keep the information about the flows currently present in the network. As such, in the SDN paradigm, there is possibility to flexibly control 

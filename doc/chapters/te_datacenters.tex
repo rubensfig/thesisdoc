@@ -1,6 +1,6 @@
 \section {Traffic engineering in data centers}
 
-Understanding the impact that of elephant flows in the normal operation of a data center requires understanding the traffic characteristics of the typical cloud 
+Understanding the impact of elephant flows in the normal operation of a data center requires understanding the traffic characteristics of the typical cloud 
 data center. The geographical proximity and localization of large data centers optimizes the interoperability that applications may require by minimizing 
 propagation delay that could be present if the links between servers was larger, however cloud data centers used for costumer faced applications and those employed
 in data intensive tasks may present different requirements, which poses a problem in optimizing the network. Furthermore, absence of publicly available data
@@ -11,20 +11,54 @@ extensible automation and failure recovery plans for optimal operation. Automati
 impact of failures caused by human errors.
 
 \par Cost management is also achieved by improving power consumption, which correlates with improved methods for balancing load on the servers 
-\cite{CITE - performance_optimization_virtual_machine_placement}. Load balancing is the concept of moving the load of an overloaded server to an underutilized one,
+\cite{CITE - performance_optimization_virtual_machine_placement}. \textbf{Load balancing} is the concept of moving the load of an overloaded server to an underutilized one,
 which reduces performance degradation, and increase recovery from failures \cite{CITE - server_storage_virtualization}. In a virtualised environment the possibility
 of moving Virtual Machines (VMs) across servers and racks facilitates distributing the load without downtime, but the migration decision is not trivial due to the
 large amount of variables involved, for example, the bandwidth, memory and CPU that is available on each server supporting the migrated VM. Furthermore, if an
-applications workload changes over time, one decision may not apply for further migration \cite{CITE - multi_objective_vm_cloud_dc}. Netshare
-\cite{CITE - netshare_predictable_bw_allocation.pdf} proposes a system that optimizes bandwidth allocation by imposing max-min sharing on services, using a 
-centralized controller for orchestration. 
+application's workload change over time, one decision may not apply for further migrations \cite{CITE - multi_objective_vm_cloud_dc}. Netshare
+\cite{CITE - netshare_predictable_bw_allocation.pdf} proposes a system that optimizes bandwidth allocation by imposing max-min fair sharing on services, using a 
+centralized controller for orchestration. In \cite{CITE - application_aware_vm_migration}, a minimization approach is applied to the migration problem, by generating
+a cost function considering the variables associated to VM placement, computing the impact of moving a certain VM to a physical host, and the migration destination
+is selected with the least amount of generated impact.
 
-\par In regards to network traffic \cite{mori_identifying_2004, benson_network_2010},
+\par \textbf{Caching} is act of duplicating content across a network, in order to optimize access to frequently accessed content, minimizing network congestion
+at peak access hours \cite{caching_limits}. For Software Defined Networking, the centralized controller provides an optimal environment to implement caching 
+in data centers due to high level knowledge of the tenants in the network. Moirai \cite{CITE - sdn_caching_moira} presents a programmable data-plane caching 
+system, that allows to prioritize workloads, providing per-workload bandwidth guarantees. In \cite{CITE - cache_aas_sdn_vod}, the last mile delivery of Video-On-
+Demand problem is solved with the inclusion of OpenFlow to create dynamic caches using hardware independent statistics, and provide support for additional policies
+like load balancing. These systems show an evolution from historical caching mechanisms, that do not tend to support operations necessary in data center network 
+operations, with higher bandwidth and storage requirements \cite{CITE - sdn_caching_moira}.
 
-\begin{itemize}
-    \item for cloud data centers, the majority of traffic is internal to each rack,
-    \item link utilizations are low in aggregation and edge layers,
-    \item 90\% flows are small and last hundreds of milliseconds, but total traffic volume is largely dominated by the remainder, called \textbf{elephant flows}.
-\end{itemize}
+\subsection {DCN Traffic}
 
-\par 
+\par The several studies proposed in traffic engineering for traditional networks do need to be revised in DCN's, since metrics like propagation delay can be
+negligible, due to the physical proximity of nodes in DC's \cite{CITE - data_center_virt_survey}. However, research in this topic can be a difficult task,
+since many data center operators do not publish information about their applications and services.
+
+\par By collecting data from different types of DC's, several studies have been made about the traffic characteristics 
+\cite{ CITE - dc_networks_chars, CITE - dc_traffic_chars, CITE - fb_datacenter}:
+
+\begin {itemize}
+    \item The placement of VMs and servers effects the bandwidth and link capacity, due to the variety of applications that can be running on the servers at any time,
+        and this non-uniform placement of VMs contributes to higher amounts of traffic originating from the same rack
+    \item The majority of flows \footnote {flows are sequences of packets sent from a source to a certain destination, either host, anycast or multicast domain} 
+        are described as being small in size, and short in duration, which are usually described as \textit {mice} flows. 
+        The counterpart to these are the \textit {elephant} flows, which occupy a very large share of the bandwidth, and degrade application performance, due to a
+        choking effect to the latency-sensitive mice flows. 
+        Applications are tied to the type of traffic they generate, where online gaming, VoIP and multimedia broadcasting usually originate mice flows, where the 
+        large data transfers and file-sharing originate in elephant flows. Despite 90\% flows are small and last hundreds of milliseconds, total traffic volume is 
+        largely dominated by the remainder, called \textbf{elephant flows} \cite{benson_network_2010}
+    \item In a normal situation, link utilization is low in the layers apart from the core switches. In addition to this discovery, losses are associated with 
+        spikes in traffic, instead being related to high utilization  of the link, which is one of the effects of the previously mentioned elephant flows.
+\end {itemize}
+
+\par Software Defined Networking based monitoring allows to increase the capability of conducting traffic monitoring and measurements. OpenTM 
+\cite{opentm_traffic_estimator} utilizes the monitoring information to build the Traffic Matrix (TM) of an OpenFlow network by employing different methods of 
+querying the switches, allowing to reduce the load associated with these queries and taking into account the different processing power of each device. Another 
+method for estimating the link utilization is present in FlowSense \cite{flowsense_network_utilization}, in which PACKET\_IN and FLOW\_REMOVED OpenFlow messages 
+are monitored since these messages carry information of arrival of new flows and expiration of flow entries, providing a zero-overhead monitoring technique. This 
+method has optimal performance when the flows in the network are short lived, posing worse performance as the flow time increases.
+
+\subsection {Elephant Flow Detection}
+
+Detecting elephant flows is an 

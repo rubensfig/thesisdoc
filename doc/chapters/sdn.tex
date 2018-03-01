@@ -150,8 +150,9 @@ switching, forwarding and potentially load balancing. The logically centralized 
 \par Despite the advantages that the controllers centralization provides, this also introduces a Single Point of Failure (SPOF) \cite{ CITE - https://arxiv.org/pdf/1308.6138.pdf}, exposing a weakness to Denial-of-Service (DoS) attacks and 
 controller failure. The potential catastrophic scenario related to controller downtime due to these failures means that an approach must be planned for disaster failure and recovery. High Availability setups are used to mitigate the potential
 failure of the controllers, by having multiple backups running. In order to ensure that the same network state in every controller, every switch must be connected to every controller, but as specified in section \ref{sec:fault_tolerance}, only the Master 
-controller writes the messages to the networking devices, which ensures that duplicate rules are not enforced. In case of controller failure, one of the backup controllers can take over the role of the previous master, without any outages on
-the network.
+controller writes the messages to the networking devices, which ensures that duplicate rules are not enforced. In case of controller failure, one of the backup controllers can take over the role of the previous master, without any outages on the network.
+
+% XXX - CONTROLLER RESEARCH
 
 \subsubsection{Existing Platforms}
 
