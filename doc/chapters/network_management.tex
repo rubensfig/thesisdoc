@@ -144,7 +144,7 @@ the number of packets/bytes in the flow, and the match fields. Also worth noting
 \par The information provided from these messages allows for a comprehensive view of the state of each switch, and a network management system (NMS) should utilize this information to achieve an understanding of the 
 state of the network. 
 
-\subsubsection {sFlow}
+\subsubsection {sFlow} \label{sec:sflow}
 
 One problem arises, however, when periodic requests generate too much information, and the control channel is overflowed with messages of port statistics, which is a possible scenario when the
 flow tables start getting too large. As such, a different alternative is to sample a small amount of packets from the switch, send the packet headers to the controller. One approach to this method is \textit{sFlow}, 

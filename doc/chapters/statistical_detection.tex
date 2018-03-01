@@ -9,25 +9,6 @@ system administrators can quickly respond to changes, possibly even giving some 
 of false alarms reduces the operators capabilities to act on actual failures. 
 \par This chapter focuses on the recent research done in order to implement systems that rely on statistical analysis for monitoring the state of the networks and detection of abnormalities.
 
-\subsection {Elephant flow detection}
-
-Detection of network anomalies is subject to intense research, and as such, several methods were developed, that assume different levels of control over the network and provide different results to different applications. Our goal
-in this section is then to provide a description of the different types of network issues that can occur, and some proposed solutions for these issues.
-\par The problem of detection of traffic anomalies has been subject to extensive research, and several different approaches have been proposed. These methods are based on different techniques 
-\cite {http://shiftleft.com/mirrors/www.hpl.hp.com/personal/Praveen_Yalagandula/papers/INFOCOM11.pdf}:
-
-\begin {itemize}
-    \item Modifications to the applications and services to notify the controller about the state of the traffic on each service. Despite this approach resulting in the most accurate "detection" of network anomalies, the support 
-for this technique is not extensive, due to the required changes to each service, and it does not account for abrupt changes on the traffic
-    \item By setting hard limits on the transmission capabilities of each port and switch, the controller is ensured of the non existence of flows that could impact network performance. This is a mitigation strategy that
-does not scale well to very large networks, since it requires the storage of the rules imposed to every port, and can potentially lead to the inefficient use of network resources, reducing flexibly on the DCN's.
-    \item By employing sampling and collection techniques, using mechanisms like sFlow \ref{subsec:sflow}, and building the profiles of the normal state of the network, this method can detect outliers that deviate from the
-normal state of the network. Utilizing this method reduces impact that continuously polling the network might have, while reducing impact on the packet and byte counts 
-\cite {https://www.cert.org/flocon/2006/presentations/packet_sample_anomoly2006.pdf}, but the loss of information inherent to sampling may be a challenge on successful deployment, which should account for optimal sampling 
-strategies and inference from the obtained statistics.
-    \item Periodic polling of the statistics from the switch, and employing statistical analysis methods to determine change points in the state of the network.
-\end {itemize}
-
 \subsection {Time series analysis}
 
 Understanding processes and their results is a key factor in the success of implementing new features, or analysing existing ones for their efficiency and output. This analysis, important for the different fields in engineering,
@@ -199,8 +180,6 @@ the parametric case, the CUSUM algorithm for detection of a change at $t_0$ from
     S_t = \sum_{i=1}^k s_i = \sum_{i=1}^k\ln \frac {P_{\theta_1}(x_i)} {P_{\theta_0}(x_i)}.
 \end{equation*}
 
-\pagebreak
-
 \par The previous equation is related to the negative drift of $S_t$ under normal conditions, and the positive drift after a change is detected. The alarm is raised when a test statistic $g_t$ is larger than a threshold $h$, and can be obtained by 
 
 \begin{equation*}
@@ -245,8 +224,6 @@ system to detect the change, and Precision (P) indicates the ability of the algo
     &P    =  \frac {T_P} {T_P + F_P}
 \end{split}
 \end{equation*}
-
-\pagebreak
 
 The performance of the change detection algorithms can also be defined by:
 
