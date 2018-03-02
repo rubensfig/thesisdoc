@@ -59,12 +59,43 @@ method for estimating the link utilization is present in FlowSense \cite{flowsen
 are monitored since these messages carry information of arrival of new flows and expiration of flow entries, providing a zero-overhead monitoring technique. This 
 method has optimal performance when the flows in the network are short lived, posing worse performance as the flow time increases.
 
-\subsection {Elephant flow detection}
+\subsection {Elephant flows}
 
 Detection of network anomalies is subject to intense research, and as such, several methods were developed, that assume different levels of control over the network 
-and provide different results to different use cases.
+and provide different results to different use cases. In this section we focus on the available techniques for detection and mitigation of large flows.
 
-\par The problem of detection of traffic anomalies has been subject to extensive research, and several different approaches have been proposed. These methods are
+\subsubsection{General formulation of elephant flows}
+
+Networks can be defined as an undirected graph $G(V, E)$, which contains a certain multicast group $M \subseteq V$, and a multicast tree $T \subseteq E$ 
+\cite{CITE - optimal_partiotion_many_many_connections}. Considering the nodes $u, v \in M$, and the unique paths $p_{u \to v}$, an approach to define elephant flows
+is to consider the optimal Quality-of-Service (QoS) partition of the unicast path $p$, or the multicast tree $T$ such as in 
+\cite{CITE - optimal_partiotion_many_many_connections, Optimal_partition_of_QoS_requirements_on_unicast_p}. 
+
+\par Considering the set of flows $F$ on the path $p$,
+
+\begin{equation*}
+    \centering
+    F = <F_1, F_2, ..., F_n>,
+\end{equation*}
+
+\par and an arbitrary Quality of Service function $q()$, then $x_p = q(F)$ is the vector of QoS requirements 
+for path $p$. In \cite{mathematical_framework_elph_flow_detec}, the optimal partition is the configuration that improves the QoS in $p$, or, in a formal
+definition:
+
+\begin{equation*}
+    \centering
+    q(F'_1, F'_2, ... F'_n) \geq q(F_1, F_2, ..., F_n),
+\end{equation*}
+
+\par where $F'_{X}$ is the partitioned set of flows. $q()$ is a generic function, since QoS can be classified with several parameters, like bandwidth, latency,
+error rate, and so on, which must then be adapted from case to case. These parameters can be classified in two classes: \textit{bottleneck} and \textit{additive} 
+\cite{CITE - Optimal_partition_of_QoS_requirements_on_unicast_p}.
+
+\par Using this notation, the set of elephant flows $F_e$ can finally be defined as the 
+
+\subsubsection{Detection}
+
+The problem of detection of traffic anomalies has been subject to extensive research, and several different approaches have been proposed. These methods are
 based on different techniques \cite {http://shiftleft.com/mirrors/www.hpl.hp.com/personal/Praveen_Yalagandula/papers/INFOCOM11.pdf}:
 
 \begin {itemize}
@@ -82,4 +113,6 @@ based on different techniques \cite {http://shiftleft.com/mirrors/www.hpl.hp.com
     \item Periodic polling of the statistics from the switch, and employing statistical analysis methods to determine change points in the state of the network.
 \end {itemize}
 
+\par 
 
+\subsubsection{Mitigation}
