@@ -1,9 +1,11 @@
 \section{Software Defined Networking} \label{chap:sdn} %% chapter 3
 
-Computer networking is a vital part of the services that are offered today, and as such, the performance in technology backing these services is central to the quality of these services. As the service providers move their
-data centers to cloud computing environments, enabling several improvements in the predictability, quality of service and ease of use of their services, new technologies are required to make sure that their services are adapted
-to the fast changing landscape of networking services. One of the most notable innovations in this field is called \textbf{Software Defined Networking}, which, as described by the Open Networking Foundation, \textit{ In the SDN 
-architecture, the control and data planes are decoupled, network intelligence and state are logically centralized, and the underlying network infrastructure is abstracted from the applications} \cite{CITE this - onf website}. 
+Computer networking is a vital part of the services that are offered today, and as such, the performance in technology backing these services is central to the
+quality of these services. As the service providers move their data centers to cloud computing environments, enabling several improvements in the predictability,
+quality of service and ease of use of their services, new technologies are required to make sure that their services are adapted to the fast changing landscape of 
+networking services. One of the most notable innovations in this field is called \textbf{Software Defined Networking}, which, as described by the Open Networking
+Foundation, \textit{ In the SDN architecture, the control and data planes are decoupled, network intelligence and state are logically centralized, and the underlying
+network infrastructure is abstracted from the applications} \cite{open_networking_foundation_sdn_2014}. 
 The two main contributions of this architecture is:
 
 \begin {itemize}
@@ -40,8 +42,10 @@ OpenFlow (see section \ref{sec:of}), or P4 \footnote {https://p4.org/}.
   \caption {SDN Interfaces division}
 \end{figure}
 
-\par Understanding SDN platforms is then composed of understanding the operation of both interfaces, and defining requirements for their operation, which are listed below \cite {CITE - sdn_reference_architecture_open_api.pdf}.
-These requirements are general principles for networks, but the addition of the SDN controller introduces another point of failure, that could be damaging to the entire network.
+\par Understanding SDN platforms is then composed of understanding the operation of both interfaces, and defining requirements for their operation, which are
+listed below \cite{shin_software-defined_2012}.
+These requirements are general principles for networks, but the addition of the SDN controller introduces another point of failure, that could be damaging to the 
+entire network.
 
 \begin {enumerate} 
     \itemsep0em
@@ -56,29 +60,37 @@ These requirements are general principles for networks, but the addition of the 
 
 \subsection {OpenFlow} \label{sec:of}
 
-With the growth of the networking infrastructure of the past few decades, the need for an environment that allows for experimentation and testing of different protocols and equipment became evident. If networking 
-research would depend on the previously existing methods, then new ways of creating and developing protocols would become increasingly hard to implement and develop. As such, there was need for a framework that could 
-enable testing of new ideas on close to realistic settings. So, on February 2011 the version 1.1 of OpenFlow was released, and this proposal quickly became the standard for networking in a Software Defined Network. Since
-2011, this protocol has suffered some revisions, and the latest version supported is version 1.5.1. 
+With the growth of the networking infrastructure of the past few decades, the need for an environment that allows for experimentation and testing of different
+protocols and equipment became evident. If networking research would depend on the previously existing methods, then new ways of creating and developing protocols
+would become increasingly hard to implement and develop. As such, there was need for a framework that could enable testing of new ideas on close to realistic
+settings. So, on February 2011 the version 1.1 of OpenFlow was released, and this proposal quickly became the standard for networking in a Software Defined Network.
+Since 2011, this protocol has suffered some revisions, and the latest version supported is version 1.5.1. 
 
-\par Several reasons led to the quick standardization of this protocol, which are related not only to the initial requirements of the platform, like the capability of supporting high-performance and low-cost implementations, but 
-also the extensibility that the open source development model provides, removing the limitations that closed or commercial solutions give the network researchers.
+\par Several reasons led to the quick standardization of this protocol, which are related not only to the initial requirements of the platform, like the capability
+of supporting high-performance and low-cost implementations, but also the extensibility that the open source development model provides, removing the limitations
+that closed or commercial solutions give the network researchers.
 
-\par The big advantage of OpenFlow is that it is, from the data forwarding point of view, easy to process. Since the control decisions are made by the controller, which lives in a separate plane, all the switch needs to do
-is correctly match the incoming packets, and forward them according to the rules established by the controller. The components that are part of this system and enable this functionality are:
+\par The big advantage of OpenFlow is that it is, from the data forwarding point of view, easy to process. Since the control decisions are made by the controller,
+which lives in a separate plane, all the switch needs to do is correctly match the incoming packets, and forward them according to the rules established by the
+controller. The components that are part of this system and enable this functionality are:
 
 \begin {itemize}
-    \item \textbf {FlowTables} This element describes the main component of the switching capabilities of the OpenFlow switch. Inside the switch there are several flow tables that can be used to match incoming packets,
-and process them in the rules that are specified by the controller. These rules can contain actions that affect the path of the packets, and these actions usually include forwarding to a port, packet modification, among
-others. Classification is done via matching one or more field present in the packet, for example the switch input port, the MAC and IP addresses, IP protocol, basically all information required to correctly process the 
-incoming packet. The required actions for an OpenFlow switch are the capability of forwarding to a set of output ports, allowing the packet to move across the network; to send them to the controller, in the case of a
-miss of match; and finally the ability to drop packets, which is useful for DDoS mitigation, or more security concerns.
-    \item \textbf {OpenFlow Protocol} Through the establishment of the OpenFlow Protocol between the switch and the controller, there is the definintion of several messages that allow for the control of the switch. This protocol
-enables capabilities such as adding, deleting and updating flow mods in the switch, that are referred to as \textit {Controller-to-Switch} messages. Other relevant message types are the \textit {Asynchronous}, that enable the
-notification of some event that occurred, this type includes the Packet-In message, that is a type of message that is sent to the controller when a certain packet has no match in the flow tables present in the switch; and the 
-\textit{ Synchronous} message that enable functionality such as the Hello message, that is used to start the connection between the switch and the controller.
-    \item \textbf {Secure Channel} OpenFlow defines the channel that is between the switch and the controller as a secure communications channel. As the messages that are sent to the switch are critical for the correct operation 
-of the system, as indicated in the previous point, the channel should be cryptographically secure, to prevent spoofing of this information. As such, the channel is tipically transported over TLS.
+    \item \textbf {FlowTables} This element describes the main component of the switching capabilities of the OpenFlow switch. Inside the switch there are several
+        flow tables that can be used to match incoming packets, and process them in the rules that are specified by the controller. These rules can contain actions
+        that affect the path of the packets, and these actions usually include forwarding to a port, packet modification, among others. Classification is done via 
+        matching one or more field present in the packet, for example the switch input port, the MAC and IP addresses, IP protocol, basically all information
+        required to correctly process the incoming packet. The required actions for an OpenFlow switch are the capability of forwarding to a set of output ports,
+        allowing the packet to move across the network; to send them to the controller, in the case of a miss of match; and finally the ability to drop packets, 
+        which is useful for DDoS mitigation, or more security concerns.
+    \item \textbf {OpenFlow Protocol} Through the establishment of the OpenFlow Protocol between the switch and the controller, there is the definition of several
+        messages that allow for the control of the switch. This protocol enables capabilities such as adding, deleting and updating flow mods in the switch, that are
+        referred to as \textit {Controller-to-Switch} messages. Other relevant message types are the \textit {Asynchronous}, that enable the notification of some
+        event that occurred, this type includes the Packet-In message, that is a type of message that is sent to the controller when a certain packet has no match in
+        the flow tables present in the switch; and the \textit{ Synchronous} message that enable functionality such as the Hello message, that is used to start the
+        connection between the switch and the controller.
+    \item \textbf {Secure Channel} OpenFlow defines the channel that is between the switch and the controller as a secure communications channel. As the messages 
+        that are sent to the switch are critical for the correct operation of the system, as indicated in the previous point, the channel should be cryptographically
+        secure, to prevent spoofing of this information. As such, the channel is tipically transported over TLS.
 \end {itemize}
 
 % XXX SOURCE This images were taken from : open flow switch specification  https://3vf60mmveq1g8vzn48q2o71a-wpengine.netdna-ssl.com/wp-content/uploads/2014/10/openflow-switch-v1.3.5.pdf
@@ -90,36 +102,41 @@ of the system, as indicated in the previous point, the channel should be cryptog
     \begin{subfigure}
     \includegraphics[width=0.6\textwidth]{sdn/open_flow_tables}
     \end{subfigure}
-    \caption{Images describing OpenFlow components. On the left, an overview to the entire system, and on the right a view at the table structure of the OpenFlow Switch}
+    \caption{Images describing OpenFlow components. On the left, an overview to the entire system, and on the right a view at the table structure of the 
+    OpenFlow Switch \cite{open_networking_foundation_openflow_2015}}
 \end{figure}
 
 \subsection {Network Devices}
 
-Networking devices are a central part of network operation, performing routing, switching, management operations, and span the different layers of the OSI model. The investment in dedicated hardware to perform management functions can
-potentially be replaced by SDN controllers, offloading the QoS policies and traffic engineering (TE) functions from hardware to software. As such, in this section we focus on the devices that are responsible for the operation on 
-layers 2 and 3 of the standardized networking stack, switches and routers. A networking switch is a device that connects multiple devices on a computer network, using hardware addresses (MAC) to forward data inside the network, 
-by mapping each port with a certain MAC address, while a router is responsible of forwarding packets between different computer networks. These devices run at different layers of the networking stack, the former operating at the 
-data-link, or layer 2, and the latter operating at layer 3, or network. This is not a clear separation however with multilayer devices, where switches also provide routing capabilities. Typical vendors for these solutions include
-Cisco, Juniper, but the rise of whitebox switches that have support for deployments in SDN environments enables network operators to avoid vendor lock-in, and take advantage of the open nature of these devices. Commonly associated 
-with whitebox switches is the support for the OpenFlow protocol, making these an essential part of the SDN infrastructures.
+Networking devices are a central part of network operation, performing routing, switching, management operations, and span the different layers of the OSI model. 
+The investment in dedicated hardware to perform management functions can potentially be replaced by SDN controllers, offloading the QoS policies and traffic
+engineering (TE) functions from hardware to software. As such, in this section we focus on the devices that are responsible for the operation on layers 2 and 3 of
+the standardized networking stack, switches and routers. A networking switch is a device that connects multiple devices on a computer network, using hardware
+addresses (MAC) to forward data inside the network, by mapping each port with a certain MAC address, while a router is responsible of forwarding packets between
+different computer networks. These devices run at different layers of the networking stack, the former operating at the data-link, or layer 2, and the latter
+operating at layer 3, or network. This is not a clear separation however with multilayer devices, where switches also provide routing capabilities. Typical vendors
+for these solutions include Cisco, Juniper, but the rise of whitebox switches that have support for deployments in SDN environments enables network operators to
+avoid vendor lock-in, and take advantage of the open nature of these devices. Commonly associated with whitebox switches is the support for the OpenFlow protocol,
+making these an essential part of the SDN infrastructures.
 
-\par The performance \footnote {Defined as the throughput and latency of the network node} of networking devices is central to the proper operation of networks, especially in deployments in Data Centers, where the 
-interfaces must be able to support 100 Gbps links and further, while also maintaining the programmability that is expected of SDN based infrastructures. This performance is linked with the hardware that is chosen to serve as the 
-base for the devices \cite {CITE - sdn_challenges}:
+\par The performance \footnote {Defined as the throughput and latency of the network node} of networking devices is central to the proper operation of networks,
+especially in deployments in Data Centers, where the interfaces must be able to support 100 Gbps links and further, while also maintaining the programmability that
+is expected of SDN based infrastructures. This performance is linked with the hardware that is chosen to serve as the base for the devices \cite{sezer_are_2013}:
 
-\begin {enumerate} 
-    \itemsep0em
-    \item \textbf{General Purpose Processors} provide the greatest flexibility of all the solutions, while providing the worst results in performance, due to the general purpose design of the hardware and the optimizations present
-        in the other architectures.
-    \item \textbf{Field-Programmable gate arrays (FPGA)} are a platform that enable the configuration of the devices via hardware design tools, maintaining the programmability of the GPPs, while also allowing for designing the
-        devices around the tasks that they perform, including optimizations for switching/ routing. A notable example of platforms based in these systems is NetFPGA \footnote {https://netfpga.org/site/\#/}, an open source 
-        hardware platform designed for research, and supporting up to 100G operation. 
-    \item \textbf{Application-specific integrated circuits (ASIC)} are integrated circuits that are customized for one particular application, removing the programmability, but also providing the greatest performance of the former 
-        options.
+\begin{enumerate} 
+    \item \textbf{General Purpose Processors} provide the greatest flexibility of all the solutions, while providing the worst results in performance, due to the
+        general purpose design of the hardware and the optimizations present in the other architectures.
+    \item \textbf{Field-Programmable gate arrays (FPGA)} are a platform that enable the configuration of the devices via hardware design tools, maintaining the
+        programmability of the GPPs, while also allowing for designing the devices around the tasks that they perform, including optimizations for switching/ routing.
+        A notable example of platforms based in these systems is NetFPGA \footnote {https://netfpga.org/site/\#/}, an open source hardware platform designed for
+        research, and supporting up to 100G operation. 
+    \item \textbf{Application-specific integrated circuits (ASIC)} are integrated circuits that are customized for one particular application, removing the
+        programmability, but also providing the greatest performance of the former options.
 \end {itemize}
 
-\par These architectures generally allow to design SDN architectures around general purpose hardware, contributing to the flexibility of this paradigm, even considering the proprietary nature of the ASICs, which can be bundled with 
-SDKs for developing other applications on top of these. 
+\par These architectures generally allow to design SDN architectures around general purpose hardware, contributing to the flexibility of this paradigm, even
+        considering the proprietary nature of the ASICs, which can be bundled with Software Development Kits (SDKs) for developing other
+        applications on top of these. 
 
 \par Considering OF enabled hardware switches, the processing of incoming packets is done as by matching a (up to) 15 field tuple \cite {CITE - flow_table_management_sdn_switches} to several flow tables, 
 that have rules sent from the controller. In these cases, the possibility of bottlenecks are due to several factors, including the latency of the installation of new flow rules, and the memory limitation on the hardware. Solutions 

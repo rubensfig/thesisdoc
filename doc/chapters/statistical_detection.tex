@@ -1,10 +1,10 @@
-\section{Statistical Detection} \label{chap:stat_det} %% chapter 3
+\section{Statistical Detection} \label{chap:stat_det}
 
 As a result of the large scale of current data centers, maintaining control over these networks proves a difficult task. Networks operators must then adapt to the current situation by improving the monitoring infrastructures 
 to allow faster response to problems.  Building a feature complete management API for a SDN controller means that information obtained from the port and flow statistics previously implemented should return information 
 about the global state of the network, so that root-cause analysis of the source of network issues can be done faster and easier, which reflect on better service and lower costs for network operators. 
 \par Network behaviour analysis is defined by the constant monitoring of a network, so that events that compromise the "healthy" state of the network can be removed or mitigated. These include not only cases where the anomalies are
-caused with malicious intent, like the case of DDoS attacks, but also failure of network devices or changes in user behaviour \cite {traffic_anomaly_control_charts}. These systems are equipped with alarm capabilities, so that 
+caused with malicious intent, like the case of DDoS attacks, but also failure of network devices or changes in user behaviour \cite{munz_traffic_2010}. These systems are equipped with alarm capabilities, so that 
 system administrators can quickly respond to changes, possibly even giving some information about the source of the problem. However, the automation of these monitoring processes means that the possible existence
 of false alarms reduces the operators capabilities to act on actual failures. 
 \par This chapter focuses on the recent research done in order to implement systems that rely on statistical analysis for monitoring the state of the networks and detection of abnormalities.
@@ -20,13 +20,12 @@ is the study of the different parameters of the system, and determining the poin
 the behaviour of certain flows, that can be monitored over metrics originating from the controller and switches, impact the traffic characteristics. One key part on the application of changepoint detection is the understanding 
 and selection of the proper metrics to monitor, to ensure that these are sensitive to the traffic changes. One other important consideration in applying changepoint detection mechanisms is the reduction of false alarms, that occur 
 when the metrics are too sensitive to traffic changes, and limit the network operators capability of accurately responding to real network issues. 
-\par Change detection mechanisms are classified as follow \cite { CITE -https://www.net.in.tum.de/fileadmin/TUM/NET/NET-2010-06-1.pdf#cite.feinstein03}:
+\par Change detection mechanisms are classified as follow  \cite{munz_traffic_2010}:
 
 \begin {itemize}
     \item One of the most important distinctions in change detection theory is the difference between online and offline detection. Offline, or batch detection methods consider a fixed length of observations, and retrospectively 
 analyse the dataset to determine the time where the change, or changes took place. Online detection, or sequential detection, unlike batch detection which uses all the available observations to detect the changes, including the
-ones obtained after the change took place, is based on the determination of the change points based on the arrival of the new data, allowing for determining the change as fast as possible.
-\cite { CITE - http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.425.1477&rep=rep1&type=pdf}. 
+ones obtained after the change took place, is based on the determination of the change points based on the arrival of the new data, allowing for determining the change as fast as possible \cite{ahmed_novel_2008}. 
     % TODO - Bayesian change detection, read Bayes filter
     \item An important criteria for the classification of changepoint detection algorithms is the knowledge of the distribution that the system has before the change occurs. A Bayesian system considers the 
     \item Finally, the last important distinction is related to the scalability, and relate to the amount of data that needs to be stored to accurately implement detection on new samples. Parametric approaches rely on learning a 
@@ -59,7 +58,8 @@ y_t = S_t * T_t * R_t
   \item \textbf {Stochastic} when the opposite happens
 \end {itemize}
 
-\par Approximating the time series data to a model allows for generating predictions for the next values, since the relationship between two variables in the data is then known. The Box-Jenkins method defines the steps of building the model as \cite{Box G.E.P. and G.E.P. Jenkins1976Time series analysis: Forecasting and control}:
+\par Approximating the time series data to a model allows for generating predictions for the next values, since the relationship between two variables in the data is
+then known. The Box-Jenkins method defines the steps of building the model as \cite{box_time_2016}:
 
 \begin {enumerate}
   \item \textbf{Identification} Model the data, by reducing the variables to a stationary state, and removing the possible seasonality in the series
@@ -89,12 +89,13 @@ and seasonal variation is possible with differencing:
 \nabla X_t = X_t - X_{t-1}
 \end {equation*}
 
-\par By modelling the time series data with moving average (MA), autoregression (AR) or a mix of the two (ARMA) processes, under the assumption that the underlying process can be modeled by previous historical values, and assuming
-this model remains true for future measurements, the time series data historical behaviour can be used to generate forecasts for future values in the time series. The one step ahead prediction is referred as $\hat{x}_t$.
+\par By modelling the time series data with moving average (MA), autoregression (AR) or a mix of the two (ARMA) processes, under the assumption that the underlying
+process can be modeled by previous historical values, and assuming this model remains true for future measurements, the time series data historical behaviour can
+be used to generate forecasts for future values in the time series. The one step ahead prediction is referred as $\hat{x}_t$.
 
-\par Exponential smoothing allows for generating predictions using the historical behaviour, but differs from normal MA methods by applying a set of weights to the data that exponentially decreases over time. Considering the time 
-series $X_t$, the prediction $\hat{x}_t$ can be obtained by the equation \ref{eq:exp_smooth}. In this model, the smoothing factor $\alpha (0 < \alpha < 1)$ is obtained empirically, and its value will determine the forgetting factor
-for the past observations.
+\par Exponential smoothing allows for generating predictions using the historical behaviour, but differs from normal MA methods by applying a set of weights to the
+data that exponentially decreases over time. Considering the time series $X_t$, the prediction $\hat{x}_t$ can be obtained by the equation \ref{eq:exp_smooth}. 
+In this model, the smoothing factor $\alpha (0 < \alpha < 1)$ is obtained empirically, and its value will determine the forgetting factor for the past observations.
 
 \begin {equation*}
 \centering
@@ -105,9 +106,10 @@ for the past observations.
 \label{eq:exp_smooth}
 \end {equation*}
 
-\par Due to its simplicity, this method is not suitable for situations where the data has trends, or seasonal behaviours \cite{CITE - http://labs.omniti.com/people/jesus/papers/holtwinters.pdf}. The solution for this problem is 
-introduced with double exponential smoothing, also know as Holt forecasting, and triple exponential smoothing, also known as Holt-Winters forecasting. These methods introduce further components to dampen the effects of cyclic 
-behaviours in the data. Double exponential smoothing is defined by \cite{CITE - https://www.net.in.tum.de/fileadmin/TUM/NET/NET-2010-06-1.pdf}:
+\par Due to its simplicity, this method is not suitable for situations where the data has trends, or seasonal behaviours \cite{kalekar_time_2004}. The solution for
+this problem is introduced with double exponential smoothing, also know as Holt forecasting, and triple exponential smoothing, also known as Holt-Winters
+forecasting. These methods introduce further components to dampen the effects of cyclic behaviours in the data. Double exponential smoothing is defined by
+\cite{munz_traffic_2010} :
 
 % Fix these equations = add initial value
 \begin {equation*}
@@ -133,9 +135,9 @@ behaviours in the data. Double exponential smoothing is defined by \cite{CITE - 
 \label{eq:exp_smooth}
 \end {equation*}
 
-\par The components these methods introduce account for the cyclic behaviours in the data: $L_t$ accounts for the baseline behaviour of the data, which is calculated on the simple method; $T_t$ smooths the trend with the $\beta$ 
-parameter; and $S_t$ accounts for the seasonal components with the $\gamma$ parameter. As with $\alpha$ these parameters are defined mostly by previous experience, but a common optimization is the minimization of the square sum 
-of prediction errors, defined by:
+\par The components these methods introduce account for the cyclic behaviours in the data: $L_t$ accounts for the baseline behaviour of the data, which is 
+calculated on the simple method; $T_t$ smooths the trend with the $\beta$ parameter; and $S_t$ accounts for the seasonal components with the $\gamma$ parameter.
+As with $\alpha$ these parameters are defined mostly by previous experience, but a common optimization is the minimization of the square sum of prediction errors, defined by:
 
 \begin {equation*} 
     \label{eq:sse}
@@ -144,36 +146,45 @@ of prediction errors, defined by:
 
 \subsubsection {Change Detection} \label{subsec:change_detection}
 
-A relevant indicator for the validity of the generated forecasts is the forecast error, that is calculated via the difference between the real measurements and the predicted value. Furthermore, by assuming a distribution for 
-the forecast error, and a certain significance level, it is possible to validate the generated forecasts, and detect values that do not fit the model, accusing a possible variation in the parameters of the model. As such,
-the prediction error is able to be employed in change detection algorithms. This prediction error can be defined as:
+A relevant indicator for the validity of the generated forecasts is the forecast error, that is calculated via the difference between the real measurements and the
+predicted value. Furthermore, by assuming a distribution for the forecast error, and a certain significance level, it is possible to validate the generated forecasts,
+and detect values that do not fit the model, accusing a possible variation in the parameters of the model. As such, the prediction error is able to be employed in 
+change detection algorithms. This prediction error can be defined as:
 
 \begin {equation*}
 \centering
 \epsilon_t = x_t - \hat{x}_t
 \end {equation*}
 
-\par \textbf{Hypothesis testing} is used to perform a test of an assumption about two random variables. This hypothesis states that a certain relationship between the two variables exists with a certain significance value, and this
-relationship can be a relation in the means, the distribution of the observations, etc. The first step is set \textbf{null hypothesis}, which is the desired assumption to test, and is referred to as $H_0$, which is then tested
-against the \textbf{alternative hypothesis}, $H_1$, which is considered true if $H_0$ is rejected. The validity of $H_0$ is based on a comparison between the two data sets, according to a certain threshold, called the significance
-level. This significance level also defines the probability of wrongly rejecting or accepting a hypothesis, which are defined as following errors: \textbf{Type I error}, happening when the null hypothesis is rejected, but the 
-performed test is true, and the \textbf{Type II errors}, occurring when the opposite happens.
+\par \textbf{Hypothesis testing} is used to perform a test of an assumption about two random variables. This hypothesis states that a certain relationship between
+the two variables exists with a certain significance value, and this relationship can be a relation in the means, the distribution of the observations, etc. 
+The first step is set \textbf{null hypothesis}, which is the desired assumption to test, and is referred to as $H_0$, which is then tested
+against the \textbf{alternative hypothesis}, $H_1$, which is considered true if $H_0$ is rejected. The validity of $H_0$ is based on a comparison between the two
+data sets, according to a certain threshold, called the significance level. This significance level also defines the probability of wrongly rejecting or accepting a
+hypothesis, which are defined as following errors: \textbf{Type I error}, happening when the null hypothesis is rejected, but the performed test is true, and the 
+\textbf{Type II errors}, occurring when the opposite happens.
 
-\par Originating from quality engineering, \textbf{control charts} are common ways of following the output of a certain process, with the aim of reducing variability associated to manufacturing processes. Control charts allow to 
-evaluate the possible sources of variation, and classify the output of the process, based on the mean or variation of the sampled process, as \textbf{in control} or \textbf{out of control}, depending on the causes of variation. 
-The process is considered in control when the parameters of the monitored variable, like $\mu_0$ or $\sigma^2$ are inside the predefined \textbf{control limits}, that are usually set as requirements for the process.
-The wide range of control charts allow for a flexibility in choosing the right one that fits each application. Common charts used are those proposed by Shewhart, where the measurements from the process in study provide a 
-statistic, like the mean, range, etc. Plotting these parameters allows for drawing the center line at $H_0$, and the control limits are defined by a multiple of the standard deviation. This control chart allows for 
-actions to the process be performed not only when the points are shown to be out of control, but also when there is a sequence of values above or below the center line, or a upward or downward trend is shown in the control charts.
+\par Originating from quality engineering, \textbf{control charts} are common ways of following the output of a certain process, with the aim of reducing variability
+associated to manufacturing processes. Control charts allow to evaluate the possible sources of variation, and classify the output of the process, based on the mean
+or variation of the sampled process, as \textbf{in control} or \textbf{out of control}, depending on the causes of variation. The process is considered in control
+when the parameters of the monitored variable, like $\mu_0$ or $\sigma^2$ are inside the predefined \textbf{control limits}, that are usually set as requirements for
+the process. The wide range of control charts allow for a flexibility in choosing the right one that fits each application. Common charts used are those proposed by 
+Shewhart, where the measurements from the process in study provide a statistic, like the mean, range, etc. Plotting these parameters allows for drawing the center
+line at $H_0$, and the control limits are defined by a multiple of the standard deviation. This control chart allows for actions to the process be performed not only
+when the points are shown to be out of control, but also when there is a sequence of values above or below the center line, or a upward or downward trend is shown in
+the control charts.
 
-\par In the context of change detection, the hypothesis test relies on $H_0$ stating that there is no change in the parameters of the sample, like the mean or the variation, and the second hypothesis $H_1$ stating the contrary.
-A relevant metric for designing change detection models for application under network traffic is the \textit{false alarm rate},
-due to the impact that incorrectly identifying the normal state of the network as abnormal can have on the operators capability of addressing real abnormalities. The previously presented statistical difference of errors 
-present in hypothesis testing are not relevant from the network operators point of view \cite{CITE - https://www.net.in.tum.de/fileadmin/TUM/NET/NET-2010-06-1.pdf},
-which implies that the design of the change detection mechanisms should reduce the false alarm rate. In section \ref{subsec:performance_evaluation} some mechanisms for these optimizations are explored.
+\par In the context of change detection, the hypothesis test relies on $H_0$ stating that there is no change in the parameters of the sample, like the mean or the
+variation, and the second hypothesis $H_1$ stating the contrary. A relevant metric for designing change detection models for application under network traffic is the
+\textit{false alarm rate}, due to the impact that incorrectly identifying the normal state of the network as abnormal can have on the operators capability of 
+addressing real abnormalities. The previously presented statistical difference of errors present in hypothesis testing are not relevant from the network operators
+point of view \cite{munz_traffic_2010},
+which implies that the design of the change detection mechanisms should reduce the false alarm rate. In section \ref{subsec:performance_evaluation} some mechanisms
+for these optimizations are explored.
 
-\par The CUSUM (\textbf{cu}mulative \textbf{su}m) control chart provides a test based on \textit{stopping rules}, where the alarms are raised when the parameter of the distribution, $\theta_t$ exceeds certain thresholds. In
-the parametric case, the CUSUM algorithm for detection of a change at $t_0$ from the observation $x_i$ is based on the log likelihood ratio defined by \cite {https://eprints.qut.edu.au/20572/3/ahmed2008npc.pdf}
+\par The CUSUM (\textbf{cu}mulative \textbf{su}m) control chart provides a test based on \textit{stopping rules}, where the alarms are raised when the parameter
+of the distribution, $\theta_t$ exceeds certain thresholds. In the parametric case, the CUSUM algorithm for detection of a change at $t_0$ from the observation
+$x_i$ is based on the log likelihood ratio defined by \cite {https://eprints.qut.edu.au/20572/3/ahmed2008npc.pdf}
 
 \begin{equation*}
 \centering
@@ -189,18 +200,16 @@ the parametric case, the CUSUM algorithm for detection of a change at $t_0$ from
     \end{split}
 \end{equation*}
 
-\par In the case when $P_{\theta}(x)$ is not known, the log likelihood parameter cannot be calculated, a non-parametric approach must be used, as mentioned in \cite{https://eprints.qut.edu.au/20572/3/ahmed2008npc.pdf}.  
-
-%\section {Adaptive Thresholds}
-
-%Alarms are generated when a certain threshold is crossed 
+\par In the case when $P_{\theta}(x)$ is not known, the log likelihood parameter cannot be calculated, a non-parametric approach must be used, as mentioned in \cite{
+ahmed_novel_2008}.  
 
 \subsubsection {Performance Evaluation} \label{subsec:performance_evaluation}
 
-The effectiveness of a statistical approach for change detection can be seen as the relationship between false and real alarms, since the trade-off with online detection is the number of falsely raised alarms, and the number of accurately reported changes.
-As mentioned in section \ref{subsec:change_detection} the possible wrong decisions are the type I and II errors, which are usually represented with error, or confusion matrices, seen in table \ref{tab:confusion_matrix}, 
-where the possible outcomes from the decision algorithm are displayed. The notation for this table indicate the possible values, True Positive (T\textsubscript{P}), False Positive (F\textsubscript{P}), False Negative 
-(F\textsubscript{N}) and True Negative (T\textsubscript{N}).
+The effectiveness of a statistical approach for change detection can be seen as the relationship between false and real alarms, since the trade-off with online
+detection is the number of falsely raised alarms, and the number of accurately reported changes. As mentioned in section \ref{subsec:change_detection} the possible 
+wrong decisions are the type I and II errors, which are usually represented with error, or confusion matrices, seen in table \ref{tab:confusion_matrix}, 
+where the possible outcomes from the decision algorithm are displayed. The notation for this table indicate the possible values, True Positive (T\textsubscript{P}),
+False Positive (F\textsubscript{P}), False Negative (F\textsubscript{N}) and True Negative (T\textsubscript{N}).
 
 \begin{table}[h]
 \centering
@@ -214,8 +223,9 @@ where the possible outcomes from the decision algorithm are displayed. The notat
 \caption{Generalized confusion matrix for hypothesis testing}
 \end{table}
 
-\par In the following equations, we define the ratios that allow for measuring the performance of the algorithm, with Accuracy (A), measuring the correct decision of the algorithm; Sensitivity (S), indicating the capability of the 
-system to detect the change, and Precision (P) indicates the ability of the algorithm to accurately distinguish between true and false alarms. 
+\par In the following equations, we define the ratios that allow for measuring the performance of the algorithm, with Accuracy (A), measuring the correct decision
+of the algorithm; Sensitivity (S), indicating the capability of the system to detect the change, and Precision (P) indicates the ability of the algorithm to
+accurately distinguish between true and false alarms. 
 
 \begin{equation*}
 \begin{split}
@@ -235,6 +245,7 @@ The performance of the change detection algorithms can also be defined by:
 
 % XXX - Quote this
 
-\par The ARL is the expected number of samples required before an alarm is provided, and it can be divided further in two important measures: ARL\textsubscript{0}, which specifies the expected number of required samples until the 
-alarm is raised, assuming that the process is in control; and the ARL\textsubscript{1}, indicating the expected number of samples until an alarm is raised, under the condition that the process is out of control. For optimal results
-for change detection, we require that ARL\textsubscript{0} is as large as possible, and ARL\textsubscript{1} be as small as possible.
+\par The ARL is the expected number of samples required before an alarm is provided, and it can be divided further in two important measures: ARL\textsubscript{0},
+which specifies the expected number of required samples until the alarm is raised, assuming that the process is in control; and the ARL\textsubscript{1}, indicating
+the expected number of samples until an alarm is raised, under the condition that the process is out of control. For optimal results for change detection, we require
+that ARL\textsubscript{0} is as large as possible, and ARL\textsubscript{1} be as small as possible.
