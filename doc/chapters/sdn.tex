@@ -9,15 +9,18 @@ network infrastructure is abstracted from the applications} \cite{open_networkin
 The two main contributions of this architecture is:
 
 \begin {itemize}
-    \item \textbf{Separation of network planes} SDN allows for the separation of the network control plane from the data forwarding plane by having network "intelligence" present in the network controllers, and having them
-control the forwarding elements that live in the Data Plane
-    \item \textbf{Centralization of network management functions} By isolating the management on a separate plane, there is possibility of developing a single controller that can regulate the entire network, having unrestricted access 
-        to every element present in the network, simplifying management, monitoring, application of QoS policies, flow optimization, ...
+    \item \textbf{Separation of network planes} SDN allows for the separation of the network control plane from the data forwarding plane by having network
+        "intelligence" present in the network controllers, and having them control the forwarding elements that live in the Data Plane
+    \item \textbf{Centralization of network management functions} By isolating the management on a separate plane, there is possibility of developing a single
+        controller that can regulate the entire network, having unrestricted access to every element present in the network, simplifying management, monitoring,
+        application of QoS policies, flow optimization, ...
 \end {itemize}
 
-\par This new paradigm introduces programmability in the configuration and management of networks, by consolidating the control of network devices to a single central controller, achieving separation of the control and the 
-data plane, and supporting a more dynamic and flexible infrastructure. Another important development following the development of SDN is the concept of Network Function Virtualization. This concept allows to remove 
-\textit {middleboxes}\footnote {Computer networking device that does some operations on traffic, excepting packet forwarding. Examples include caches, IDS's, NAT's, ..}, by replacing these with generic software applications.
+\par This new paradigm introduces programmability in the configuration and management of networks, by consolidating the control of network devices to a single
+central controller, achieving separation of the control and the data plane, and supporting a more dynamic and flexible infrastructure. Another important development
+following the development of SDN is the concept of Network Function Virtualisation (NFV). This concept allows to remove \textit {middleboxes}
+\footnote {Computer networking device that does some operations on traffic, excepting packet forwarding. Examples include caches, IDS's, NAT's, ..}, by replacing
+these with generic software applications.
 
 \begin{figure}[!tbph]
   \centering
@@ -27,13 +30,15 @@ data plane, and supporting a more dynamic and flexible infrastructure. Another i
   \caption {Traditional vs SDN network architecture}
 \end{figure}
 
-\par By moving network infrastructure to SDN models, the difficulty of managing a network is greatly reduced, since the logical centralization of the control layer exposes the global view of the network, simplifying management tasks. 
-Furthermore, this also removes the challenge of configure each networking device individually, turning network operation and management into setting high level policies in the controllers, and letting 
-the protocols that handle connection between the devices and controllers set the actual rules. 
+\par By moving network infrastructure to SDN models, the difficulty of managing a network is greatly reduced, since the logical centralization of the control layer
+exposes the global view of the network, simplifying management tasks. Furthermore, this also removes the challenge of configure each networking device individually,
+turning network operation and management into setting high level policies in the controllers, and letting the protocols that handle connection between the devices
+and controllers set the actual rules. 
 
-\par Software-Defined Networking is defined as being composed of two layers: \textbf{Northbound Interfaces}, which are composed of Application Programming Interfaces (API) for communication between applications and the controller,
-enabling network services like routing, security, visualization and management; and the \textbf {Southbound Interfaces} which main role is to connect the network devices between the controllers and network via protocols like
-OpenFlow (see section \ref{sec:of}), or P4 \footnote {https://p4.org/}. 
+\par Software-Defined Networking is defined as being composed of two layers: \textbf{Northbound Interfaces}, which are composed of Application Programming Interfaces
+(API) for communication between applications and the controller, enabling network services like routing, security, visualization and management; and the
+\textbf {Southbound Interfaces} which main role is to connect the network devices between the controllers and network via protocols like OpenFlow (see section
+\ref{sec:of}), or P4 \footnote {https://p4.org/}. 
 
 \begin{figure}[!tbph]
   \centering
@@ -75,7 +80,7 @@ which lives in a separate plane, all the switch needs to do is correctly match t
 controller. The components that are part of this system and enable this functionality are:
 
 \begin {itemize}
-    \item \textbf {FlowTables} This element describes the main component of the switching capabilities of the OpenFlow switch. Inside the switch there are several
+    \item \textbf {Flow Tables} This element describes the main component of the switching capabilities of the OpenFlow switch. Inside the switch there are several
         flow tables that can be used to match incoming packets, and process them in the rules that are specified by the controller. These rules can contain actions
         that affect the path of the packets, and these actions usually include forwarding to a port, packet modification, among others. Classification is done via 
         matching one or more field present in the packet, for example the switch input port, the MAC and IP addresses, IP protocol, basically all information
@@ -135,47 +140,57 @@ is expected of SDN based infrastructures. This performance is linked with the ha
 \end {itemize}
 
 \par These architectures generally allow to design SDN architectures around general purpose hardware, contributing to the flexibility of this paradigm, even
-        considering the proprietary nature of the ASICs, which can be bundled with Software Development Kits (SDKs) for developing other
-        applications on top of these. 
+considering the proprietary nature of the ASICs, which can be bundled with Software Development Kits (SDKs) for developing other
+applications on top of these. 
 
-\par Considering OF enabled hardware switches, the processing of incoming packets is done as by matching a (up to) 15 field tuple \cite {CITE - flow_table_management_sdn_switches} to several flow tables, 
-that have rules sent from the controller. In these cases, the possibility of bottlenecks are due to several factors, including the latency of the installation of new flow rules, and the memory limitation on the hardware. Solutions 
-to the memory limitations in OF switches include DevoFlow \cite {CITE - https://hal.inria.fr/hal-00825087/document}, which utilizes wildcard rules to reduce the number of flow entries that are installed on the devices, while also
-aggregating traffic, which simplifies detection and management of the elephant flows, due to reduced control plane load; and SmartTime \cite {CITE - http://rishabhpoddar.com/publications/SmartTime.pdf} manages the timeouts
-for the rules on the switch, reducing this in the presence of microflows, and increasing the timeout in the case of the occurrence of longer lived flows, which improves memory utilization and reduces the load on the controller.
+\par Considering OF enabled hardware switches, the processing of incoming packets is done as by matching a (up to) 15 field tuple \cite{raz_2014_2014} to several 
+flow tables, that have rules sent from the controller. In these cases, the possibility of bottlenecks are due to several factors, including the latency
+of the installation of new flow rules, and the memory limitation on the hardware. Solutions to the memory limitations in OF switches include DevoFlow 
+\cite{nunes_survey_2014}, which utilizes wild card rules to reduce the number of flow entries that are installed on the devices, while also aggregating 
+traffic, which simplifies detection and management of the elephant flows, due to reduced control plane load; and SmartTime
+\cite{vishnoi_effective_2014} manages the timeouts for the rules on the switch, reducing this in the presence of micro flows, and increasing the timeout
+in the case of the occurrence of longer lived flows, which improves memory utilization and reduces the load on the controller.
 
-\par Virtualised environments also allowed the development of Software Switches, due to the highly dynamic nature of virtual environments, where Virtual Machines (VMs) can move between physical compute nodes and frequent
-network topology changes. Furthermore, standard Linux bridges cannot handle the multi-server deployments \footnote {https://github.com/openvswitch/ovs/blob/master/Documentation/intro/why-ovs.rst} used in virtualised environments. 
-Open vSwitch is a soft switch that can join traditional switches on these platforms, replacing them where these couldn't be deployed. OVS switches are also compliant with the OpenFlow protocol, which clearly shows the flexibility
-that can be achieved by combining all the networking devices with one management protocol. 
+\par Virtualised environments also allowed the development of Software Switches, due to the highly dynamic nature of virtual environments, where Virtual Machines
+(VMs) can move between physical compute nodes and frequent network topology changes. Furthermore, standard Linux bridges cannot handle the multi-server
+deployments \footnote {https://github.com/openvswitch/ovs/blob/master/Documentation/intro/why-ovs.rst} used in virtualised environments. Open vSwitch is a
+soft switch that can join traditional switches on these platforms, replacing them where these couldn't be deployed. OVS switches are also
+compliant with the OpenFlow protocol, which clearly shows the flexibility that can be achieved by combining all the networking devices with one management 
+protocol. 
 
 \subsection {SDN Controllers}
 
-Central for operation of the networks, SDN controllers allow the orchestration of the multiple parts required for correctly operating a large scale network. Separate from the data traffic on the network, these are responsible for the interaction
-between the Northbound networking applications and the Southbound devices, as described in figure \ref{fig:sdn_controller_arch}. 
+Central for operation of the networks, SDN controllers allow the orchestration of the multiple parts required for correctly operating a large scale network.
+Separate from the data traffic on the network, these are responsible for the interaction between the Northbound networking applications and the Southbound
+devices, as described in figure \ref{fig:this_sdn_ctrl_arch}.
 
 \begin{figure}[!tbph]
   \centering
   \includegraphics[width=0.4\textwidth]{sdn/sdn_controller_arch}
-  \label{fig:sdn_controller_arch}
+  \label{fig:this_sdn_ctrl_arch}
   \caption {SDN Interfaces division}
 \end{figure}
 
-\par Although the use case of the controllers will depend on each deployment and implementation, the basic use case is to provide connectivity across layer 2 and 3 networks, which is achieved via flow management, including operations like
-switching, forwarding and potentially load balancing. The logically centralized position augments this capability by keeping the state of the entire network, which facilitates route planning and management. 
+\par Although the use case of the controllers will depend on each deployment and implementation, the basic use case is to provide connectivity across layer 2 and 3
+networks, which is achieved via flow management, including operations like switching, forwarding and potentially load balancing. The logically centralized
+position augments this capability by keeping the state of the entire network, which facilitates route planning and management. 
 
-\par Despite the advantages that the controllers centralization provides, this also introduces a Single Point of Failure (SPOF) \cite{ CITE - https://arxiv.org/pdf/1308.6138.pdf}, exposing a weakness to Denial-of-Service (DoS) attacks and 
-controller failure. The potential catastrophic scenario related to controller downtime due to these failures means that an approach must be planned for disaster failure and recovery. High Availability setups are used to mitigate the potential
-failure of the controllers, by having multiple backups running. In order to ensure that the same network state in every controller, every switch must be connected to every controller, but as specified in section \ref{sec:fault_tolerance}, only the Master 
-controller writes the messages to the networking devices, which ensures that duplicate rules are not enforced. In case of controller failure, one of the backup controllers can take over the role of the previous master, without any outages on the network.
+\par Despite the advantages that the controllers centralization provides, this also introduces a Single Point of Failure (SPOF) \cite{phemius_disco:_2014}, exposing
+a weakness to Denial-of-Service (DoS) attacks and controller failure. The potential catastrophic scenario related to controller downtime due to these
+failures means that an approach must be planned for disaster failure and recovery. High Availability setups are used to mitigate the potential failure of
+the controllers, by having multiple backups running. In order to ensure that the same network state in every controller, every switch must be connected to 
+every controller, but as specified in section \ref{sec:fault_tolerance}, only the Master controller writes the messages to the networking devices, which
+ensures that duplicate rules are not enforced. In case of controller failure, one of the backup controllers can take over the role of the previous master,
+without any outages on the network.
 
 % XXX - CONTROLLER RESEARCH
 
 \subsubsection{Existing Platforms}
 
-There are several controller implementations available for use, each with different interfaces, performance, and modularity. In \cite{CITE - https://pdfs.semanticscholar.org/1fae/98c9d3bed22a539155d5e93a8d420bd22837.pdf} a comparative study is
-performed on available SDN controllers at the time, and compare the different characteristics of each controller, like the available interfaces, the language of implementation, modularity, etc. In the following sections, we explore two of the 
-highest rated solutions, Floodlight and OpenDaylight.
+There are several controller implementations available for use, each with different interfaces, performance, and modularity. In \cite{khondoker_feature-based_2014} a
+comparative study is performed on available SDN controllers at the time, and compare the different characteristics of each controller, like the available
+interfaces, the language of implementation, modularity, etc. In the following sections, we explore two of the highest rated solutions, Floodlight and
+OpenDaylight.
 
 \subsubsection {Floodlight}
 
@@ -187,17 +202,18 @@ highest rated solutions, Floodlight and OpenDaylight.
   \caption {Floodlight Web Views}
 \end{figure}
 
-Floodlight \footnote{http://www.projectfloodlight.org/floodlight/} is a java-based SDN controller, and is one the first open-source solutions to gain relevance in research and industry 
-\cite{http://zoo.cs.yale.edu/classes/cs434/cs434-2017-spring/readings/onos-hotsdn2014.pdf}. This controller provides the OpenFlow interface, and it enables adding several modules, either through extensions, or through the utilization of the provided
-REST interface, simplifying the addition of new features to the base controller.
+Floodlight \footnote{http://www.projectfloodlight.org/floodlight/} is a java-based SDN controller, and is one the first open-source solutions to gain relevance in
+research and industry \cite{berde_onos:_2014}. This controller provides the OpenFlow interface, and it enables adding several modules, either through extensions,
+or through the utilization of the provided REST interface, simplifying the addition of new features to the base controller.
 
 \par The REST interface provides an API to interact with the switch, which allows developers to get statistics, push flow entries, and more. It also provides an useful GUI for easier visualization of the topology, link state, and port statistics.
  
 \subsubsection {OpenDaylight} \label{chap:odl}
 
-OpenDaylight \footnote{https://www.opendaylight.org/} (ODL) is a major project supported by the major vendors. The main differences between ODL and other controllers is support for other protocols in the southbound interface, 
-due to the creation of a Service Abstraction Layer (SAL) \cite{CITE - opendaylight_sdn_controller_architecture}. In a high level overview, the creation of the Model-Driven SAL allows to extend the controller basic functionality
-by the addition of several plugins, which are used in combination with a RESTCONF interface, defining the data models for the data stores, and the RPCs for interaction between the data.
+OpenDaylight \footnote{https://www.opendaylight.org/} (ODL) is a major project supported by the major vendors. The main differences between ODL and other controllers
+is support for other protocols in the southbound interface, due to the creation of a Service Abstraction Layer (SAL) \cite{medved_opendaylight:_2014}. In a high 
+level overview, the creation of the Model-Driven SAL allows to extend the controller basic functionality by the addition of several plugins, which are used in
+combination with a RESTCONF interface, defining the data models for the data stores, and the RPCs for interaction between the data.
 
 \begin{figure}[!tbph]
   \centering

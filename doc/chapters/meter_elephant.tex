@@ -29,22 +29,26 @@ we based these applications on VMs and containers, and the installation files ca
     \label{fig:test_setup}
 \end{figure} 
 
-\par Figure \ref{fig:test_setup} describes the testing setup designed for testing during this dissertation. This setup provides a close approximation to setups used in the edge layers of data centers, and keeping the
-resource consumption of the virtualised network and controller to a minimum. In the diagram, the hosts are shown using the H\textsubscript{X} notation, ranging from 1 to 4, and the switches use the S\textsubscript{X} 
-notation. Information about the hosts, like the IP and MAC addresses can also be seen, and the port numbers used are also displayed.
+\par Figure \ref{fig:test_setup} describes the testing setup designed for testing during this dissertation. This setup provides a close approximation to setups used
+in the edge layers of data centers, and keeping the resource consumption of the virtualised network and controller to a minimum. In the diagram, the hosts are shown
+using the H\textsubscript{X} notation, ranging from 1 to 4, and the switches use the S\textsubscript{X}  notation. Information about the hosts, like the IP and MAC
+addresses can also be seen, and the port numbers used are also displayed.
 
 \subsection{Performed tests}
 
-Mininet provides an API to interact with a virtual network and setup tests in a predictable manner. We utilize this API to develop a script that creates the network topology. For traffic generation, however, we require another tool that provides 
-specific funcionalities, like control of the packet interval and the packets data size. The tool \textit{hping} is a common tool used for packet generation and port mapping, and its simplicity allows for quickly deploy different tests
+Mininet provides an API to interact with a virtual network and setup tests in a predictable manner. We utilize this API to develop a script that creates the network
+topology. For traffic generation, however, we require another tool that provides specific functionalities, like control of the packet interval and the packets data
+size. The tool \textit{hping} is a common tool used for packet generation and port mapping, and its simplicity allows for quickly deploy different tests
 against the designed setups.
 
-\par We consider two different test scenarios, the first where we assume no background traffic between the hosts, and the other where every host is communicating with each other. This has the purpose of simulating low traffic intensities in the network,
-and verify the behaviour of the designed algorithm in an approximation to real conditions.
+\par We consider two different test scenarios, the first where we assume no background traffic between the hosts, and the other where every host is communicating
+with each other. This has the purpose of simulating low traffic intensities in the network, and verify the behaviour of the designed algorithm in an
+approximation to real conditions.
 
 % XXX - Find a citation for this, cant find it anywhere
-\par The utilization of Open vSwitch has, however some drawbacks that should be address when the tests are being designed. Figure \ref{fig:ovs_packet_loss} shows the increase of the packet loss as the number of flows in OVS increases.
-This limitation implies that in order for the tests to run successfully, there needs to be a care in the amount of flows that are generated.
+\par The utilization of Open vSwitch has, however some drawbacks that should be address when the tests are being designed. Figure \ref{fig:ovs_packet_loss} shows
+the increase of the packet loss as the number of flows in OVS increases. This limitation implies that in order for the tests to run successfully, there needs to be
+a care in the amount of flows that are generated.
 
 % XXX - Redo this graphic
 \begin{figure} 
@@ -67,11 +71,11 @@ P_{TX}\\
 \end{bmatrix}
 \end {equation*}
 
-\par $B_{XX}$ and $P_{XX}$ describe to the port statistics obtained from the controller, the byte (B\textsubscript{XX}) and packet (P\textsubscript{XX}) counters, respectively, and the indexes describe if the counters
-account for the transmitted or received data in that port.
+\par $B_{XX}$ and $P_{XX}$ describe to the port statistics obtained from the controller, the byte (B\textsubscript{XX}) and packet (P\textsubscript{XX}) counters, 
+respectively, and the indexes describe if the counters account for the transmitted or received data in that port.
 
-\par Using the techniques presented in section \ref{subsec:change_detection}, we build algorithm \ref{alg:high_level}. This is a high level view of the steps required to obtain the detection, and in the following sections,
-we introduce each step, and provide some clarifications on the design decisions.
+\par Using the techniques presented in section \ref{subsec:change_detection}, we build algorithm \ref{alg:high_level}. This is a high level view of the steps
+required to obtain the detection, and in the following sections, we introduce each step, and provide some clarifications on the design decisions.
 
 \begin{algorithm}[H]
     \caption{Elephant Detection Algorithm - High Level} \label{alg:high_level}
@@ -94,8 +98,9 @@ we introduce each step, and provide some clarifications on the design decisions.
 
 \subsection{Initialization}
 
-The initialization step of the algorithm is a crucial step for obtaining correct results in the algorithm. This step allows for the correct initialization of the model parameters, including the trend component, and to provide a 
-baseline for the expected traffic on the network. Due to these factors, it is assumed that no traffic abnormalities exist during this stage, but a longer period for initialization can account for short bursts of higher traffic.
+The initialization step of the algorithm is a crucial step for obtaining correct results in the algorithm. This step allows for the correct initialization of the
+model parameters, including the trend component, and to provide a baseline for the expected traffic on the network. Due to these factors, it is assumed that no 
+traffic abnormalities exist during this stage, but a longer period for initialization can account for short bursts of higher traffic.
 
 \begin{algorithm}[H]
     \caption{Elephant Detection Algorithm - Initialization} \label{alg:high_level}
@@ -112,7 +117,8 @@ baseline for the expected traffic on the network. Due to these factors, it is as
     \end{algorithmic}
 \end{algorithm}
 
-\par Detrending the data using the linear regression function comes from the fact that on the end of the initialization period, plotting the received bytes results in figure \ref{fig:init_plot}.
+\par Detrending the data using the linear regression function comes from the fact that on the end of the initialization period, plotting the received bytes results
+in figure \ref{fig:init_plot}.
 
 % Display initial graph of Received Bytes
 \begin{figure} 
@@ -124,8 +130,9 @@ baseline for the expected traffic on the network. Due to these factors, it is as
 
 \subsection{Prediction and error calculation}
 
-Using the methods presented in \ref{sec:change_detection}, we are able to predict the values that are expected in the following sample, and determine the error of the prediction. In this step, the most important consideration is the adjustment of
-the $\alpha$ parameter, to determine the impact of the variation of this parameter.
+Using the methods presented in \ref{sec:change_detection}, we are able to predict the values that are expected in the following sample, and determine the error of
+the prediction. In this step, the most important consideration is the adjustment of the $\alpha$ parameter, to determine the impact of the variation of
+this parameter.
 
 \par Calculating the error was initially determined as
 
@@ -135,10 +142,11 @@ the $\alpha$ parameter, to determine the impact of the variation of this paramet
     \epsilon = (x_i(t)/\hat{x}_i(t))^2,
 \end{equation}
 
-\par which provided the result present in figure \ref{fig:error_plot_division_sse}, and while it clearly indicates the deviations created by the elephant flows, it does not provide insight to the level of change caused by higher data sizes in the flows.
+\par which provided the result present in figure \ref{fig:error_plot_division_sse}, and while it clearly indicates the deviations created by the elephant flows, it 
+does not provide insight to the level of change caused by higher data sizes in the flows.
 
-Due to this result, we assume higher ($\alpha \rightarrow 1$) values for the smoothing factor for posterior results. different approach was devised,
-and to obtain the values for the error calculation we consider the SSE (\ref{eq:sse}), to increase the impact of larger changes to the flow data size,
+Due to this result, we assume higher ($\alpha \rightarrow 1$) values for the smoothing factor for posterior results. A different approach was devised,
+and to obtain the values for the error calculation we consider the SSE (\ref{eq:sse}) to increase the impact of larger changes to the flow data size,
 and minimize smaller changes.
 
 \begin{figure} [H]
@@ -149,8 +157,8 @@ and minimize smaller changes.
 
 \subsection{Detection}
 
-The detection component of the algorithm provides the logic for finding the points that are out of control. For this component we consider two possible techniques: the first, which simply compares the output of the error calculation, to a certain threshold; 
-and a second, using the CUSUM algorithm. 
+The detection component of the algorithm provides the logic for finding the points that are out of control. For this component we consider two possible techniques:
+the first, which simply compares the output of the error calculation, to a certain threshold; and a second, using the CUSUM algorithm. 
 
 \par For the first detection method, the rule is 
 
@@ -160,8 +168,9 @@ and a second, using the CUSUM algorithm.
     \epsilon^2 \geq \delta,
 \end{equation*}
 
-\par and this method provides advantages mainly due to the simplicity of the technique, however previous knowledge of the change is required to determine a possible threshold $\delta$. After cross examining the plots for the decrease of bandwidth, 
-\ref{fig:bandwidth_loss} and the error predictions plots, we assume $\delta = 3$ for the threshold value. The change detection algorithm applied to port 21 can be seen in figure \ref{fig:detect_dumb}.
+\par and this method provides advantages mainly due to the simplicity of the technique, however previous knowledge of the change is required to determine a possible
+threshold $\delta$. After cross examining the plots for the decrease of bandwidth, \ref{fig:bandwidth_loss} and the error predictions plots, we assume $\delta = 3$
+for the threshold value. The change detection algorithm applied to port 21 can be seen in figure \ref{fig:detect_dumb}.
 
 \begin{figure}[H]
     \centering
@@ -170,9 +179,11 @@ and a second, using the CUSUM algorithm.
     \label{fig:detect_dumb}
 \end{figure} 
 
-\par Prior to deploying the CUSUM algorithm, in order to obtain the best-case scenario of the detection algorithm, we have collected the results for the prediction result, and applied the algorithm to the entire generated data set. Performing this step allows
-to obtain a general knowledge on the expected output of the algorithm, more specifically the expected number of alarms that are raised in a certain testing environment, so that application of the online algorithm may provide the closest possible results to the
-optimal offline version. Figure  \ref{fig:offline_cusum} shows the output of the algorithm applied to the errors associated to port 21's errors, which is connected to the host that generates the elephant flows, and the CUSUM algorithm implementation used was from 
+\par Prior to deploying the CUSUM algorithm, in order to obtain the best-case scenario of the detection algorithm, we have collected the results for the prediction
+result, and applied the algorithm to the entire generated data set. Performing this step allows to obtain a general knowledge on the expected output of the algorithm,
+more specifically the expected number of alarms that are raised in a certain testing environment, so that application of the online algorithm may provide the
+closest possible results to the optimal offline version. Figure  \ref{fig:offline_cusum} shows the output of the algorithm applied to the errors associated to
+port 21's errors, which is connected to the host that generates the elephant flows, and the CUSUM algorithm implementation used was from 
 \url{https://github.com/demotu/BMC}.
 
 % XXX - Explain drift and threshold parameters
@@ -183,10 +194,11 @@ optimal offline version. Figure  \ref{fig:offline_cusum} shows the output of the
     \label{fig:offline_cusum}
 \end{figure} 
 
-\par The adaptation of the CUSUM algorithm for utilization as an online technique is based on a sliding window that is updated with every new sample. Applying this method has the advantages of using the CUSUM algorithm without needing
-extensive changes, while also reducing the amount of memory needed to apply this method. Choosing the window size is a central point to a successful implementation of the change detection mechanism, that is explored further in section
-\ref{sec:change_results}. Figure \ref{fig:online_cusum} displays the output of the online CUSUM algorithm in the same testing conditions as the ones present on the previous results. The points present in this figure are the time when
-the alarms are raised in relation to the time when the tests began.
+\par The adaptation of the CUSUM algorithm for utilization as an online technique is based on a sliding window that is updated with every new sample. Applying this
+method has the advantages of using the CUSUM algorithm without needing extensive changes, while also reducing the amount of memory needed to apply this method. 
+Choosing the window size is a central point to a successful implementation of the change detection mechanism, that is explored further in section 
+\ref{sec:change_results}. Figure \ref{fig:online_cusum} displays the output of the online CUSUM algorithm in the same testing conditions as the ones present on
+the previous results. The points present in this figure are the time when the alarms are raised in relation to the time when the tests began.
 
 \begin{figure} [H]
     \centering
@@ -198,3 +210,10 @@ the alarms are raised in relation to the time when the tests began.
 \section {Results and Evaluation} \label{sec:change_result}
 
 Analysing the output of the algorithm provides the information that 
+
+\begin{figure} [H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{meter_eleph/evaluation_error}
+    \caption {Number of errors comparison between optimized and non optimized version}
+    \label{fig:errors_comparaison}
+\end{figure} 

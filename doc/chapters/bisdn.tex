@@ -6,15 +6,14 @@
     \caption{Basebox architecture}
 \end{figure}
 
-As the SDN market grows larger and larger in the networking world, new applications and products are developed and improved. Seeing the prevalence of closed source and proprietary solutions for this market, a need for open
-products that enable further growth and innovation in cloud DCNs is evident. The main gain in moving from vertically integrated solutions, is the decrease of costs involved, as cheaper solutions can be found in whitebox 
-\footnote {whitebox switches are generic switches that possess no association to a certain vendor} switches and open sourced networking applications. With this motivation, BISDN developed Basebox, a Linux-powered solution to integrate switches and SDN controllers, 
-allowing for data center  operators to configure and manage networks using linux commands, removing the need for having to manage several devices with different interfaces and workflows, and adding the capability of running standard networking applications 
-on top of the controllers and switches. Basebox also includes the possiblity of running in a failover scenario, by introducing a backup controller for the network, and the possibility of creating a giant switch abstraction, 
-by adding another controller, CAWR, and having this manage all the southbound switches.
-
-\par In this chapter we focus on this product, on the first two sections some characteristics of the developed product are described, then we focus on the development of a management API, presenting the required technologies that 
-were implemented, and then finally display the results that were obtained in this part of the thesis.
+As the SDN market grows larger and larger in the networking world, new applications and products are developed and improved. Seeing the prevalence of closed source
+and proprietary solutions for this market, a need for open products that enable further growth and innovation in cloud DCNs is evident. The main gain in moving from 
+vertically integrated solutions, is the decrease of costs involved, as cheaper solutions can be found in whitebox \footnote {whitebox switches are generic switches
+that possess no association to a certain vendor} switches and open sourced networking applications. With this motivation, BISDN developed Basebox, a Linux-powered
+solution to integrate switches and SDN controllers, allowing for data center  operators to configure and manage networks using linux commands, removing the need for
+having to manage several devices with different interfaces and workflows, and adding the capability of running standard networking applications on top of the 
+controllers and switches. Basebox also includes the possiblity of running in a failover scenario, by introducing a backup controller for the network, and the
+possibility of creating a giant switch abstraction, by adding another controller, CAWR, and having this manage all the southbound switches.
 
 \subsection {Existing product}
 
@@ -26,28 +25,33 @@ were implemented, and then finally display the results that were obtained in thi
     \caption{Diagram displaying baseboxd's capabilities}
 \end{figure}
 
-baseboxd is a controller daemon integrating whitebox switches into Linux, based on the OpenFlow Data Path Abstraction (OF-DPA). The controller communicates with the Linux kernel over netlink and with the switch using OpenFlow, which allows for 
-representing the state of the switching infrastructure as part of the Linux networking stack. 
+baseboxd is a controller daemon integrating whitebox switches into Linux, based on the OpenFlow Data Path Abstraction (OF-DPA). The controller communicates with the 
+Linux kernel over netlink and with the switch using OpenFlow, which allows for representing the state of the switching infrastructure as part of the Linux networking
+stack. 
 
-\par From the perspective of the switch, the baseboxd listens for OFPT\_PORT\_STATUS async messages, and updates the state of the tap ports accordingly in the Linux kernel, creating tap interfaces for each port that is up, and deleting them when they go down. 
-On the controller side, the changes done to the interfaces are also propagated downwards into the switch, for example the addition of VLANs, or setting route to neighbors, which baseboxd listens, and sends the appropriate flow messages via the OpenFlow protocol. 
-Since baseboxd responds directly to the relevant netlink messages, it is one of the intended ways to interface with baseboxd. One may use tools such as iproute2 and systemd-networkd to configure baseboxd through this interface \cite{CITE - docs.bisdn.de}.
-
-% XXX - insert picture of the observed ports from bbctrl01.labor
+\par From the perspective of the switch, the baseboxd listens for OFPT\_PORT\_STATUS async messages, and updates the state of the tap ports accordingly in the Linux
+kernel, creating tap interfaces for each port that is up, and deleting them when they go down. On the controller side, the changes done to the interfaces are also
+propagated downwards into the switch, for example the addition of VLANs, or setting route to neighbors, which baseboxd listens, and sends the appropriate flow
+messages via the OpenFlow protocol. Since baseboxd responds directly to the relevant netlink messages, it is one of the intended ways to interface with baseboxd.
+One may use tools such as iproute2 and systemd-networkd to configure baseboxd through this interface \cite{CITE - docs.bisdn.de}.
 
 \subsubsection {CAWR}
 
-CAWR – which stands for Capability AWare Routing – is a secondary OpenFlow controller that creates a giant switch abstraction from a set of whitebox switches. This giant switch integrates smoothly with baseboxd and allows for easy scaling and management of mulitple
-networking devices. As a secondary controller, it is placed in between baseboxd and the physical switches, and both its northbound and southbound interfaces are OpenFlow and following the OF-DPA standard.
+CAWR – which stands for Capability AWare Routing – is a secondary OpenFlow controller that creates a giant switch abstraction from a set of whitebox switches. This 
+giant switch integrates smoothly with baseboxd and allows for easy scaling and management of multiple networking devices. As a secondary controller, it is placed in
+between baseboxd and the physical switches, and both its northbound and southbound interfaces are OpenFlow and following the OF-DPA standard.
 
-\par CAWR was designed to handle multi-switch configurations, and the current version supports up to two switches. A host can be connected to each of the switches by a pair of interfaces that have bond mode configured, and the layer 2 traffic across
-the physical network is properly forwarded. Failover mechanisms to deliver uninterrupted operation are present, in the case of port or switch failure.
+\par CAWR was designed to handle multi-switch configurations, and the current version supports up to two switches. A host can be connected to each of the switches by
+a pair of interfaces that have bond mode configured, and the layer 2 traffic across the physical network is properly forwarded. Failover mechanisms to deliver
+uninterrupted operation are present, in the case of port or switch failure.
 
-\par CAWR adds LACP (IEEE 802.3ad, IEEE 802.1ax) and LLDP-based (IEEE 802.1ab) topology discovery to the Basebox setup. CAWR uses LLDP to detect internal links (connections between the switches) to build an initial topology, and bonds that are discovered via LACP or
-have been manually configured are added to the topology as well. LACP is also used to continuously monitor the link status and detect port connections and disconnections on servers that have LACP enabled\cite{CITE - docs.bisdn.de}.
+\par CAWR adds LACP (IEEE 802.3ad, IEEE 802.1ax) and LLDP-based (IEEE 802.1ab) topology discovery to the Basebox setup. CAWR uses LLDP to detect internal links
+(connections between the switches) to build an initial topology, and bonds that are discovered via LACP or have been manually configured are added to the topology as
+well. LACP is also used to continuously monitor the link status and detect port connections and disconnections on servers that have LACP enabled 
+\cite{CITE - docs.bisdn.de}.
 
 \begin{figure} [!htbp]
     \centering
     \includegraphics[width=.5\textwidth]{bisdn/cawr}
-    \caption{Diagram displaying cawr's capabilities}
+    \caption{Diagram displaying CAWR's capabilities}
 \end{figure}
