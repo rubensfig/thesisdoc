@@ -1,30 +1,24 @@
 \section{Network Management} \label{chap:nm} 
 
-\par As networks grow larger and more complex, systems must be put in place that allow for closely monitoring the resources that make up the network, while also 
-allowing for a certain freedom for the possible constant change of the network. As such, typical vendor solutions don't really fit into this ever changing landscape,
-since they present very solid and vertically integrated solutions. The SDN paradigm, however, is able to solve this issue, since it enables for the centralized
-control of the underlying networks, which provides visibility and even control over the network, simplifying network diagnosis or troubleshooting. 
-
-\par Although SDN is a promising paradigm in terms of networking management, it also introduces some points of failure that are non existing, or not as impactful in
-current networking deployments. This is related, for example, to the centralization of the controller, which makes it susceptible to Denial-of-Service attacks or
-even the possibility of some malicious attacker that could possibly exploit the privileged view that the SDN controller has.
 \par The topic of network management is very extensive, due to the several components that make up today's networks, and the vast amount of information that they
 provide. It can be summed up as the operation and maintenance of network infrastructure so that the service it provides is not only "healthy", but also is operated
 at a level that keeps costs down for service providers. 
 
 \subsection {Requirements for management systems}
 
-\par As the complexity of the networks, and network devices that compose them grow bigger and bigger, the management systems should accommodate for the their
-necessities. As such, the basic groups of requirements for management functions are that defined in the ITU-T X 700 Recommendation \cite{noauthor_recommendation_1992}
+\par As the complexity of the networks, and network devices that compose them, grows bigger and bigger, the management systems should accommodate for the their
+necessities. As such, the basic groups of requirements for management functions  defined in the ITU-T X 700 Recommendation \cite{noauthor_recommendation_1992}
 are:
 
 \begin {itemize}
     \item \textbf {Fault management} is the capability for detection, isolation and correction of abnormal operation in the system
-    \item \textbf {Accounting management} provides ways to monitor the system resource utilization, and using this data to generate information about the costs that the operation of a certain resource will incur. This 
-        allows for better optimizing the network utilization of network, as it provides insights on how to plan the evolution of the network
-    \item \textbf {Configuration management} is related to the maintenance and updates of hardware and software in the network, and the general setup of devices that allow to start, maintain and terminate services 
-    \item \textbf {Performance management} relates to monitor systems for the traffic utilization, response time, performance and logging histories. This allows to maintain Service Level Agreements (SLA) from the service
-        provider and the client, providing better services even in cases of unusual traffic.
+    \item \textbf {Accounting management} provides ways to monitor the system resource utilization, and using this data to generate information about the costs that
+        the operation of a certain resource will incur. This allows for optimizing the network utilization of resources, as it provides insights on how to
+        plan the evolution of the network
+    \item \textbf {Configuration management} is related to the maintenance and updates of hardware and software in the network, and the general setup of devices 
+        that allow to start, maintain and terminate services 
+    \item \textbf {Performance management} relates to monitor systems for the traffic utilization, response time, performance and logging histories. This allows to 
+        maintain Service Level Agreements (SLA) between the service provider and the client, providing better services even in cases of unusual traffic.
     \item \textbf {Security management} enables setting up security policies in terms of access control to resources, private information protection, among others.
 \end {itemize}
 
@@ -53,32 +47,27 @@ other aspects of network operation \cite{fedor_simple_1990}.
 The management database is one of the most important components of this system, because it serves as a reference to the entities that are managed in the SNMP
 protocol. The formal name for this database is the MIB - Management Information Base \cite{rose_structure_1990}, and its composed of a collection of objects.
 
-\par Each object has a name, syntax and encoding \cite {CITE - RFC 1156}. The name of the object, more specifically, the \textit {Object Identifier (OID)}, is a
+\par Each object has a name, syntax and encoding \cite{rose_management_1990}. The name of the object, more specifically, the \textit {Object Identifier (OID)}, is a
 reference to the object itself. This name is usually a list of integers, and they serve to build a tree-like hierarchy. This structure allows for the organization 
-of all objects in a logical pattern, as there is a parent node, that contains references to their children, that provide different indexes for different objects. 
-For human readability, there is usually a \textit {Object Descriptor}, to refer to the object type. The syntax defines the type of data structure in the object type;
-and the encoding describes how the object type is transmitted on the network. In the context of this thesis, an important group is the interfaces group, as this
-exposes information about the interfaces present in a system. Its OID is the .3.6.1.2.1.2., and contains the number of interfaces in a system, and a table containing
-the counters related to the interface status, like the received unicast packets, the physical address, among others. The flexibility of the MIB allows for vendors 
-to introduce their own databases into the MIB, while also remaining compatible with the standardized one.
+of all objects in a logical pattern, as there is a parent node that contains references to their children, which provides different indexes for different objects. 
+For human readability, there is usually an \textit {Object Descriptor}, to refer to the object type. 
+
+\par The syntax defines the type of data structure in the object type; and the encoding describes how the object type is transmitted on the network. In the context
+of this thesis, an important group is the interfaces group, as this exposes information about the interfaces present in a system. Its OID is the .3.6.1.2.1.2., 
+and contains the number of interfaces in a system, and a table containing the counters related to the interface status, like the received unicast packets, the 
+physical address, among others. The flexibility of the MIB allows for vendors to introduce their own databases into the MIB, while also remaining compatible 
+with the standardized one.
 
 \par Due to its permanence in the market, the protocol has suffered some large changes since its original design. SNMPv3 now supports important changes to the
 original one, most notably in the security aspects, introducing strong authentication and encryption capabilities.
 
 \subsection {Data Center Networks (DCN)}
 
-\par The rising demand of services like music and video streaming, or mass data storage, brings an increase of demand of compute and storage infrastructures, and the
-shift to the cloud computing model has led to a proliferation of large data-centers, containing thousands of physical nodes. Related to this growth is the focus on
-moving not only servers to a virtualised environment, by having one physical host several virtual machines and client applications, but moving also the networking
-functions to a virtual environment, by replacing the dedicated network hardware with generic compute resources, in a paradigm called
-\textit{Network Function Virtualisation (NFV)} \cite{schulz-zander_opensdwn:_2015}. One of the bigger gains of using NFV, is the possibility of separation of each 
-virtual network (VN), which guarantees better performance isolation and application of Quality of Service (QoS) rules \cite{berde_onos:_2014}. 
-
 \par The design of the network architecture is central to the data-center networks, as the placement for physical hosts and virtual machines allows for sharing the 
 resources and create a logical hierarchy of network devices. The study on the design of DCN has resulted in the creation of typical DC topologies, like fat-tree
 topologies (as seen in \ref{fig:fattree}), or others, including de Bruijn server only networks, or BCube switch heavy networks \cite{popa_cost_2010}. This approach
-allows for the traffic characteristics, resource consumption and costs of the networking devices be understood, so that causes for failure of this network are
-understood and mitigated, and the entire DC can run on the most optimal possible way. The organization in the DCN also allows for traffic in the network being
+allows for the traffic characteristics, resource consumption and costs of the networking devices be monitored, so that causes for failure of this network are
+understood and mitigated, and the entire DC can run on the most optimal way possible. The organization in the DCN also allows for traffic in the network being
 resistant to failure scenarios, since there are multiple paths that can redirect packets to the correct destination, even if a link to a switch fails.
 
 \begin{figure} [!htbp]
@@ -91,7 +80,7 @@ resistant to failure scenarios, since there are multiple paths that can redirect
 \subsubsection {DCN and SDN}
 
 \par The centralized view that SDN controllers maintain over the networks allows for it to keep the information about the flows currently present in the network. As
-such, in the SDN paradigm, there is possibility to flexibly control the path that the packets take in the network, and improve performance of the network at a large
+such, the SDN paradigm allows for flexible control of the path the packets take in the network, and improves performance of the network at a large
 scale. By joining the information available on DCN and SDN, the requirements for traffic engineering (TE) in SDN, from the perspective of flow control are flow 
 management, fault tolerance and traffic analysis \cite{akyildiz_research_2016}. This set of four requirements set the base for properly monitoring a DCN from the 
 perspective of the SDN paradigm.
@@ -100,14 +89,12 @@ perspective of the SDN paradigm.
 \subsubsection {Flow management}
 
 Flow management refers to the capability that the controller has to set rules for packet forwarding, and maintain the low overhead that is associated with
-registering a new flow mod, and also limiting the amount of flow entries, as hardware switches usually have a set amount of flow entries that it can support. Further
-in this document, we explore the effect that the amount of flow entries has on OVS, where increasing the amount of flow entries also increases the packet loss
-between two hosts.
+registering a new flow rule, and also limiting the amount of flow entries, as hardware switches usually have a set amount of flow entries that they can support.
 
-\par If we consider the fat-tree topology, then one obvious result is the fact that if one controller is responsible for the management of the entire underlying 
-topology, then one possible results is the creation of one bottleneck when the rules need to be deployed to a node. When the switch receives a new packet, and there 
+\par If we consider the fat-tree topology, one obvious consequence is the fact that if one controller is responsible for the management of the entire underlying 
+topology, a bottleneck can be created when the rules need to be deployed to a node. When the switch receives a new packet, and there 
 are no rules to properly forward this packet, then the packet is redirected to the controller, on the form of a \textsc{PACKET\_IN} message, and after processing
-this packet a new flow mod is sent to the switch. The problem with this scenario lies in the delay that it takes between the reception of the packet, and the
+this packet, a new flow rule is sent to the switch. The problem with this scenario lies in the delay that it takes between the reception of the packet, and the
 installation of the new flow entry, which can be a contributing factor in packet losses in the data plane. This is an attack vector that is also explored in
 Distributed Denial of Service (DDoS) attacks for SDN platforms, as in an extreme scenario, the spoofed packet addresses will not have matches on the tables, which
 then result on overflowing the controller \cite{mousavi_early_2015}.
@@ -115,39 +102,26 @@ then result on overflowing the controller \cite{mousavi_early_2015}.
 \par A solution for this issue is then related to decreasing the number of messages sent to the controller, by introducing some load balancing concepts. One of
 these concepts is related to the way that we can install the flow entries on the switch. The information present in the packets serve to generate the flow-match
 entries that are deployed on the table. To reduce the number of interactions between the controller and OF switches, then we can reduce the number of match fields
-present in the flow mods, which reduces the number of flow entries on the switch and the controller messages. Another solution is related to distribute the 
-controller among the network, but keeping them connected via a separate channel.
+present in the flow rules, which reduces the number of flow entries on the switch and the controller messages. Another solution is distributing the controller among
+the network, but keeping them connected via a separate channel.
 
 \subsubsection {Fault tolerance} \label{sec:fault_tolerance}
 
-Although the switches are connected in a way that are able to mitigate link, or other switch failures, in the case of faults occurring there needs to be the
+Although the switches are connected in a way that are able to mitigate link or other switch failures, in the case of faults occurring there needs to be the
 possibility of creation of new forwarding rules. An even bigger concern lies in the case when the controller fails, which will pose a larger problem in the network. 
-For the case of node failure, fast recovery means that the OF controller can reactively react on link failures, by signaling the switches to forward packets toward 
+For the case of node failure, fast recovery means that the OF controller can reactively act on link failures, by signaling the switches to forward packets toward 
 new locations; or proactively, by setting the rules prior to the occurrence of the failure. In the case that the failure is short lived, then the controller is also 
-responsible of resetting the paths to the optimal state.
-
-\par In the case of controller failover, then the backup controllers should act on this failure, and act as the new master. OF switches should connect to the set of
-available controllers, which should coordinate the management of the switch amongst themselves. After the switches first connection to the controllers, they should
-maintain this connection alive, but the controllers have the possibility of changing their roles. The controller roles are as follows:
-
-\begin {itemize}
-    \item \textsc {OFPCD\_ROLE\_EQUAL}, where the controller has full access to the switch, receiving all incoming messages, and can modify the state of the switch
-    \item \textsc {OFPCD\_ROLE\_MASTER}, which is a similar status to the previous one, but where the switch ensures that only one switch is connected as the master
-        role
-    \item \textsc {OFPCD\_ROLE\_SLAVE} is a role that controllers has read-only access to the switch, having no permissions for altering the state of the switch.
-        The only message that controllers registered with this role receive are the port-status messages
-\end {itemize}
-
-As previously mentioned, the way that controllers handle their connection is independent of the OpenFlow connection, and the failover should occur with minimal changes to the underlying flow rules and overhead.
+responsible of resetting the paths to the optimal state. The way that controllers handle their connection is independent of the OpenFlow connection, and the
+failover should occur with minimal changes to the underlying flow rules and overhead.
 
 \subsubsection {Traffic analysis}
 
 So that the management tools can correctly display information about the state of the network, status statistics should be continuously collected and analysed. These
 statistics should provide the information about flows, packets and ports, so that the measured metrics can serve as a baseline for the decisions of the controller to
-adapt the flow mods to enable the best possible performance. For the statistics collection there are two possible ways of getting the data: by continuously sampling
+adapt the flow rules to enable the best possible performance. The statistics collection can be collected in two possible ways: by continuously sampling
 packets from the switches; or applying sampling techniques, and generalizing the information from the sampled data \cite{curtis_mahout:_2011}. The problem here lies
 in the collection of the statistics in poses a problem for large scale deployments, where continuously polling the network devices introduces both overhead and very 
-large amounts of data to be parsed, or the data is not enough to detect failures in a short amount of time.
+large amounts of data to be parsed, or the data is not enough to detect failures in a short amount of time. 
 
 \subsection {Statistics}
 
@@ -168,7 +142,7 @@ aggregate flow messages which describe how many packets are in the total flow en
 \par Also relevant is the information that is retrieved using the group statistics, as they allow to monitor the number of flows that direct to the group, and again
 the packet/ byte count that are matched with this group.
 
-\par The information provided from these messages allows for a comprehensive view of the state of each switch, and a Network Management System (NMS) should utilize
+\par The information provided from these messages allows for a comprehensive view of the state of each switch, and a Network Management System (NMS) can utilize
 this information to achieve an understanding of the state of the network. 
 
 \subsubsection {sFlow} \label{sec:sflow}
@@ -180,7 +154,7 @@ each device and its interfaces. sFlow is implemented using embedded agents on sw
 sFlow collector via datagrams. 
 
 \par Due to the problems that arise with continuously collecting traffic data, packet sampling has emerged as a valid solution to this problem, by collecting every
-\textit{n}-th packet randomly. The simplicity of the technique allows for reducing the complexity of sFlow agents, and having the sampling operation being done in 
+\textit{n}-th packet. The simplicity of the technique allows for reducing the complexity of sFlow agents, and having the sampling operation being done in 
 hardware, resulting in the collection of the samples being done at the same speed of the channel it is monitoring. This reduces the losses that are inherent to the
 sampling process, which leads to biased analysis of the traffic \cite{brauckhoff_impact_2006}.
 
