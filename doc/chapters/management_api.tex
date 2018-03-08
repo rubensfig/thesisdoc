@@ -78,7 +78,7 @@ from OF are the following:
 \begin{table}[H]
     \centering
     \caption{OpenFlow port statistics}
-    \begin{tabular}{l | l || l | l}
+    \begin{tabular}{c | c || c | c}
        uint64\_t & rx\_packets     & uint64\_t & tx\_packets;     \\ \hline
        uint64\_t & rx\_bytes;      & uint64\_t & tx\_bytes;       \\ \hline
        uint64\_t & rx\_bytes;      & uint64\_t & tx\_dropped;     \\ \hline
@@ -142,7 +142,23 @@ and if the system is enabled to support this feature, NETCONF can detect errors 
 state that is error free. 
 
 \par The NETCONF API provides several operations to interact with the managed devices to get system information and push new configurations. The set of supported 
-operations in the base NETCONF protocol can be accessed in \url{https://tools.ietf.org/html/rfc6241#section-7}. 
+operations in the base NETCONF protocol are \cite{enns_network_2011}:
+
+\begin{table}
+    \centering
+    \caption{NETCONF Operations}
+    \begin{tabular}{c}
+       get  \\ \hline
+       get-config  \\ \hline
+       edit-config  \\ \hline
+       copy-config  \\ \hline
+       delete-config  \\ \hline
+       lock  \\ \hline
+       unlock  \\ \hline
+       close-session  \\ \hline
+       kill-session  
+    \end{tabular}
+\end{table}
 
 \par In regards to the transport layer, NETCONF is able to run on top of several protocols. However, NETCONF requires that a persistent connection is maintained 
 between devices, and this connection should be reliable, and support transmission failure. In addition, the security should be handled by the transport layer 

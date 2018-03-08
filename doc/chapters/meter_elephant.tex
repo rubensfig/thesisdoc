@@ -7,20 +7,18 @@ understand and change the underlying topologies. There requirements clearly indi
 environment, using tools like \textit{mininet}, which provides a miniature network that can be changed as needed. This testing suite provides a strong 
 alternative to deploying these changes in hardware.
 
-\par Despite the developments previously made to the SDN controllers, utilizing these in combination with the virtualised environment poses a challenge, related 
+\par Despite the changes implemented to Basebox, utilizing these controllers in combination with the virtualised environment poses a challenge, related 
 to the implementation of the OpenFlow protocol in the hardware and software switches. Hardware switches that were used for testing in the implementation of
-the GUI have a modified version of the OpenFlow tables structure, OFDPA \footnote{OpenFlow Data-Path Abstraction}, and the libraries that make up the 
-controller are designed around this. To utilize the controllers, changes to OpenvSwitch would be required, or an alternative would have to be 
-discovered, which would limit functionality of the controllers.
+the GUI have a modified version of the OpenFlow tables structure, OFDPA (see section \ref{sec:of}), and the libraries that make up the 
+controller are designed around this. To utilize the controllers, changes to OpenvSwitch or other alternatives steps would be required in order to use the environment,
+which was decided out-of-scope for this thesis.
 
-\par To solve this issue, and to have a stable controller, that works as intended, for this step we adopt a different controller, and focus on the mechanisms that 
-are also present in the hardware controllers. Furthermore, researching other approaches provides ideas that can later be adopted in these. The chosen controller
-was Floodlight \footnote { XXX - insert link here}, for it is continuously updated, and provides a REST API for obtaining statistics, setting table rules.
+\par To solve this issue we adopt a different controller for interaction with the virtual environment. In addition, researching the traffic engineering modules in
+other controllers provides ideas that can later be adopted in Basebox. The chosen controller was Floodlight (see section \ref{chap:flood}), since it exposes
+provides a simple REST API for obtaining statistics, setting table rules, and is continuously maintained, providing an optimal test bed.
 
 \par These elements compose the testing environment that seen in \ref{fig:test_setup}. To ease the installation of the utilized applications, 
 we based these applications on VMs and containers, and the installation files can be found on the following page \url {example.com}.
-
-\pagebreak
 
 \begin{figure} 
     \centering
@@ -38,12 +36,19 @@ addresses can also be seen, and the port numbers used are also displayed.
 
 Mininet provides an API to interact with a virtual network and setup tests in a predictable manner. We utilize this API to develop a script that creates the network
 topology. For traffic generation, however, we require another tool that provides specific functionalities, like control of the packet interval and the packets data
-size. The tool \textit{hping} is a common tool used for packet generation and port mapping, and its simplicity allows for quickly deploy different tests
-against the designed setups.
+size. The tool \textit{hping} is a common tool used for packet generation and port mapping, and its simplicity allows to quickly deploy different tests against the
+designed setups. In picture \ref{fig:hping_setup} the command line interface of the tool is presented and the arguments to build the tests are presented.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{meter_eleph/testing_link}
+    \caption{hping tool tests and command line arguments}
+    \label{fig:hping_setup}
+\end{figure}
 
 \par We consider two different test scenarios, the first where we assume no background traffic between the hosts, and the other where every host is communicating
-with each other. This has the purpose of simulating low traffic intensities in the network, and verify the behaviour of the designed algorithm in an
-approximation to real conditions.
+with each other, simulating background traffic. This has the purpose of simulating low traffic intensities in the network, and verify the behaviour of the designed
+algorithm in an approximation to real conditions.
 
 % XXX - Find a citation for this, cant find it anywhere
 \par The utilization of Open vSwitch has, however some drawbacks that should be address when the tests are being designed. Figure \ref{fig:ovs_packet_loss} shows
@@ -51,9 +56,9 @@ the increase of the packet loss as the number of flows in OVS increases. This li
 a care in the amount of flows that are generated.
 
 % XXX - Redo this graphic
-\begin{figure} 
+\begin{figure} [H]
     \centering
-    \includegraphics[width=0.5\textwidth]{meter_eleph/ovs_packet_loss}
+    \includegraphics[width=0.6\textwidth]{meter_eleph/ovs_packet_loss}
     \caption {OVS measured packet loss}
     \label{fig:ovs_packet_loss}
 \end{figure} 
@@ -61,14 +66,14 @@ a care in the amount of flows that are generated.
 \section {Algorithm design}
 
 \begin {equation*}
-\centering
-x_i = 
-\begin{bmatrix}
-B_{RX}\\
-P_{RX}\\
-B_{TX}\\
-P_{TX}\\
-\end{bmatrix}
+    \centering
+    x_i = 
+    \begin{bmatrix}
+    B_{RX}\\
+    P_{RX}\\
+    B_{TX}\\
+    P_{TX}\\
+    \end{bmatrix}
 \end {equation*}
 
 \par $B_{XX}$ and $P_{XX}$ describe to the port statistics obtained from the controller, the byte (B\textsubscript{XX}) and packet (P\textsubscript{XX}) counters, 
@@ -123,7 +128,7 @@ in figure \ref{fig:init_plot}.
 % Display initial graph of Received Bytes
 \begin{figure} 
     \centering
-    \includegraphics[width=0.4\textwidth]{meter_eleph/init_period_lin}
+    \includegraphics[width=0.9\textwidth]{meter_eleph/init_period_lin}
     \caption {Plotting the initial measurements of B\textsubscript{RX}}
     \label{fig:init_plot}
 \end{figure} 
@@ -150,9 +155,9 @@ and to obtain the values for the error calculation we consider the SSE (\ref{eq:
 and minimize smaller changes.
 
 \begin{figure} [H]
-    \centering
-    \includegraphics[width=0.7\textwidth]{meter_eleph/error_plot_sse}
-    \caption{Different error calculation methods, on the top using SSE, and on the bottom using equation 8.1}
+    \includegraphics[width=1.2\textwidth]{meter_eleph/error_plot_sse}
+    \caption{$\epsilon^2$ calculation on top using $\alpha = 0.2$, and on bottom using $\alpha = 0.8$}
+    \label{fig:error_plot_division_sse}
 \end{figure}
 
 \subsection{Detection}
@@ -174,7 +179,7 @@ for the threshold value. The change detection algorithm applied to port 21 can b
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{meter_eleph/detect_dumb}
+    \includegraphics[width=1\textwidth]{meter_eleph/detect_dumb}
     \caption {Simple detection}
     \label{fig:detect_dumb}
 \end{figure} 
@@ -189,7 +194,7 @@ port 21's errors, which is connected to the host that generates the elephant flo
 % XXX - Explain drift and threshold parameters
 \begin{figure} [H]
     \centering
-    \includegraphics[width=0.8\textwidth]{meter_eleph/offline_cusum_output}
+    \includegraphics[width=1\textwidth]{meter_eleph/offline_cusum_output}
     \caption {Offline CUSUM output}
     \label{fig:offline_cusum}
 \end{figure} 
@@ -202,18 +207,25 @@ the previous results. The points present in this figure are the time when the al
 
 \begin{figure} [H]
     \centering
-    \includegraphics[width=0.8\textwidth]{meter_eleph/online_cusum_output}
+    \includegraphics[width=1\textwidth]{meter_eleph/online_cusum_output}
     \caption {Online CUSUM output}
     \label{fig:online_cusum}
 \end{figure} 
 
 \section {Results and Evaluation} \label{sec:change_result}
 
-Analysing the output of the algorithm provides the information that 
+Analysing the output of the algorithm after the tests finish, indicates the corresponding timestamps of the alarms. Blindly applying the sliding window technique
+in the algorithm will result in repeated alarms across the window, and as we vary the length of the window to analyse if this variation will provide any change in the
+number of alarms raised, we can detect the increase in number of repeated alarms. A simple optimization to the proposed algorithm is to consider only the first
+ocurrence of the alarms. Figure \ref{fig:errors_comparaison} shows the result of plotting the number of alarms against the changing size of the window, the
+upper figure considering only the timestamp of the first ocurrence of the alarm, on the contrary of the lower figure.
 
 \begin{figure} [H]
     \centering
-    \includegraphics[width=0.8\textwidth]{meter_eleph/evaluation_error}
+    \includegraphics[width=0.9\textwidth]{meter_eleph/evaluation_error}
     \caption {Number of errors comparison between optimized and non optimized version}
     \label{fig:errors_comparaison}
 \end{figure} 
+
+\par This proposed approach also allows the comparaison between the offline and the online approach to change detection. In figure \ref{fig:offline_cusum}, the 
+offline output can be analysed for the number of expected alarms on this testing scenario.

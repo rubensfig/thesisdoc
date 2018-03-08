@@ -197,8 +197,6 @@ every controller, but as specified in section \ref{sec:fault_tolerance}, only th
 ensures that duplicate rules are not enforced. In case of controller failure, one of the backup controllers can take over the role of the previous master,
 without any outages on the network.
 
-% XXX - CONTROLLER RESEARCH
-
 \subsubsection{Existing Platforms}
 
 There are several controller implementations available for use, each with different interfaces, performance, and modularity. In \cite{khondoker_feature-based_2014} a
@@ -206,7 +204,7 @@ comparative study is performed on available SDN controllers in 2014, and compare
 interfaces, the language of implementation, modularity, etc. In the following sections, we explore two of the highest rated solutions, Floodlight and
 OpenDaylight.
 
-\subsubsection {Floodlight}
+\subsubsection {Floodlight} \label{chap:flood}
 
 \begin{figure}[H]
   \centering
@@ -219,12 +217,12 @@ research and industry \cite{berde_onos:_2014}. This controller provides the Open
 or through the utilization of the provided REST interface, simplifying the addition of new features to the base controller.
 
 \par The Northbound endpoint provides a REST API to interact with the switch, which allows developers to get statistics, push flow entries, and more. It also 
-provides an useful GUI for easier visualization of the topology, link state, and port statistics \ref{fig:flood_topo}.
+provides an useful GUI for easier visualization of the topology, link state, and port statistics, which is visible in figure 2.6.
  
 \begin{figure}
   \centering
   \includegraphics[width=.8\textwidth]{sdn/floodlight_topology}
-  \label{fig:flood_topo}
+  \label{fig:flood_topos}
   \caption {Floodlight web views of the topology}
 \end{figure}
 
