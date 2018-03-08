@@ -97,10 +97,11 @@ controller. The components that are part of this system and enable this function
         \cite{open_networking_foundation_openflow_2015}.
     \item \textbf {Secure Channel} OpenFlow defines the channel that is between the switch and the controller as a secure communications channel. As messages 
         that are exchanged between the switches and the controllers are critical for the correct operation of the system, the channel should be cryptographically
-        secure, to prevent spoofing and manipulation of this information. As such, the channel is tipically transported over TLS.
+        secure, to prevent spoofing and manipulation of this information. As such, the channel is usually transported over TLS.
 \end {itemize}
 
-% XXX SOURCE This images were taken from : open flow switch specification  https://3vf60mmveq1g8vzn48q2o71a-wpengine.netdna-ssl.com/wp-content/uploads/2014/10/openflow-switch-v1.3.5.pdf
+% XXX SOURCE This images were taken from : open flow switch specification
+% https://3vf60mmveq1g8vzn48q2o71a-wpengine.netdna-ssl.com/wp-content/uploads/2014/10/openflow-switch-v1.3.5.pdf
 \begin{figure} [h]
     \centering
     \begin{subfigure}
@@ -111,7 +112,12 @@ controller. The components that are part of this system and enable this function
     \end{subfigure}
     \caption{Images describing OpenFlow components. On the left, an overview to the entire system, and on the right a view at the table structure of the 
     OpenFlow Switch \cite{open_networking_foundation_openflow_2015}}
+    \label{fig:of_switch}
 \end{figure}
+
+\par Figure \ref{fig:of_switch} describes the OpenFlow components. The image on the left shows the entire pipeline and the connections between the controllers and
+switch, but lacks the connection of the OpenFlow switch to the data plane switch ports. In image on the right, the structure of the Flow Table is summarized, 
+and the packet in originates from the switches' ingress port, and after processing, the packet will exit through the switches' egress port.
 
 \par In the case of controller failover, then the backup controllers should act on this failure, and act as the new master. OF switches should connect to the set of
 available controllers, which should coordinate the management of the switch amongst themselves. After the switches first connection to the controllers, they should
@@ -124,6 +130,18 @@ maintain this connection alive, but the controllers have the possibility of chan
     \item \textsc {OFPCD\_ROLE\_SLAVE} is a role that controllers has read-only access to the switch, having no permissions for altering the state of the switch.
         The only message that controllers registered with this role receive are the port-status messages
 \end {itemize}
+
+\subsubsection{OpenFlow Data-Path Abstraction}
+
+OpenFlow Data-Path Abstraction (OF-DPA) allows development of OpenFlow based SDN applications based in Broadcom's hardware switches. It provides a hardware 
+abstraction layer, supporting programming of network devices using OpenFlow. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{sdn/ofdpa_layers}
+    \caption{OF-DPA components \cite{broadcom_corporation_openflow_2017}}
+    \label{fig:ofdpa_struct}
+\end{figure}
 
 \subsection {Network Devices}
 

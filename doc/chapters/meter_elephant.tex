@@ -217,8 +217,8 @@ the previous results. The points present in this figure are the time when the al
 Analysing the output of the algorithm after the tests finish, indicates the corresponding timestamps of the alarms. Blindly applying the sliding window technique
 in the algorithm will result in repeated alarms across the window, and as we vary the length of the window to analyse if this variation will provide any change in the
 number of alarms raised, we can detect the increase in number of repeated alarms. A simple optimization to the proposed algorithm is to consider only the first
-ocurrence of the alarms. Figure \ref{fig:errors_comparaison} shows the result of plotting the number of alarms against the changing size of the window, the
-upper figure considering only the timestamp of the first ocurrence of the alarm, on the contrary of the lower figure.
+occurrence of the alarms. Figure \ref{fig:errors_comparaison} shows the result of plotting the number of alarms against the changing size of the window, the
+upper figure considering only the timestamps of the first occurrence of the alarm, on the contrary of the lower figure.
 
 \begin{figure} [H]
     \centering
@@ -227,5 +227,21 @@ upper figure considering only the timestamp of the first ocurrence of the alarm,
     \label{fig:errors_comparaison}
 \end{figure} 
 
-\par This proposed approach also allows the comparaison between the offline and the online approach to change detection. In figure \ref{fig:offline_cusum}, the 
-offline output can be analysed for the number of expected alarms on this testing scenario.
+\par This proposed approach also allows the comparison between the offline and the online approach to change detection. In figure \ref{fig:offline_cusum}, the 
+offline output can be analysed for the number of expected alarms on this testing scenario. Comparing this result to the optimized version in figure 
+\ref{fig:errors_comparaison}, we conclude that the number of errors are similar to the offline version, which means that we can accurately detect every change in
+the test scenario with the online algorithm.
+
+\par An interesting consequence of applying a change detection method applied to the statistics on the ports on the switch, is the independence of the protocol,
+allowing us to understand traffic changes on the ports regardless if the transport protocol is TCP or UDP.
+
+\par Finally, the detection plot for elephant flows is displayed in figure \ref{fig:color_plot}. This plot shows the overall error detection, and the timestamps
+of alarms raised for the switch port connected to host H\textsubscript(4). From this result, we conclude that with this algorithm we can accurately detect the 
+changes in traffic per port.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1.2\textwidth]{meter_eleph/detection_results_plotted}
+    \caption{Detection results}
+    \label{fig:color_plot}
+\end{figure}
