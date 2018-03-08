@@ -133,14 +133,26 @@ maintain this connection alive, but the controllers have the possibility of chan
 
 \subsubsection{OpenFlow Data-Path Abstraction}
 
-OpenFlow Data-Path Abstraction (OF-DPA) allows development of OpenFlow based SDN applications based in Broadcom's hardware switches. It provides a hardware 
-abstraction layer, supporting programming of network devices using OpenFlow. 
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{sdn/ofdpa_layers}
     \caption{OF-DPA components \cite{broadcom_corporation_openflow_2017}}
     \label{fig:ofdpa_struct}
+\end{figure}
+
+OpenFlow Data-Path Abstraction (OF-DPA) allows development of OpenFlow based SDN applications based in Broadcom's hardware switches. It provides a hardware 
+abstraction layer, supporting programming of network devices using OpenFlow. The main difference from pure OpenFlow to Broadcom's implementation are the Flow
+Table structures, known as the Table Type Patterns (TTP). These TTPs are templates that describe the protocol features and messages that the controllers and switches
+need to support, providing developers additional structure for easier implementation of their applications. Furthermore, the specialized structure provided by these
+patterns allow for optimizing the allocation of table memory, and improve the lookup algorithms.
+
+\par Figure \ref{fig:ofdpa_tables} displays the utilized TTP in OF-DPA.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{sdn/ofdpa_ttp}
+    \caption{OF-DPA TTP \cite{broadcom_corporation_openflow_2017}}
+    \label{fig:ofdpa_tables}
 \end{figure}
 
 \subsection {Network Devices}

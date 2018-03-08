@@ -189,7 +189,9 @@ result, and applied the algorithm to the entire generated data set. Performing t
 more specifically the expected number of alarms that are raised in a certain testing environment, so that application of the online algorithm may provide the
 closest possible results to the optimal offline version. Figure  \ref{fig:offline_cusum} shows the output of the algorithm applied to the errors associated to
 port 21's errors, which is connected to the host that generates the elephant flows, and the CUSUM algorithm implementation used was from 
-\url{https://github.com/demotu/BMC}.
+\url{https://github.com/demotu/BMC}. This algorithm calculates the CUSUM algorithm of a set of data, and expects two inputs: a threshold parameter, which defines
+the amplitude threshold for the change in data; and the drift parameter tunes the algorithm to allow faster detection (larger drift), or less false alarms (smaller 
+drift). 
 
 % XXX - Explain drift and threshold parameters
 \begin{figure} [H]
@@ -212,7 +214,7 @@ the previous results. The points present in this figure are the time when the al
     \label{fig:online_cusum}
 \end{figure} 
 
-\section {Results and Evaluation} \label{sec:change_result}
+\section {Results and Evaluation} \label{sec:change_results}
 
 Analysing the output of the algorithm after the tests finish, indicates the corresponding timestamps of the alarms. Blindly applying the sliding window technique
 in the algorithm will result in repeated alarms across the window, and as we vary the length of the window to analyse if this variation will provide any change in the
@@ -236,7 +238,7 @@ the test scenario with the online algorithm.
 allowing us to understand traffic changes on the ports regardless if the transport protocol is TCP or UDP.
 
 \par Finally, the detection plot for elephant flows is displayed in figure \ref{fig:color_plot}. This plot shows the overall error detection, and the timestamps
-of alarms raised for the switch port connected to host H\textsubscript(4). From this result, we conclude that with this algorithm we can accurately detect the 
+of alarms raised for the switch port connected to host H\textsubscript{4}. From this result, we conclude that with this algorithm we can accurately detect the 
 changes in traffic per port.
 
 \begin{figure}
