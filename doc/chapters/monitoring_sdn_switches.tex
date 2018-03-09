@@ -2,7 +2,7 @@
 
 \section {Problem}
 
-Developing solutions for use in mission critical environments requires the deep understanding and analysis of the requirements present, so that random occurrences
+Developing solutions for use in mission critical environments requires the deep understanding and analysis of the requirements, so that random occurrences
 and bugs do not happen in clients. As such, the problem posed is the construction of a management API and visualization tool that allows network operators to manage 
 their infrastructure. The development of this thesis was done under the supervision of BISDN, and the final solution must integrate their already existing 
 environments, and provide a way to manage them, by exposing an iterative way to display the topology, set VLAN's, and display the port statistics. 
@@ -13,19 +13,26 @@ traffic characteristics, one of the largest problems are the existence of \texti
 the development of a full management system should also include the definition of a system that receives the incoming port statistics, analyses these, and does some 
 statistical analysis to manage and recover from the impact caused by elephant flows.
 
+The requirements for the proposed system were:
+
+\begin {itemize}
+    \item Display the topology information reported by CAWR, including the internal switch links, and the LACP discovered bond interfaces on the servers
+    \item Display the port and link statistics for both switches
+    \item Design an alerting system, so that network operators can be informed of changes on the network state
+    \item Provide some diagnostic capabilities
+\end {itemize}
+
 \section {Solution}
 
 \begin{figure} [h]
     \centering
-    \includegraphics[width=0.4\textwidth]{proposed_work/proposed_system}
-    \caption{Visual description of the proposed system} \label {fig:pro_sys}
+    \includegraphics[width=0.5\textwidth]{proposed_work/proposed_system}
+    \caption{High-level visual description of the proposed system} \label{fig:pro_sys}
 \end{figure}
 
 Following the previously presented requirements, the developed management system is composed of two components: the first is the  Graphical User Interface (GUI), which provides an user friendly interface to display topology and 
 statistics, and the second is composed of the policy manager, that enables the system to detect elephant flows and set rules to mitigate these. The next chapters describe the approach taken to the development of each component,
 in this section we describe in a high level way, the utilized approach.
-
-\pagebreak
 
 \subsection {GUI}
 
@@ -41,7 +48,7 @@ removes complexity as the system grows, where storing information about links an
 for our webpage, as this is a current software that allows for fast development of web pages, and is implemented in Python, which means that we are then able to use the vast number of existing libraries for Python. For
 drawing the topology, the JavaScript library D3js \footnote {https://d3js.org/} was chosen.
 
-\subsection {Policy manager}
+\subsection {Operations Support System}
 
 The second component of our system was developed for monitoring the system statistics, and displaying alerts when elephant flows are detected. For this end, we have implemented an algorithm for the detection part, and then use 
 the Linux traffic shaping tool \textit {tc} to meter and shape the interfaces. Utilizing this tool has advantages, where we can use the existing Linux kernel libraries to set traffic shaping rules, and utilize baseboxd to convert

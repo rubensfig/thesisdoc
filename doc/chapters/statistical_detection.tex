@@ -119,7 +119,7 @@ forecasting. These methods introduce further components to dampen the effects of
 &L_t = \alpha x_t + (1-\alpha)(L_{t-1} + T_{t-1}) \\
 &T_t = \beta (L_t - L_{t-1}) + (1-\beta)T_{t-1}
 \end {split}
-\label{eq:exp_smooth}
+\label{eq:double_exp_smooth}
 \end {equation*}
 
 \par And triple exponential smoothing is defined by:
@@ -132,7 +132,7 @@ forecasting. These methods introduce further components to dampen the effects of
 &T_t = \beta (L_t - L_{t-1}) + (1-\beta)T_{t-1} \\
 &I_t = \gamma (x_t - L_t) + (1-\gamma)I_{t-s}
 \end {split}
-\label{eq:exp_smooth}
+\label{eq:triple_exp_smooth}
 \end {equation*}
 
 \par The components these methods introduce account for the cyclic behaviours in the data: $L_t$ accounts for the baseline behaviour of the data, which is 
@@ -144,7 +144,7 @@ As with $\alpha$ these parameters are defined mostly by previous experience, but
     SSE = \sum_{t=1}^T{(x_t-\hat{x}_{t})^2} = \sum_{t=1}^T{\epsilon_t^2}
 \end {equation*}
 
-\subsubsection {Change Detection} \label{subsec:change_detection}
+\subsubsection {Change Detection} \label{sec:change_detection}
 
 A relevant indicator for the validity of the generated forecasts is the forecast error, that is calculated via the difference between the real measurements and the
 predicted value. Furthermore, by assuming a distribution for the forecast error, and a certain significance level, it is possible to validate the generated forecasts,
@@ -184,14 +184,15 @@ for these optimizations are explored.
 
 \par The CUSUM (\textbf{cu}mulative \textbf{su}m) control chart provides a test based on \textit{stopping rules}, where the alarms are raised when the parameter
 of the distribution, $\theta_t$ exceeds certain thresholds. In the parametric case, the CUSUM algorithm for detection of a change at $t_0$ from the observation
-$x_i$ is based on the log likelihood ratio defined by \cite {https://eprints.qut.edu.au/20572/3/ahmed2008npc.pdf}
+$x_i$ is based on the log likelihood ratio defined by \cite{ahmed_novel_2008}.
 
 \begin{equation*}
 \centering
     S_t = \sum_{i=1}^k s_i = \sum_{i=1}^k\ln \frac {P_{\theta_1}(x_i)} {P_{\theta_0}(x_i)}.
 \end{equation*}
 
-\par The previous equation is related to the negative drift of $S_t$ under normal conditions, and the positive drift after a change is detected. The alarm is raised when a test statistic $g_t$ is larger than a threshold $h$, and can be obtained by 
+\par The previous equation is related to the negative drift of $S_t$ under normal conditions, and the positive drift after a change is detected. The alarm is raised 
+when a test statistic $g_t$ is larger than a threshold $h$, and can be obtained by 
 
 \begin{equation*}
 \centering
@@ -206,14 +207,13 @@ ahmed_novel_2008}.
 \subsubsection {Performance Evaluation} \label{subsec:performance_evaluation}
 
 The effectiveness of a statistical approach for change detection can be seen as the relationship between false and real alarms, since the trade-off with online
-detection is the number of falsely raised alarms, and the number of accurately reported changes. As mentioned in section \ref{subsec:change_detection} the possible 
-wrong decisions are the type I and II errors, which are usually represented with error, or confusion matrices, seen in table \ref{tab:confusion_matrix}, 
+detection is the number of falsely raised alarms, and the number of accurately reported changes. As mentioned in section \ref{sec:change_detection} the possible 
+wrong decisions are the type I and II errors, which are usually represented with error, or confusion matrices, seen in table 3.2, 
 where the possible outcomes from the decision algorithm are displayed. The notation for this table indicate the possible values, True Positive (T\textsubscript{P}),
 False Positive (F\textsubscript{P}), False Negative (F\textsubscript{N}) and True Negative (T\textsubscript{N}).
 
 \begin{table}[h]
 \centering
-\label{tab:confusion_matrix}
 \begin{tabular}{ccc|c}
                                                           &&  \multicolumn{2}{c}{Predicted}  \\ 
                                                           && $H_0$  &  $H_1$                                    \\   \cline{2-4}

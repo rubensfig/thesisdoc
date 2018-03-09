@@ -2,19 +2,19 @@
 
 \section {Context} \label{context}
 
-The rapid expansion of the cloud computing environment in the previous decade, is related to the increasing demand that applications, and users of those 
-applications have. Public cloud solutions like Amazon's Web Services, Microsoft's Azure, or private solutions offered through OpenStack provide a very large
-pool of resources for developers to deploy applications with ease, at a relative low cost. Through economies of scale, these vendors have centralized their 
-solutions in very large scale data centers, consolidating their operations in a single location, allowing increased performance of applications, and easier 
-maintenance. The offer of virtualisation solutions also contributes to the recent surge in popularity of these systems, due to the less spending in operational 
-costs and improved utilization of hardware \cite{sims_david_carousels_2011}. Subscription based systems are typically available for renting, allowing users to
-use services on a Virtual Machine.
+The rapid expansion of the cloud computing environment in the previous decade is related to the increasing demand in computational power that applications like 
+distributed databases or data analysis have. Public cloud solutions like Amazon's Web Services, Microsoft's Azure, or private solutions offered through OpenStack
+provide a very large pool of resources for developers to deploy applications with ease. Through economies of scale, these vendors have
+centralized their solutions in very large scale data centers, consolidating their operations in a single location, allowing increased performance of applications, and
+easier maintenance. The offer of virtualisation solutions also contributes to the recent surge in popularity of these systems, due to the less spending in
+operational costs and improved utilization of hardware \cite{sims_david_carousels_2011}. Subscription based systems are typically available for renting, allowing 
+users to use services on a Virtual Machine.
 
-\par Using open source applications and whitebox hardware has also contributed to the success of these environments, due to the possible cost reductions in 
-hardware. Software Defined Networking (SDN), has proven to be a reliable environment to manage data center environments, due to the centralization of the network
+\par Using open source applications and whitebox hardware has also contributed to the success of these environments, due to the possible cost reductions. Software
+Defined Networking (SDN), has proven to be a reliable environment to manage data center environments, due to the centralization of the network
 controllers, improved programmability of the network's data plane, and improved management systems. Network programmability, despite not being exclusive to the 
 SDN framework, eliminates the effort in individually configuring every network device, which in large scale environments becomes an impossible task. This model
-also provides the network engineers and software developers a high level network abstraction, that is used to monitor network utilization and optimize resource
+also provides the network engineers and software developers a high level network abstraction that is used to monitor network utilization and optimize resource
 utilization. 
 
 \par Network management systems (NMSs) provide the central architectural component that allows the system administrators to track the systems utilization, 
@@ -22,9 +22,9 @@ analyse link, node and device failures, and observe alarms when the networks' st
 also provide an insight for network operators to research where resources should be allocated. However, network planning considering virtualisation solutions 
 are considered a difficult solution, due to complex scheduling policies and performance deviations \cite{sampaio_energy-efficient_2015}. 
 
-\par The topic of traffic engineering in Software Defined Networking is central to the developments of this field, more specifically, the flow and application level
-monitoring. The possibility of acting differently towards network traffic is an advantage for network operators, allowing to prioritize applications that are
-sensitive to latency applications, like video and audio streaming. As such, focus on service prioritization and delivery optimization has been focus of research 
+\par The topic of traffic engineering in SDN is central to this field, more specifically, the flow and application level monitoring.  The possibility of acting
+differently towards network traffic is an advantage for network operators, allowing to prioritize applications that are
+sensitive to latency, like video and audio streaming. As such, focus on service prioritization and delivery optimization has been the focus of research 
 of the past few years \cite{bakhshi_user-centric_2017}.
 
 \section {Motivation}
@@ -47,7 +47,7 @@ systemd-networkd and iptables.
 % Importance of proposed research 
 % Research aims
 
-In a first stage, this thesis aims to plan and develop a system that exposes the physical topology of connections between switches and server, and display
+In a first stage, this thesis aims to plan and develop a system that exposes the physical topology of connections between switches and server, and monitoring
 the port configuration and statistics. This management system aims to clearly display changes in configuration and behaviour of the networking infrastructure
 connected to a SDN controller, which will allow system operators to maintain finer control over their resources. In this first part, we aim to define the 
 components to implement this management system, from the necessary modifications to the existing controllers, to the Graphical User Interface that users will 
