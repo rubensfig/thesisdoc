@@ -36,13 +36,16 @@ in this section we describe in a high level way, the utilized approach.
 
 \subsection {GUI}
 
-The GUI serves as the primary interface for displaying the topology present in the underlying switches and the statistics collected by the OpenFlow protocol. The primary use case for this component is following the changes 
-in the underlying topology, while also allowing the monitoring some aspects of the port statistics, and, as such, the links between switches and the hosts, and the association between the ports and the switches should be displayed. 
-Performance wise, this system must run as fast as possible, and the transmission of data must not interfere with the systems operation. In order to reduce the memory requirements of the platform, and decrease the time that 
-it takes for drawing topology updates, a decision was made to not store state in databases, which would increase the time it takes for topology updates, with queries to store and load data from these databases. This also 
-removes complexity as the system grows, where storing information about links and switches would dramatically increase database size.
+The GUI serves as the primary interface for displaying the topology present in the underlying switches and the statistics collected by the OpenFlow protocol. The
+primary use case for this component is following the changes in the underlying topology, while also allowing the monitoring some aspects of the port statistics, and,
+as such, the links between switches and the hosts, and the association between the ports and the switches should be displayed. Performance wise, this system must run
+as fast as possible, and the transmission of data must not interfere with the systems operation. In order to reduce the memory requirements of the platform, and 
+decrease the time that it takes for drawing topology updates, a decision was made to not store state, which would increase the time it takes for topology updates,
+with queries to store and load data from these databases. This also removes complexity as the system grows, where storing information about links and switches
+would dramatically increase database size.
 
-\par Motivated by compatibility with standardized systems, choosing the data model for representing the underlying system required the investigation of similar systems, and the RFCs, or similar standardized documents that exist. 
+\par Motivated by compatibility with standardized systems, choosing the data model for representing the underlying system required the investigation of similar 
+systems, and the RFCs, or similar standardized documents that exist. 
 
 \par Finally, the web server was designed to be lightweight, while also allowing for flexibility in adding more features and functionality. We chose the Django framework \footnote{https://www.djangoproject.com/} as the backend 
 for our webpage, as this is a current software that allows for fast development of web pages, and is implemented in Python, which means that we are then able to use the vast number of existing libraries for Python. For

@@ -239,21 +239,23 @@ OpenDaylight.
 \begin{figure}[H]
   \centering
   \includegraphics[width=.4\textwidth]{sdn/floodlight_architecture}\label{fig:flood_arch}
-    \caption {Floodlight architecture \cite{project_floodlight_floodlight_2017}}
+  \caption {Floodlight architecture \cite{project_floodlight_floodlight_2017}}
+  \label{fig:flood_arch}
 \end{figure}
 
 Floodlight \footnote{http://www.projectfloodlight.org/floodlight/} is a java-based SDN controller, and is one the first open-source solutions to gain relevance in
-research and industry \cite{berde_onos:_2014}. This controller provides the OpenFlow interface, and it enables adding several modules, either through extensions,
-or through the utilization of the provided REST interface, simplifying the addition of new features to the base controller.
+research and industry \cite{berde_onos:_2014}. The Northbound endpoint provides a REST API (see figure \ref{fig:flood_arch})to interact with the switch, which
+allows developers to get statistics, push flow entries, and more. 
 
-\par The Northbound endpoint provides a REST API to interact with the switch, which allows developers to get statistics, push flow entries, and more. It also 
-provides an useful GUI for easier visualization of the topology, link state, and port statistics, which is visible in figure 2.6.
+\par This controller also provides the OpenFlow interface, and it enables adding several modules, either through extensions, or through the utilization of the
+provided REST interface, simplifying the addition of new features to the base controller. It also provides an useful GUI for easier visualization of the topology,
+link state, and port statistics, which is visible in figure \ref{fig:flood_topos}.
  
 \begin{figure}
   \centering
   \includegraphics[width=.8\textwidth]{sdn/floodlight_topology}
   \label{fig:flood_topos}
-  \caption {Floodlight web views of the topology}
+  \caption{Floodlight web display of the topology}
 \end{figure}
 
 \subsubsection {OpenDaylight} \label{chap:odl}

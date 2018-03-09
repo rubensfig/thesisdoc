@@ -35,11 +35,10 @@ of the past few years \cite{bakhshi_user-centric_2017}.
 The increased relevance that cloud computing solutions have on today's networking environments, and the growing opportunities in data centers, mainly
 kick-started by the prevalence of OpenStack, have brought a rising demand of open sourced solutions that provide an interface in these environments. Exposing
 a programmable interface for managing networking devices is a central function of network controllers. Due to the prevalence of Linux-based environments in these
-data centers, network administrators' familiarity with the Linux networking stack provides is a possible interface for network management, instead of the those
-provided by vendors.
+data centers, network administrators' familiarity with the Linux networking stack provides is a possible interface for network management.
 
 \par With this consideration, BISDN developed Basebox, an open source Software-Defined Network controller that interacts between the Linux kernel's networking
-library, and networking devices. This provides a familiar and stable API to configure ports, VLANs and routes, and the advantages of using tools like 
+library and networking devices. This provides a familiar and stable API to configure ports, VLANs and routes, and the advantages of using tools like 
 systemd-networkd and iptables.
 
 \section {Aims and objectives}
@@ -53,7 +52,7 @@ connected to a SDN controller, which will allow system operators to maintain fin
 components to implement this management system, from the necessary modifications to the existing controllers, to the Graphical User Interface that users will 
 interact with. Typical management solutions like Icinga \footnote{\url{https://www.icinga.com/}}, Zabbix \footnote{\url{https://www.zabbix.com/}} or
 Graphana \footnote{\url{https://grafana.com/}} display relevant metrics for monitoring of network devices, including the display of the
-physical topology, monitor the port status, and display temperature, among others. In this stage, we define the Minimum Viable Product (MVP) for this system as a
+physical topology, monitor the port status, display devices temperature, among others. In this stage, we define the Minimum Viable Product (MVP) for this system as a
 simple Graphical User Interface that can display the connections between switches and servers, and expose port statistics like the number of received packets
 and bytes, the number of errors.
 

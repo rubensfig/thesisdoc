@@ -1,43 +1,55 @@
 \section{Statistical Detection} \label{chap:stat_det}
 
-As a result of the large scale of current data centers, maintaining control over these networks proves a difficult task. Networks operators must then adapt to the current situation by improving the monitoring infrastructures 
-to allow faster response to problems.  Building a feature complete management API for a SDN controller means that information obtained from the port and flow statistics previously implemented should return information 
-about the global state of the network, so that root-cause analysis of the source of network issues can be done faster and easier, which reflect on better service and lower costs for network operators. 
-\par Network behaviour analysis is defined by the constant monitoring of a network, so that events that compromise the "healthy" state of the network can be removed or mitigated. These include not only cases where the anomalies are
-caused with malicious intent, like the case of DDoS attacks, but also failure of network devices or changes in user behaviour \cite{munz_traffic_2010}. These systems are equipped with alarm capabilities, so that 
-system administrators can quickly respond to changes, possibly even giving some information about the source of the problem. However, the automation of these monitoring processes means that the possible existence
-of false alarms reduces the operators capabilities to act on actual failures. 
-\par This chapter focuses on the recent research done in order to implement systems that rely on statistical analysis for monitoring the state of the networks and detection of abnormalities.
+As a result of the large scale of current data centers, maintaining control over these networks proves a difficult task. Networks operators must then adapt to the
+current situation by improving the monitoring infrastructures to allow faster response to problems.  Building a feature complete management API for a SDN controller 
+means that information obtained from the port and flow statistics previously implemented should return information about the global state of the network, so that
+root-cause analysis of the source of network issues can be done faster and easier, which reflect on better service and lower costs for network operators. 
+
+\par Network behaviour analysis is defined by the constant monitoring of a network, so that events that compromise the "healthy" state of the network can be
+removed or mitigated. These include not only cases where the anomalies are caused with malicious intent, like the case of DDoS attacks, but also failure of network 
+devices or changes in user behaviour \cite{munz_traffic_2010}. These systems are equipped with alarm capabilities, so that system administrators can quickly respond
+to changes, possibly even giving some information about the source of the problem. However, the automation of these monitoring processes means that the possible 
+existence of false alarms reduces the operators capabilities to act on actual failures. 
+
+\par This chapter focuses on the recent research done in order to implement systems that rely on statistical analysis for monitoring the state of the networks and
+detection of abnormalities.
 
 \subsection {Time series analysis}
 
-Understanding processes and their results is a key factor in the success of implementing new features, or analysing existing ones for their efficiency and output. This analysis, important for the different fields in engineering,
-economics, health, allows obtaining information about the normal and abnormal state of each underlying process, provide forecasts and predictions on short and long term behaviour of the relevant data, classify and cluster 
-information, and more. The act of collecting and processing the data, over a period of time is called \textit{time series analysis}. 
-\par Monitoring systems provide a guarantee in quality engineering, since they allow to follow a system and its properties, and notify operators if changes happen that impact the normal status of a relevant parameter. These changes
-can be occasional or systematic, but should the state of the system deviate from the limits set by the operators, researching the cause of the errors can reveal some errors or malfunctions in the system. \textit{Change detection}
-is the study of the different parameters of the system, and determining the points where these cause a significant deviation from the normal operation. In network traffic analysis, these methods can be applied to determine when 
-the behaviour of certain flows, that can be monitored over metrics originating from the controller and switches, impact the traffic characteristics. One key part on the application of changepoint detection is the understanding 
-and selection of the proper metrics to monitor, to ensure that these are sensitive to the traffic changes. One other important consideration in applying changepoint detection mechanisms is the reduction of false alarms, that occur 
+Understanding processes and their results is a key factor in the success of implementing new features, or analysing existing ones for their efficiency and output.
+This analysis, important for the different fields in engineering, economics, health, allows obtaining information about the normal and abnormal state of each 
+underlying process, provide forecasts and predictions on short and long term behaviour of the relevant data, classify and cluster information, and more. The act of 
+collecting and processing the data, over a period of time is called \textit{time series analysis}. 
+
+\par Monitoring systems provide a guarantee in quality engineering, since they allow to follow a system and its properties, and notify operators if changes happen
+that impact the normal status of a relevant parameter. These changes can be occasional or systematic, but should the state of the system deviate from the limits set
+by the operators, researching the cause of the errors can reveal some errors or malfunctions in the system. \textit{Change detection} is the study of the different 
+parameters of the system, and determining the points where these cause a significant deviation from the normal operation. In network traffic analysis, these methods
+can be applied to determine when the behaviour of certain flows, that can be monitored over metrics originating from the controller and switches, impact the traffic
+characteristics. One key part on the application of changepoint detection is the understanding and selection of the proper metrics to monitor, to ensure that these
+are sensitive to the traffic changes. One other important consideration in applying changepoint detection mechanisms is the reduction of false alarms, that occur 
 when the metrics are too sensitive to traffic changes, and limit the network operators capability of accurately responding to real network issues. 
+
 \par Change detection mechanisms are classified as follow  \cite{munz_traffic_2010}:
 
 \begin {itemize}
-    \item One of the most important distinctions in change detection theory is the difference between online and offline detection. Offline, or batch detection methods consider a fixed length of observations, and retrospectively 
-analyse the dataset to determine the time where the change, or changes took place. Online detection, or sequential detection, unlike batch detection which uses all the available observations to detect the changes, including the
-ones obtained after the change took place, is based on the determination of the change points based on the arrival of the new data, allowing for determining the change as fast as possible \cite{ahmed_novel_2008}. 
-    % TODO - Bayesian change detection, read Bayes filter
-    \item An important criteria for the classification of changepoint detection algorithms is the knowledge of the distribution that the system has before the change occurs. A Bayesian system considers the 
-    \item Finally, the last important distinction is related to the scalability, and relate to the amount of data that needs to be stored to accurately implement detection on new samples. Parametric approaches rely on learning a 
-probability distribution from the monitored variables, and using this learned data to estimate the unknown parameters, after which the training data can be discarded. Non-parametric models however, do not take into consideration the
-distribution of the monitored variables, and analyse statistical properties instead. The cost of this analysis is that the previous data must be stored to provide better results, but this problem can be mitigated using 
-algorithms using sliding window or moving averages.
+    \item One of the most important distinctions in change detection theory is the difference between online and offline detection. Offline, or batch detection 
+        methods consider a fixed length of observations, and retrospectively analyse the dataset to determine the time where the change, or changes took place. 
+        Online detection, or sequential detection, unlike batch detection which uses all the available observations to detect the changes, including the
+        ones obtained after the change took place, is based on the determination of the change points based on the arrival of the new data, allowing for determining
+        the change as fast as possible \cite{ahmed_novel_2008}. 
+    \item Finally, the last important distinction is related to the scalability, and relate to the amount of data that needs to be stored to accurately implement
+        detection on new samples. Parametric approaches rely on learning a probability distribution from the monitored variables, and using this learned data to 
+        estimate the unknown parameters, after which the training data can be discarded. Non-parametric models however, do not take into consideration the
+        distribution of the monitored variables, and analyse statistical properties instead. The cost of this analysis is that the previous data must be stored to
+        provide better results, but this problem can be mitigated using algorithms using sliding window or moving averages.
 \end {itemize}
 
-\subsubsection {Mathematical formulations}
+\subsubsection {Mathematical formulations} \label{sec:math_form}
 
-A time series can be defined as a stream of observations $X = \{x_1, ... x_i\}$, where $x_i$ is a vector arriving at time $i$. The time series $X$ can also be described as the sum of the following components: $S_t$,
-which refers to the seasonal component of the data; $T_t$, which defines the trend of the data, and $R_t$ represents the residual values, accounting for non expected variation and noise.
+A time series can be defined as a stream of observations $X = \{x_1, ... x_i\}$, where $x_i$ is a vector arriving at time $i$. The time series $X$ can also be
+described as the sum of the following components: $S_t$, which refers to the seasonal component of the data; $T_t$, which defines the trend of the data, and $R_t$
+represents the residual values, accounting for non expected variation and noise.
 
 \begin {equation*}
 \centering
@@ -98,12 +110,12 @@ data that exponentially decreases over time. Considering the time series $X_t$, 
 In this model, the smoothing factor $\alpha (0 < \alpha < 1)$ is obtained empirically, and its value will determine the forgetting factor for the past observations.
 
 \begin {equation*}
-\centering
-\begin {split}
-&\hat{x}_1 = x_0 \\
-&\hat{x}_t = \alpha x_{t-1} + (1-\alpha)x_0, t > 1
-\end {split}
-\label{eq:exp_smooth}
+    \centering
+        \begin {split}
+            &\hat{x}_1 = x_0, \\
+            &\hat{x}_t = \alpha x_{t} + (1-\alpha)x_{t-1}, t > 1.
+        \end {split}
+    \label{eq:exp_smooth}
 \end {equation*}
 
 \par Due to its simplicity, this method is not suitable for situations where the data has trends, or seasonal behaviours \cite{kalekar_time_2004}. The solution for
@@ -137,7 +149,8 @@ forecasting. These methods introduce further components to dampen the effects of
 
 \par The components these methods introduce account for the cyclic behaviours in the data: $L_t$ accounts for the baseline behaviour of the data, which is 
 calculated on the simple method; $T_t$ smooths the trend with the $\beta$ parameter; and $S_t$ accounts for the seasonal components with the $\gamma$ parameter.
-As with $\alpha$ these parameters are defined mostly by previous experience, but a common optimization is the minimization of the square sum of prediction errors, defined by:
+As with $\alpha$ these parameters are defined mostly by previous experience, but a common optimization is the minimization of the square sum of prediction errors, 
+defined by:
 
 \begin {equation*} 
     \label{eq:sse}
