@@ -69,8 +69,12 @@ network. It is assumed that no traffic abnormalities exist during this stage, bu
 
 \subsection{Prediction and error calculation}
 
-For readers convenience, the prediction equations are repeated here from section \ref{sec:math_form}, since they provide the mathematical baseline for the development
-of this stage of this algorithm.
+Time series analysis can generate forecasts for future values, assuming the temporal behaviour is maintained for future observations. A change detection mechanism
+analyses the difference between the predicted value to the observation, by analysing the prediction error. In this section we present the prediction and error
+calculation sections of the elephant flow detection algorithm.
+
+\par For readers convenience, the prediction equations are repeated here from section \ref{sec:math_form}, since they provide the mathematical baseline for the 
+development of prediction module of the algorithm. The equations are:
 
 \begin{equation}
     \centering
@@ -85,39 +89,54 @@ of this stage of this algorithm.
 the forgetting factor, $\alpha (0 < \alpha < 1)$, that determines the impact of previous samples on the calculation of the prediction. The value of this factor must
 be adjusted experimentally, by tuning the value according to the desired output.
 
-\par For calculating the
+\par For calculating the prediction error $\epsilon_t$, we have analysed two possibilities. The first, obtained with
 
 \begin{equation}
     \centering
     \label{eq:division}
-    \epsilon = (x_i(t)/\hat{x}_i(t))^2,
+    \epsilon_t = (x_i(t)/\hat{x}_i(t))^2,
 \end{equation}
 
-\par which provided the result present in figure \ref{fig:error_plot_sse}, and while it clearly indicates the deviations created by the elephant flows, it 
-does not provide insight to the level of change caused by higher data sizes in the flows.
-
-Due to this result, we assume higher ($\alpha \rightarrow 1$) values for the smoothing factor for posterior results. A different approach was devised,
-and to obtain the values for the error calculation we consider the SSE (\ref{eq:sse}) to increase the impact of larger changes to the flow data size,
-and minimize smaller changes.
-
-\begin{figure}[H]
-    \includegraphics[width=1.2\textwidth]{meter_eleph/error_plot_sse}
-    \caption{$\epsilon^2$ calculation on top using $\alpha = 0.2$, and on bottom using $\alpha = 0.8$}
-    \label{fig:error_plot_sse}
-\end{figure}
+\par provides the output present in figure \ref{fig:error_plot_division}, and while it clearly indicates the deviations created by the elephant flows, it 
+does not provide insight to the level of change caused by larger payloads in the flows.
 
 \begin{figure}[H]
     \includegraphics[width=1.2\textwidth]{meter_eleph/error_plot_division}
-    \caption{}
+    \caption{Error calculation, with two different values for $\alpha$, obtained with equation \ref{eq:division}}
     \label{fig:error_plot_division}
 \end{figure}
 
+\par The alternate approach devised was to consider the squared sum of prediction errors (SSE), as equation \ref{eq:sse_rep} shows. 
+
+\begin {equation} 
+    \label{eq:sse_rep}
+    SSE = \sum_{t=1}^T{(x_t-\hat{x}_{t})^2} = \sum_{t=1}^T{\epsilon_t^2}
+\end {equation}
+
+This method allows to obtain the prediction error, while increasing the impact of larger changes to the flow data size, and minimizing smaller changes. In figure
+\ref{fig:error_plot_sse} we can visualise the output of this method, which displays the traffic behaviour in the ports of a switch, and the impact of larger payloads
+of data is visible, as shown by the increasing level of $\epsilon_t$.
+
+\begin{figure}[H]
+    \label{fig:error_sse}
+    \includegraphics[width=1.2\textwidth]{meter_eleph/error_plot_sse}
+    \caption{$\epsilon^2$ calculation using the method present in \ref{eq:sse_rep}}
+    \label{fig:error_plot_sse}
+\end{figure}
+
+\par In figure \ref{fig:error_plot_division} and \ref{fig:error_plot_sse} , we test the error prediction behaviour for two different values of the $\alpha$ parameter
+of the prediction equations, to see the impact that the previous observations have on the error behaviour. We consider the output of the bottom plot of 
+\ref{fig:error_plot_sse} as the desired one, where we assume $\alpha = 0.8$ since it clearly indicates the start and end times of the variation, which in contrast 
+to the upper plot in this figure, where the value $\alpha = 0.2$ is used, does not present a rising trend. Due to this result, we propose higher ($\alpha \rightarrow 
+1$) values for the smoothing factor for posterior results, more specifically $\alpha = 0.8$.
+
 \subsection{Detection}
 
-The detection component of the algorithm provides the logic for finding the points that are out of control. For this component we consider two possible techniques:
-the first, which simply compares the output of the error calculation, to a certain threshold; and a second, using the CUSUM algorithm. 
+The detection component of the algorithm provides the logic for finding the timestamps where a port's traffic behaviour changes. For this component we consider two
+possible techniques: the first, which simply compares the output of the error calculation to a certain threshold; and a second, using the CUSUM algorithm (see 
+section \ref{sec:change_detection}).
 
-\par For the first detection method, the rule is 
+\par The first analysed detection method is defined as
 
 \begin{equation*}
     \centering
@@ -125,27 +144,22 @@ the first, which simply compares the output of the error calculation, to a certa
     \epsilon^2 \geq \delta,
 \end{equation*}
 
-\par and this method provides advantages mainly due to the simplicity of the technique, however previous knowledge of the change is required to determine a possible
-threshold $\delta$. After error predictions plots, we assume $\delta = 3$ for the threshold value. The change detection algorithm applied to port 21 can be seen 
-in figure \ref{fig:detect_dumb}.
+\par and this method provides advantages mainly due to the simplicity of the technique, however previous knowledge of the change is required to determine a
+possible threshold $\delta$.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{meter_eleph/detect_dumb}
-    \caption {Simple detection}
-    \label{fig:detect_dumb}
-\end{figure} 
+\par The second analysed method is the CUSUM algorithm. This method is used for monitoring parameters of a sample, by monitoring deviations of the observations
+according to a certain target value. Typical implementations of this algorithm are based in an offline approach, calculating the alarm times with knowledge of the 
+entire data set. Since our method is expected to run in an online approach, the adaptation of this algorithm for an online form is based in the application of a 
+sliding window of observations.
 
-\par Prior to deploying the CUSUM algorithm, in order to obtain the best-case scenario of the detection algorithm, we have collected the results for the prediction
-result, and applied the algorithm to the entire generated data set. Performing this step allows to obtain a general knowledge on the expected output of the algorithm,
-more specifically the expected number of alarms that are raised in a certain testing environment, so that application of the online algorithm may provide the
-closest possible results to the optimal offline version. Figure  \ref{fig:offline_cusum} shows the output of the algorithm applied to the errors associated to
-port 21's errors, which is connected to the host that generates the elephant flows, and the CUSUM algorithm implementation used was from 
-\url{https://github.com/demotu/BMC}. This algorithm calculates the CUSUM algorithm of a set of data, and expects two inputs: a threshold parameter, which defines
-the amplitude threshold for the change in data; and the drift parameter tunes the algorithm to allow faster detection (larger drift), or less false alarms (smaller 
-drift). 
+\par The offline method allows us, however, to obtain a baseline for the online detection algorithm. We have collected the error prediction output, and applied the
+algorithm to a generated data set. Performing this step baselines the expected number of alarms that are raised in a certain testing conditions, so that application
+of the online algorithm may provide the closest approximation to the optimal offline version. The chosen CUSUM algorithm implementation used was from 
+\url{https://github.com/demotu/BMC}, and  figure \ref{fig:offline_cusum} shows the alarms raised. Furthermore, this implementation also provides us with the
+timestamps corresponding to the start and end of the detected changes. This algorithm calculates the CUSUM of a set of data, and expects two inputs:
+a threshold parameter, which defines the amplitude threshold for the change in data; and the drift parameter tunes the algorithm to allow faster detection (larger 
+drift), or less false alarms (smaller drift). 
 
-% XXX - Explain drift and threshold parameters
 \begin{figure} [H]
     \centering
     \includegraphics[width=1\textwidth]{meter_eleph/offline_cusum_output}
@@ -156,61 +170,72 @@ drift).
 \par The adaptation of the CUSUM algorithm for utilization as an online technique is based on a sliding window that is updated with every new sample. Applying this
 method has the advantages of using the CUSUM algorithm without needing extensive changes, while also reducing the amount of memory needed to apply this method. 
 Choosing the window size is a central point to a successful implementation of the change detection mechanism, that is explored further in section 
-\ref{sec:change_results}. Figure \ref{fig:online_cusum} displays the output of the online CUSUM algorithm in the same testing conditions as the ones present on
-the previous results. The points present in this figure are the time when the alarms are raised in relation to the time when the tests began.
+\ref{sec:change_results}. 
 
-\begin{figure} [H]
-    \centering
-    \includegraphics[width=1\textwidth]{meter_eleph/online_cusum_output}
-    \caption {Online CUSUM output}
-    \label{fig:online_cusum}
-\end{figure} 
 \section {Testing}
 
-The design of a testing environment must allow for the accurate simulation of the traffic conditions on the real DCNs, and should provide the flexibility to 
-understand and change the underlying topologies. The requirements indicate a strong motivation for deploying a testing environment in a virtualised
-environment, using tools like \textit{mininet}, which provides a miniature network that can be changed as needed. This testing suite provides a strong 
+The design of a testing environment for testing of the change detection algorithm, must allow for the accurate simulation of the traffic conditions on real DCNs,
+and should provide the flexibility to understand and change the underlying topologies. This indicates a strong motivation for deploying a testing environment in a
+virtualised environment, using tools like \textit{mininet}, which provides a miniature network that can be changed as needed. This testing suite provides a strong
 alternative to deploying these changes in hardware.
 
 \par Despite the changes implemented to Basebox, utilizing these controllers in combination with the virtualised environment poses a challenge, related 
 to the implementation of the OpenFlow protocol in the hardware and software switches. Hardware switches that were used for the implementation of
-the OSS have a modified version of the OpenFlow tables structure, OF-DPA (see section \ref{sec:of}), and the libraries that make up the 
+the OSS have a modified version of the OpenFlow tables structure, OF-DPA (see section \ref{sec:ofdpa}), and the libraries that make up the 
 controller are designed around this. To utilize the controllers, changes to Open vSwitch or other alternatives steps would be required in order to use the
 environment, which was decided out-of-scope for this thesis.
 
 \par To solve this issue we adopt a different controller for interaction with the virtual environment. In addition, researching the traffic engineering modules in
-other controllers provides ideas that can later be adopted in Basebox. The chosen controller was Floodlight (see section \ref{chap:flood}), since it exposes
-provides a simple REST API for obtaining statistics, setting table rules, and is continuously maintained, providing an optimal test bed.
+other controllers provides ideas that can later be adopted in Basebox. The chosen controller was Floodlight (see section \ref{chap:flood}), since it exposes a simple
+REST API for obtaining statistics, setting table rules, and is continuously maintained providing an optimal test bed.
 
 \par These elements compose the testing environment that seen in \ref{fig:test_setup}. To ease the installation of the utilized applications, 
-we based these applications on VMs and containers, and the installation files can be found on the appendix \ref{code:}.
+we based these applications on VMs and containers, and the installation files can be found on github \footnote{\url{https://github.com/rubensfig/thesisdoc.git}}.
 
-\begin{figure} 
+\begin{figure} [H]
     \centering
-    \includegraphics[width=0.5\textwidth]{meter_eleph/testing_setup}
+    \includegraphics[width=0.6\textwidth]{meter_eleph/testing_setup}
     \caption {The high level overview of the testing setup}
     \label{fig:test_setup}
 \end{figure} 
 
 \par Figure \ref{fig:test_setup} describes the testing setup designed for testing. This setup provides a close approximation to setups used
-in the edge layers of data centers, and keeping the resource consumption of the virtualised network and controller to a minimum. In the diagram, the hosts are shown
-using the H\textsubscript{X} notation, ranging from 1 to 4, and the switches use the S\textsubscript{X} notation. Information about the hosts, like the IP and MAC
-addresses can also be seen, and the port numbers used are also displayed.
+to the Top-of-Rack switches connected to the servers on the edge layers of data centers, while keeping the resource consumption of the virtualised network and
+controller to a minimum. In the diagram, the hosts are shown using the H\textsubscript{X} notation, ranging from 1 to 4, and the switches use the S\textsubscript{X}
+notation. Information about the hosts, like the IP and MAC addresses can also be seen, and the port numbers used are also displayed.
 
 Mininet provides an API to interact with a virtual network and setup tests in a predictable manner. We utilize this API to develop a script that creates the network
-topology. For traffic generation, however, we require another tool that provides specific functionalities, like control of the packet interval and the packets data
-size. The tool \textit{hping} is a common tool used for packet generation and port mapping, and its simplicity allows to quickly deploy different tests against the
-designed setups. In picture \ref{fig:hping_setup} the command line interface of the tool is presented and the arguments to build the tests are presented.
+topology. For traffic generation, however, we require another tool that provides specific functionalities like control of the inter-packet interval and the packets 
+payload size. The tool \textit{hping} is a common tool used for packet generation and port mapping, and its simplicity allows to quickly deploy different tests
+against the designed setups. In picture \ref{fig:hping_setup} the command line interface of the tool is presented and the arguments to build the tests are presented.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{meter_eleph/testing_link}
+    \includegraphics[width=0.9\textwidth]{meter_eleph/testing_link}
     \caption{hping tool tests and command line arguments}
     \label{fig:hping_setup}
 \end{figure}
 
-\subsection{Performed tests}
+\section {Results and Evaluation} \label{sec:change_results}
 
+\par Figure \ref{fig:init_plot} provides a possible output of the initialization period, where we analyse the measurements of the initial received bytes in the 
+different ports of the switch. This image provides an insight on the initial traffic characteristics of each port, and we observe that the
+% Display initial graph of Received Bytes
+\begin{figure} 
+    \centering
+    \includegraphics[width=0.9\textwidth]{meter_eleph/init_period_lin}
+    \caption {Plotting the initial measurements of B\textsubscript{RX}}
+    \label{fig:init_plot}
+\end{figure} 
+After error predictions plots, we assume $\delta = 3$ for the threshold value. The change detection algorithm applied to port 21 can be seen 
+in figure \ref{fig:detect_dumb}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{meter_eleph/detect_dumb}
+    \caption {Simple detection}
+    \label{fig:detect_dumb}
+\end{figure} 
 \par We consider two different test scenarios, the first where we assume no background traffic between the hosts, and the other where every host is communicating
 with each other, simulating background traffic. This has the purpose of simulating low traffic intensities in the network, and verify the behaviour of the designed
 algorithm in an approximation to real conditions.
@@ -229,18 +254,10 @@ a care in the amount of flows that are generated.
 \end{figure} 
 
 
-\section {Results and Evaluation} \label{sec:change_results}
-
 \par Detrending the data using the linear regression function comes from the fact that at the end of the initialization period, plotting the received bytes results
 in figure \ref{fig:init_plot}.
 
-% Display initial graph of Received Bytes
-\begin{figure} 
-    \centering
-    \includegraphics[width=0.9\textwidth]{meter_eleph/init_period_lin}
-    \caption {Plotting the initial measurements of B\textsubscript{RX}}
-    \label{fig:init_plot}
-\end{figure} 
+
 Analysing the output of the algorithm after the tests finish, indicates the corresponding timestamps of the alarms. Blindly applying the sliding window technique
 in the algorithm will result in repeated alarms across the window, and as we vary the length of the window to analyse if this variation will provide any change in the
 number of alarms raised, we can detect the increase in number of repeated alarms. A simple optimization to the proposed algorithm is to consider only the first
@@ -252,6 +269,13 @@ upper figure considering only the timestamps of the first occurrence of the alar
     \includegraphics[width=0.9\textwidth]{meter_eleph/evaluation_error}
     \caption {Number of errors comparison between optimized and non optimized version}
     \label{fig:errors_comparaison}
+\end{figure} 
+
+\begin{figure} [H]
+    \centering
+    \includegraphics[width=1\textwidth]{meter_eleph/online_cusum_output}
+    \caption {Online CUSUM output}
+    \label{fig:online_cusum}
 \end{figure} 
 
 \par This proposed approach also allows the comparison between the offline and the online approach to change detection. In figure \ref{fig:offline_cusum}, the 
