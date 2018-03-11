@@ -200,9 +200,9 @@ we based these applications on VMs and containers, and the installation files ca
 \end{figure} 
 
 \par Figure \ref{fig:test_setup} describes the testing setup designed for testing. This setup provides a close approximation to setups used
-to the Top-of-Rack switches connected to the servers on the edge layers of data centers, while keeping the resource consumption of the virtualised network and
-controller to a minimum. In the diagram, the hosts are shown using the H\textsubscript{X} notation, ranging from 1 to 4, and the switches use the S\textsubscript{X}
-notation. Information about the hosts, like the IP and MAC addresses can also be seen, and the port numbers used are also displayed.
+to the Top-of-Rack switches connected to the servers on the edge layers (see figure \ref{fig:fattree}) of data centers, while keeping the resource consumption of
+the virtualised network and controller to a minimum. In the diagram, the hosts are shown using the H\textsubscript{X} notation, ranging from 1 to 4, and the switches
+use the S\textsubscript{X} notation. Information about the hosts, like the IP and MAC addresses can also be seen, and the port numbers used are also displayed.
 
 Mininet provides an API to interact with a virtual network and setup tests in a predictable manner. We utilize this API to develop a script that creates the network
 topology. For traffic generation, however, we require another tool that provides specific functionalities like control of the inter-packet interval and the packets 
@@ -216,26 +216,6 @@ against the designed setups. In picture \ref{fig:hping_setup} the command line i
     \label{fig:hping_setup}
 \end{figure}
 
-\section {Results and Evaluation} \label{sec:change_results}
-
-\par Figure \ref{fig:init_plot} provides a possible output of the initialization period, where we analyse the measurements of the initial received bytes in the 
-different ports of the switch. This image provides an insight on the initial traffic characteristics of each port, and we observe that the
-% Display initial graph of Received Bytes
-\begin{figure} 
-    \centering
-    \includegraphics[width=0.9\textwidth]{meter_eleph/init_period_lin}
-    \caption {Plotting the initial measurements of B\textsubscript{RX}}
-    \label{fig:init_plot}
-\end{figure} 
-After error predictions plots, we assume $\delta = 3$ for the threshold value. The change detection algorithm applied to port 21 can be seen 
-in figure \ref{fig:detect_dumb}.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{meter_eleph/detect_dumb}
-    \caption {Simple detection}
-    \label{fig:detect_dumb}
-\end{figure} 
 \par We consider two different test scenarios, the first where we assume no background traffic between the hosts, and the other where every host is communicating
 with each other, simulating background traffic. This has the purpose of simulating low traffic intensities in the network, and verify the behaviour of the designed
 algorithm in an approximation to real conditions.
@@ -248,21 +228,71 @@ a care in the amount of flows that are generated.
 % XXX - Redo this graphic
 \begin{figure} [H]
     \centering
-    \includegraphics[width=0.8\textwidth]{meter_eleph/ovs_packet_loss}
+    \includegraphics[width=0.6\textwidth]{meter_eleph/ovs_packet_loss}
     \caption {OVS measured packet loss}
     \label{fig:ovs_packet_loss}
 \end{figure} 
 
+\section {Results and Evaluation} \label{sec:change_results}
 
-\par Detrending the data using the linear regression function comes from the fact that at the end of the initialization period, plotting the received bytes results
-in figure \ref{fig:init_plot}.
+\par We analyse the measurements of the initial received bytes in the different ports of the switch. Figures \ref{fig:init_plot} and \ref{fig:init_plot_pkts} provide
+an insight on the initial traffic characteristics of each port, and we observe that the ports providing the connection between the two switches report a higher
+utilization in number of bytes and packets received. This figure also gives an insight on the present trend in the data, that in order to improve the next
+values' prediction and error calculation, these trends should be removed.
 
+% Display initial graph of Received Bytes
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{meter_eleph/init_period_lin}
+    \caption {Plotting the initial measurements of B\textsubscript{RX}}
+    \label{fig:init_plot}
+\end{figure} 
 
-Analysing the output of the algorithm after the tests finish, indicates the corresponding timestamps of the alarms. Blindly applying the sliding window technique
-in the algorithm will result in repeated alarms across the window, and as we vary the length of the window to analyse if this variation will provide any change in the
-number of alarms raised, we can detect the increase in number of repeated alarms. A simple optimization to the proposed algorithm is to consider only the first
-occurrence of the alarms. Figure \ref{fig:errors_comparaison} shows the result of plotting the number of alarms against the changing size of the window, the
-upper figure considering only the timestamps of the first occurrence of the alarm, on the contrary of the lower figure.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{meter_eleph/init_period_packets}
+    \caption {Plotting the initial measurements of P\textsubscript{RX}}
+    \label{fig:init_plot_pkts}
+\end{figure} 
+
+\par In the initial detection strategy, the error detection is based in comparing the calculated prediction error to a certain threshold. Choosing this threshold 
+requires previous knowledge of the magnitude of the change, and figure \ref{fig:detect_dumb} represents the output of the prediction error calculation using this
+method. We assume a value of $\delta > 2$ for the threshold, due to XXX ... 
+
+\par In figure \ref{fig:detect_dumb} we plot the prediction error calculated for every port on the switch, including the inter-switch connection. Since the developed
+algorithm monitors the changes in traffic characteristics on the switch ports connected to a host, applying the change detection to the inter-switch connection
+does not provide any useful information, as such, we do not apply the algorithms to these ports.
+%in figure \ref{fig:detect_dumb}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{meter_eleph/detect_dumb}
+    \caption {Simple detection}
+    \label{fig:detect_dumb}
+\end{figure} 
+
+\par Figure \ref{fig:color_plot} displays the error detection using the CUSUM algorithm, and the timestamps of alarms raised for the switch port connected to
+host H\textsubscript{4}. From this result, we conclude that with this algorithm we can accurately detect the changes in traffic per port. The greatest difference to
+the previous mechanism is the reduction in the number of alarms, since this algorithm does the detection across a sliding window of observations, and the alarms are
+only raised when the traffic characteristics change. Regardless, the same changes in port traffic are detected.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{meter_eleph/detection_results_plotted}
+    \caption{Detection results}
+    \label{fig:color_plot}
+\end{figure}
+
+\par Analysing the output of the algorithm after the tests finish indicates the corresponding timestamps of the alarms. Blindly applying the sliding window technique
+in the algorithm will result in repeated alarms across the window, and as we vary the length of the window, the algorithm may raise notifications even if the change
+has taken place at some time in the past. A simple optimization to the proposed algorithm is to consider only the first occurrence of the alarms. Figure
+\ref{fig:errors_comparaison} shows the result of plotting the number of alarms against the changing size of the window, the upper figure considering only the
+timestamps of the first occurrence of the alarm, on the contrary of the lower figure.
+
+\par This proposed approach also allows the comparison between the offline and the online approach to change detection. In figure \ref{fig:offline_cusum}, the 
+offline output can be analysed for the number of expected alarms on this testing scenario. Comparing this result to the optimized version in figure 
+\ref{fig:errors_comparaison}, we conclude that the number of errors are similar to the offline version, which means that we can accurately detect every change in
+the test scenario with the online algorithm.
 
 \begin{figure} [H]
     \centering
@@ -271,28 +301,7 @@ upper figure considering only the timestamps of the first occurrence of the alar
     \label{fig:errors_comparaison}
 \end{figure} 
 
-\begin{figure} [H]
-    \centering
-    \includegraphics[width=1\textwidth]{meter_eleph/online_cusum_output}
-    \caption {Online CUSUM output}
-    \label{fig:online_cusum}
-\end{figure} 
+\par Finally, an interesting consequence of applying a change detection method applied to the statistics on the ports on the switch, is the independence of the 
+protocol, allowing us to understand traffic changes on the ports regardless if the transport protocol is TCP or UDP.
 
-\par This proposed approach also allows the comparison between the offline and the online approach to change detection. In figure \ref{fig:offline_cusum}, the 
-offline output can be analysed for the number of expected alarms on this testing scenario. Comparing this result to the optimized version in figure 
-\ref{fig:errors_comparaison}, we conclude that the number of errors are similar to the offline version, which means that we can accurately detect every change in
-the test scenario with the online algorithm.
-
-\par An interesting consequence of applying a change detection method applied to the statistics on the ports on the switch, is the independence of the protocol,
-allowing us to understand traffic changes on the ports regardless if the transport protocol is TCP or UDP.
-
-\par Finally, the detection plot for elephant flows is displayed in figure \ref{fig:color_plot}. This plot shows the overall error detection, and the timestamps
-of alarms raised for the switch port connected to host H\textsubscript{4}. From this result, we conclude that with this algorithm we can accurately detect the 
-changes in traffic per port.
-
-\begin{figure}
-    \centering
-    \includegraphics[width=1.2\textwidth]{meter_eleph/detection_results_plotted}
-    \caption{Detection results}
-    \label{fig:color_plot}
-\end{figure}
+% XXX image ??
