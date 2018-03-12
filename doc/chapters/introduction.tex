@@ -56,9 +56,9 @@ physical topology, monitor the port status, display devices temperature, among o
 simple Graphical User Interface that can display the connections between switches and servers, and expose port statistics like the number of received packets
 and bytes, the number of errors.
 
-\par After implementing the required changes to the switch and the Graphical User Interface, we propose an Operations Support System (OSS) that interacts with the
-controllers and implements intelligence for monitoring the state of the network. Due to data center's traffic profile, one common challenge for optimizing the
-networks resource utilization is the asymmetry of traffic, where most of the networking flows are short-lived, latency-sensitive quick bursts of packets, but do not
+\par To support these features, we propose an Operations Support System (OSS) that interacts with the controllers and implements intelligence for monitoring 
+the state of the network. Due to data center's traffic profile, one common challenge for optimizing the networks resource utilization is the asymmetry of traffic, 
+where most of the networking flows are short-lived, latency-sensitive quick bursts of packets, but do not
 amount for the total traffic in the network. The main contributor for the total traffic volume are the large and long-lived flows, usually called elephant flows.
 Solution to this problem will increase the networks capability of splitting resources between the multiple competing virtualised applications, and, as a consequence,
 their associated flows. Furthermore, by maintaining a system that monitors and alarms network operators of the occurrences of large data streams, this will provide

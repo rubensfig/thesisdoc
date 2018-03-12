@@ -1,0 +1,105 @@
+%% artigo-exemplo.tex
+
+\documentclass[a4paper]{IEEEtran}
+\usepackage[utf8]{inputenc}
+%\usepackage{latin}
+\markboth{}{}
+\usepackage[portuges]{babel}
+
+\ifCLASSINFOpdf
+  \usepackage[pdftex]{graphicx}  
+\else
+  \usepackage[dvips]{graphicx}
+\fi
+
+\renewcommand{\footnoterule}{\noindent\rule{0.5\columnwidth}{0.5pt}\vspace*{3pt}}
+
+\begin{document}
+
+% Título (usar \\ para quebra de linha)
+\title{API design and implementation of a management interface for SDN whitebox switches}
+
+% author names and affiliations
+% use a multiple column layout for up to three different
+% affiliations
+\author{\IEEEauthorblockN{Rubens Jesus Alves Figueiredo $^$}%
+%\thanks{r.figueiredo.52@gmail.com}
+\IEEEauthorblockN{Dr. Ana Cristina Costa Aguiar $^$}%
+%\thanks{$^\dag$Contacto orientador}
+\IEEEauthorblockN{Dr. Hagen Woesner$^$}%
+%\thanks{$^\ddag$Contacto co-orientador}
+}
+% make the title area
+\maketitle
+
+% \markboth{Uma parte}{Outra parte}
+
+\begin{abstract}
+The rising requirements of today's cloud services require the evolution of networking infrastructure to support the increasing amount of data that is processed
+every day. This means that data center network operators must design or adapt their cloud networking environments to provide a stable and reliable connection.
+Better optimized infrastructure often also means cost reductions in network utilization and energy savings.
+
+\par As networks grow larger and more complex, systems must be put in place that allow for closely monitoring the resources that make up the network, while also 
+allowing for a certain freedom for the possible constant change of the network. As such, typical vendor solutions don't really fit into this ever changing landscape,
+since they present very solid and vertically integrated solutions. The Software Defined Networking paradigm, however, is able to solve this issue, since it enables
+the centralized control of the underlying networks, providing visibility and control over the network's devices, simplifying error diagnosis and troubleshooting. 
+
+\par In this work we propose a modular management system for cloud data center Software Defined Networking controllers, providing system administrators a simple
+platform to view their network's topology, monitor networking devices ports, etc. The modularity also provides a simple platform to extend the functionality 
+of the networking controllers, that can be used to implement detection of network abnormalities and optimize flow forwarding paths, among others.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Software-Defined Networking, Cloud Data centers, OpenFlow, Networks, SDN
+\end{IEEEkeywords}
+
+\section{Introduction}
+
+\IEEEPARstart{T}{he} rapid expansion of the cloud computing environment in the previous decade is related to the increasing demand in computational power that 
+applications like distributed databases or data analysis have. Public cloud solutions like Amazon's Web Services, Microsoft's Azure, or private solutions offered
+through OpenStack provide a very large pool of resources for developers to deploy applications with ease. Through economies of scale, these vendors have
+centralized their solutions in very large scale data centers, consolidating their operations in a single location, allowing increased performance of applications, and
+easier maintenance. The offer of virtualisation solutions also contributes to the recent surge in popularity of these systems, due to the less spending in
+operational costs and improved utilization of hardware \cite{sims_david_carousels_2011}. Subscription based systems are typically available for renting, allowing 
+users to use services on a Virtual Machine.
+
+\par Using open source applications and whitebox hardware has also contributed to the success of these environments, due to the possible cost reductions. Software
+Defined Networking (SDN), has proven to be a reliable environment to manage data center environments, due to the centralization of the network
+controllers, improved programmability of the network's data plane, and improved management systems. Network programmability, despite not being exclusive to the 
+SDN framework, eliminates the effort in individually configuring every network device, which in large scale environments becomes an impossible task. This model
+also provides the network engineers and software developers a high level network abstraction that is used to monitor network utilization and optimize resource
+utilization.
+
+\par To support monitoring in the SDN environment, we propose an Operations Support System (OSS) that interacts with the network controllers and implements 
+intelligence for monitoring the state of the network. Due to data center's traffic profile, one common challenge for optimizing the networks resource utilization
+is the asymmetry of traffic, where most of the networking flows are short-lived, latency-sensitive quick bursts of packets, but do not amount for the total traffic 
+in the network. The main contributor for the total traffic volume are the large and long-lived flows, usually called elephant flows. By maintaining a system that
+monitors and alarms network operators of the occurrences of large data streams, this will provide insight to the network operators to plan ahead their network 
+resources.
+
+\par This document is organized in:
+
+\begin{itemize}
+    \item \textbf{Related Work} is an overview of Software-Defined Networking, providing an insight on the protocol behind these environments,
+and presenting information on the existing applications. This section also sums up a formal framework for change detection mechanisms.
+
+    \item \textbf{} is an overview of Software-Defined Networking, providing an insight on the protocol behind these environments,
+and presenting information on the existing applications. This section also sums up a formal framework for change detection mechanisms.
+\end{itemize}
+
+\section{Related Work}
+\section{Proposed Architecture}
+\section{Results}
+\section{Conclusion}
+\section*{Agradecimentos}
+
+Sem exagerar.
+
+% referências
+
+\bibliographystyle{IEEEtran}
+\bibliography{../doc/thesis_reference}
+
+\end{document}
+
+

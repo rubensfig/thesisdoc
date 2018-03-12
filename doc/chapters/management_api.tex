@@ -163,7 +163,7 @@ optimizations, protobuf improves performance on serializing and de-serializing m
 \end{figure}
 
 By combination of the technologies presented in this chapter, we have developed an Operations Support System (OSS), visible in figure \ref{fig:oss}. The controllers
-had to be extended to support the gRPC interfaces, and this connection is acesssible through port 5000 on baseboxd and port 5001 on CAWR.
+had to be extended to support the gRPC interfaces, and this connection is accessible through port 5000 on baseboxd and port 5001 on CAWR.
 
 \par To demonstrate the interfaces capability of exposing the topology and statistics information, we have developed a simple Graphical User Interface (GUI) as a 
 proof-of-concept of this platform. This GUI can be accessed via a web page, since this provides an ease of access to the system.  The web page was developed on top
@@ -172,7 +172,8 @@ gRPC integration and ease of implementation. For drawing the topology we used th
 
 \subsection{Testing}
 
-\par Testing of this component was done on the setup displayed in image \ref{fig:gui_test_setup}. This test bed was designed for testing the 
+\par Testing of this component was done on the setup displayed in image \ref{fig:gui_test_setup}. This test bed was designed for testing the Basebox controllers,
+with configuration of the bonded interfaces on the servers connected to both switches, represented as BX on the image.  
 
 \begin{figure}[H]
     \centering
@@ -181,17 +182,20 @@ gRPC integration and ease of implementation. For drawing the topology we used th
     \label{fig:gui_test_setup}
 \end{figure}
 
-
 \subsection{Proof-of-concept}
 
-\par Figure \ref{fig:cawr_gui} displays the topology that CAWR reports, and table \ref{tab:gui-mapping} displays the meaning of the icons present in the GUI. Since 
-this system is to be used in a real time deployment, there is no interest in storing the state of the network, which means that the topology must be drawn with 
-every request to the server. Currently the topology is updated every two seconds, providing a balance between real time updates and the interval for requests to the
-controllers.
+\par Figure \ref{fig:cawr_gui} displays the topology that CAWR reports, similar to the one in the testing environment \ref{fig:gui_test_setup}. Table
+\ref{tab:gui-mapping} displays the meaning of the icons present in the GUI. Since this system is to be used in a real time deployment, there is no interest in
+storing the state of the network, which means that the topology must be drawn with every request to the server. Currently the topology is updated every two seconds,
+providing a balance between real time updates and the interval for requests to the controllers.
+
+\par A drawback present in figure \ref{fig:cawr_gui} is that the controllers do not have the mapping between each interface and the physical host, which is why 
+the connected server is displayed as unknown. This is a known bug of the system, that can be solved either by manually updating the host name to port mapping in
+a configuration file, or extending the controllers to interpret LLDP messages from the servers, although this was considered out-of-scope for this proof-of-concept.
 
 \begin{figure} [H]
         \centering
-        \includegraphics[width=.7\textwidth]{bisdn/cawr_gui}
+        \includegraphics[width=.9\textwidth]{bisdn/cawr_gui}
         \caption{Topology obtained from CAWR}
         \label{fig:cawr_gui}
 \end{figure}
@@ -202,7 +206,7 @@ state of the network, and further possibilities include the addition of displayi
 via a GUI. Interaction with the nodes is possible, and clicking on each provides an insight to the statistics related to the ports in that node, as seen in figure
 \ref{fig:basebox_stats}.
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=.5\textwidth]{bisdn/basebox_gui}
     \caption{Single Port statistics from Baseboxd}
