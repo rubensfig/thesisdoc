@@ -2,25 +2,22 @@
 
 \section {Problem}
 
-Developing solutions for use in mission critical environments requires the deep understanding and analysis of the requirements, so that random occurrences
-and bugs do not happen in clients. As such, the problem posed is the construction of a management API and visualization tool that allows network operators to manage 
-their infrastructure. The development of this thesis was done under the supervision of BISDN, and the final solution must integrate their already existing 
-environments, and provide a way to manage them, by exposing an iterative way to display the topology, set VLAN's, and display the port statistics. 
-
-\par Also addressed by this system should be the setting of Quality-of-Service policies, that maintains the levels of accepted behaviour of each device in the 
-network, and identifies and applies some automatic mitigation strategy when the system does not perform according to normal state. By understanding data center 
-traffic characteristics, one of the largest problems are the existence of \textit{elephant flows}, that impact the overall bandwidth of the network. As such, 
-the development of a full management system should also include the definition of a system that receives the incoming port statistics, analyses these, and does some 
-statistical analysis to manage and recover from the impact caused by elephant flows.
-
-The requirements for the proposed system were:
+Developing solutions for use in mission critical environments requires the deep understanding and analysis of the requirements of these environments, like those
+present in large data centers. The Basebox system (see section \ref{sec:bisdn}) is an example of these solutions, but lacks a system for monitoring and management 
+of the network devices. Such a system should 
 
 \begin {itemize}
-    \item Display the topology information reported by CAWR, including the internal switch links, and the LACP discovered bond interfaces on the servers
-    \item Display the port and link statistics for both switches
-    \item Design an alerting system, so that network operators can be informed of changes on the network state
-    \item Provide some diagnostic capabilities
+    \item display the topology information reported by CAWR, including the internal switch links, and the LACP discovered bond interfaces on the servers,
+    \item display the port and link statistics for both switches,
+    \item design an alerting system, so that network operators can be informed of changes on the network state,
+    \item provide some diagnostic capabilities.
 \end {itemize}
+
+\par Also addressed by this system should be the definition of Quality-of-Service (QoS) policies, that maintains the levels of accepted traffic behaviour of each 
+device in the network, and identifies and applies some automatic mitigation strategy when the system does not perform according to normal state. By understanding
+data center traffic characteristics, one of the largest problems are the existence of \textit{elephant flows}, that impact the available bandwidth of the network.
+As such, the development of a full management system should also include a system that receives the incoming port statistics, analyses these, and applies
+statistical analysis to manage the impact caused by elephant flows.
 
 \section {Solution}
 
@@ -30,37 +27,34 @@ The requirements for the proposed system were:
     \caption{High-level visual description of the proposed system} \label{fig:pro_sys}
 \end{figure}
 
-Following the previously presented requirements, the developed management system is composed of two components: the first is the  Graphical User Interface (GUI), which provides an user friendly interface to display topology and 
-statistics, and the second is composed of the policy manager, that enables the system to detect elephant flows and set rules to mitigate these. The next chapters describe the approach taken to the development of each component,
-in this section we describe in a high level way, the utilized approach.
+\par Following the previously presented requirements, the proposed system is present in figure \ref{fig:pro_sys}. By adding an interface for the controllers that 
+exposes management information like the network's topology, statistics, etc, we are able to build a \textbf{Operations Support System} (OSS) that provides the basis 
+for the development of applications that monitor the state of the network. This system allows further separation of roles in the network, in contrast to a system 
+where the controller would gather the roles of managing and monitor the network's status. Furthermore, this architecture increases the modularity of the components, 
+enabling hot-swapping different modules, and allows parallel development of different features in the monitoring and management stack.
+
+\par We provide a proof-of-concept composed of two components: the first is a Graphical User Interface (GUI) providing an user friendly interface to display 
+topology and statistics, and the second is an intelligent system enabling the detection of elephant flows. In this section we describe in a high level way the 
+approaches for the development of this system.
 
 \subsection {GUI}
 
-The GUI serves as the primary interface for displaying the topology present in the underlying switches and the statistics collected by the OpenFlow protocol. The
-primary use case for this component is following the changes in the underlying topology, while also allowing the monitoring some aspects of the port statistics, and,
-as such, the links between switches and the hosts, and the association between the ports and the switches should be displayed. Performance wise, this system must run
-as fast as possible, and the transmission of data must not interfere with the systems operation. In order to reduce the memory requirements of the platform, and 
-decrease the time that it takes for drawing topology updates, a decision was made to not store state, which would increase the time it takes for topology updates,
-with queries to store and load data from these databases. This also removes complexity as the system grows, where storing information about links and switches
-would dramatically increase database size.
+The primary use case for this component is following the changes in the underlying topology, while also allowing the monitoring some aspects of the port statistics,
+and as such, the links between switches and the hosts, and the association between the ports and the switches should be displayed. Performance wise, this system must
+run as fast as possible, and the transmission of data must not interfere with the systems operation. 
+
+\par In order to reduce the memory requirements of the platform, and decrease the time that it takes for drawing topology updates, a decision was made to not store 
+state, which would increase the time it takes for topology updates, with queries to store and load data from these databases. This also removes complexity as the 
+system grows, where storing information about links and switches would dramatically increase database size.
 
 \par Motivated by compatibility with standardized systems, choosing the data model for representing the underlying system required the investigation of similar 
 systems, and the RFCs, or similar standardized documents that exist. 
 
-\par Finally, the web server was designed to be lightweight, while also allowing for flexibility in adding more features and functionality. We chose the Django framework \footnote{https://www.djangoproject.com/} as the backend 
-for our webpage, as this is a current software that allows for fast development of web pages, and is implemented in Python, which means that we are then able to use the vast number of existing libraries for Python. For
-drawing the topology, the JavaScript library D3js \footnote {https://d3js.org/} was chosen.
-
 \subsection {Operations Support System}
 
-The second component of our system was developed for monitoring the system statistics, and displaying alerts when elephant flows are detected. For this end, we have implemented an algorithm for the detection part, and then use 
-the Linux traffic shaping tool \textit {tc} to meter and shape the interfaces. Utilizing this tool has advantages, where we can use the existing Linux kernel libraries to set traffic shaping rules, and utilize baseboxd to convert
-into OpenFlow rules.
+The second component of our system was developed for monitoring the system statistics, and displaying alerts when elephant flows are detected. For this end, we have
+implemented an algorithm for the detection part. 
 
-\par The development of this solution included designing a system that allow us to run different test cases under different situations. The test environment was then based on a virtualised network, \textit{mininet} 
-\footnote{http://mininet.org/}, which is a system that provides realistic environments for testing and research of networks, with support for OpenFlow switches, allowing for testing SDN controllers. However, due to different 
-implementations of the OpenFlow protocol in the hardware switches, and the OpenFlow protocol enabled by Open vSwitch, testing baseboxd and CAWR with mininet proves a difficult task, and several functionalities are not able to be 
-utilized in the same manner. For testing this component, a replacement OpenFlow controller needs to be found, especially one that operates in similar ways as the ones used in real deployments. 
-
-\par The developed system aims to detect the elephant flows before the effect of these is detected in the rest of the network. As we assume the tree topology in data centers, seen in figure \ref{fig:fattree}, the testing environment
-must be designed to monitor the lower layer edge switches, connected directly to the physical hosts. By monitoring the ports on these switches, we detect changes in the reported traffic statistics via a developed Python script.
+\par The developed system aims to detect the elephant flows before the effect of these is detected in the rest of the network. As we assume the tree topology in data
+centers, seen in figure \ref{fig:fattree}, the testing environment must be designed to monitor the lower layer edge switches, connected directly to the physical 
+hosts. By monitoring the ports on these switches, we detect changes in the reported traffic statistics via a developed Python script.

@@ -1,4 +1,4 @@
-\section {BISDN} \label{chap:bisdn} %% chapter 3
+\section {BISDN} \label{sec:bisdn} %% chapter 3
 
 \begin{figure} [!htbp]
     \centering
@@ -26,9 +26,9 @@ possibility of creating a giant switch abstraction, by adding another controller
 \end{figure}
 
 baseboxd is a controller daemon connecting whitebox switches with a Linux-based system. The controller communicates with the Linux kernel over netlink 
-\footnote{netlink is an Inter-Process Communication's socket for exchanging information between the Linux kernel and userspace applications. This interface provides
-a communication framework to configure a network's control plane.} and with the switch using the OpenFlow Data Path Abstraction (OF-DPA) which will represent the
-state of the switching infrastructure as part of the Linux networking stack.
+\footnote{netlink is an Inter-Process Communication's (IPC) socket for exchanging information between the Linux kernel and userspace applications. This interface
+provides a communication framework to configure a network's control plane.} and with the switch using the OpenFlow Data Path Abstraction (OF-DPA) which will
+represent the state of the switching infrastructure as part of the Linux networking stack.
 
 \par From the perspective of the switch, the baseboxd listens for OFPT\_PORT\_STATUS async messages, and updates the state of the interfaces in the Linux
 kernel, creating tap interfaces for each port that is up, and deleting them when they go down. On the controller side, the changes done to the interfaces are also
@@ -45,8 +45,7 @@ between baseboxd and the physical switches, and both its northbound and southbou
 \par CAWR was designed to handle multi-switch configurations, and the current version supports up to two switches. A host can be connected to each of the switches by
 a pair of interfaces that have bond \footnote{Network Interface (NIC) bonding is a process of combining two separate network interfaces into a single 
 interface. This technique guarantees performance increase and redundancy.} mode configured, and the layer 2 traffic across the physical network is properly
-forwarded. Failover mechanisms to deliver
-uninterrupted operation are present, in the case of port or switch failure.
+forwarded. Failover mechanisms to deliver uninterrupted operation are present, in the case of port or switch failure.
 
 \par CAWR adds Link-Aggregation Control Procotol (LACP) (IEEE 802.3ad, IEEE 802.1ax) and Link-layer Discovery Protocol (LLDP) -based (IEEE 802.1ab) topology 
 discovery to the Basebox setup. CAWR uses LLDP to detect internal links (connections between the switches) to build an initial topology, and bonds that are

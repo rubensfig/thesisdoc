@@ -59,27 +59,7 @@ networking devices. The connection to the servers can also be monitored, by conf
 
 \subsection {Port statistics}
 
-\par Modelling the port statistics to build a management interface requires first understanding of the OpenFlow statistics. As mentioned in section \ref{sec:of}, OF
-switches maintain a set of counters, similar to SNMP, that provide information about the state of the ports, group, flow and table stats. The statistics that are
-exposed from OF are shown in table \ref{tab:of_port_stats}.
-
-\begin{table}[H]
-    \centering
-    \caption{OpenFlow port statistics}
-    \begin{tabular}{c | c || c | c}
-       uint64\_t & rx\_packets     & uint64\_t & tx\_packets;     \\ \hline
-       uint64\_t & rx\_bytes;      & uint64\_t & tx\_bytes;       \\ \hline
-       uint64\_t & rx\_bytes;      & uint64\_t & tx\_dropped;     \\ \hline
-       uint64\_t & rx\_errors;     & uint64\_t & tx\_errors;      \\ \hline
-       uint64\_t & rx\_frame\_err; & uint64\_t & tx\_over\_err;   \\ \hline
-       uint64\_t & rx\_crc\_err;   &                              \\ \hline
-       uint64\_t & collisions;     &                              \\ \hline
-       uint32\_t & duration\_sec;  &                              \\ \hline
-       uint32\_t & duration\_nsec; &                 
-    \label{tab:of_port_stats}
-    \end{tabular}
-\end{table}
-
+\par Modelling the port statistics to build a management interface requires first understanding of the OpenFlow statistics. 
 \par The chosen data model should then accurately model the fields that we need to expose, and the data type of counters we wish to measure. In this case,
 the prevalence of other controllers allows to use the same data models present in their implementations. OpenConfig maintains a set of vendor neutral data models,
 written in YANG, allowing network operators to use standardized models for their networking infrastructure. The entire set of published models can be accessed in
@@ -168,6 +148,7 @@ optimizations, protobuf improves performance on serializing and de-serializing m
     \item Both frameworks allow us to use the standardized data models currently proposed by the IETF and OpenConfig;
     \item NETCONF trades information as XML encoded information; while gRPC allows to handle information in a way that’s native to the language implementation 
         of the client/server;
+    \item The faster serialization of data reduces overheads in the connection and load on the controllers;
     \item The integration with the existing system was easier: since gRPC has implementations for the languages that the controllers are developed on
         (i.e. C++), this framework was easier to implement than NETCONF, which would have required integration with third party tools.
 \end {itemize}
@@ -181,15 +162,32 @@ optimizations, protobuf improves performance on serializing and de-serializing m
     \label{fig:oss}
 \end{figure}
 
-By combination of the technologies presented in this chapter, we have developed an Operations Support System (OSS), visible in figure \ref{fig:oss}. 
+By combination of the technologies presented in this chapter, we have developed an Operations Support System (OSS), visible in figure \ref{fig:oss}. The controllers
+had to be extended to support the gRPC interfaces, and this connection is acesssible through port 5000 on baseboxd and port 5001 on CAWR.
+
+\par To demonstrate the interfaces capability of exposing the topology and statistics information, we have developed a simple Graphical User Interface (GUI) as a 
+proof-of-concept of this platform. This GUI can be accessed via a web page, since this provides an ease of access to the system.  The web page was developed on top
+of the Django Framework \footnote{\url{https://www.djangoproject.com/}}, since it is a framework developed in the Python programming language, support for official 
+gRPC integration and ease of implementation. For drawing the topology we used the JavaScript library D3.js \footnote{\url{https://d3js.org/}}.
+
+\subsection{Testing}
+
+\par Testing of this component was done on the setup displayed in image \ref{fig:gui_test_setup}. This test bed was designed for testing the 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.5\textwidth]{bisdn/gui_test_setup}
+    \caption{Graphical User Interface test setup}
+    \label{fig:gui_test_setup}
+\end{figure}
+
 
 \subsection{Proof-of-concept}
 
-Able to connect to baseboxd and CAWR
-
-draw the physical node topology, and display the port statistics. This GUI can be accessed via a web page, since this provides an ease of access to the system. 
-The web page was developed on top of the Django Framework \footnote{\url{https://www.djangoproject.com/}}, due to the Python implementation, support for official
-gRPC integration and ease of implementation. For drawing the topology we used the JavaScript library D3.js \footnote{\url{https://d3js.org/}}.
+\par Figure \ref{fig:cawr_gui} displays the topology that CAWR reports, and table \ref{tab:gui-mapping} displays the meaning of the icons present in the GUI. Since 
+this system is to be used in a real time deployment, there is no interest in storing the state of the network, which means that the topology must be drawn with 
+every request to the server. Currently the topology is updated every two seconds, providing a balance between real time updates and the interval for requests to the
+controllers.
 
 \begin{figure} [H]
         \centering
@@ -198,18 +196,15 @@ gRPC integration and ease of implementation. For drawing the topology we used th
         \label{fig:cawr_gui}
 \end{figure}
 
+\par The connection between both controllers to the GUI provides the view for both controllers, which means that CAWR will present the view for the physical
+switches, bonded ports and hosts, while the baseboxd only shows the giant switch created by CAWR. An advantage of this is the analysis of the global view of the
+state of the network, and further possibilities include the addition of displaying configured VLANs in each port, and even provide a way to configure these VLANS
+via a GUI. Interaction with the nodes is possible, and clicking on each provides an insight to the statistics related to the ports in that node, as seen in figure
+\ref{fig:basebox_stats}.
+
 \begin{figure}
     \centering
     \includegraphics[width=.5\textwidth]{bisdn/basebox_gui}
     \caption{Single Port statistics from Baseboxd}
+    \label{fig:basebox_stats}
 \end{figure}
-
-\par Figure \ref{fig:cawr_gui} displays the topology that CAWR reports, and table \ref{tab:gui-mapping} displays the meaning of the icons present in the GUI. Since 
-this system is to be used in a real time deployment, there is no interest in storing the state of the network, which means that the topology must be drawn with 
-every request to the server. Currently the topology is updated every two seconds, providing a balance between real time updates and the interval for requests to the
-controllers.
-
-\par The connection between both controllers to the GUI provides the view for both controllers, which means that CAWR will present the view for the physical
-switches, bonded ports and hosts, while the baseboxd only shows the giant switch created by CAWR. An advantage of this is the analysis of the global view of the
-state of the network, and further possibilities include the addition of displaying configured VLANs in each port, and even provide a way to configure them via a GUI.
-Interaction with the nodes is possible, and clicking on each provides an insight to the statistics related to that port.  

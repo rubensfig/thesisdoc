@@ -7,8 +7,8 @@ techniques for modelling the data in a time series, calculating predictions from
 finding change points in this data (see section \ref{sec:change_detection}). Using this mathematical baseline, we built an algorithm that monitors the changes
 in the traffic characteristics of an interface of a switch. 
 
-\par Algorithm \ref{alg:high_level} is a high level overview of the steps required to obtain the detection,
-and in the following sections, we introduce each step, and provide some clarifications on the design decisions.
+\par Algorithm \ref{alg:high_level} is a high level overview of the steps required to obtain the detection, and in the following sections, we introduce each step,
+and provide some clarifications on the design decisions.
 
 \begin{algorithm}[H]
     \caption{Elephant Detection Algorithm - High Level} \label{alg:high_level}
@@ -225,7 +225,6 @@ algorithm in an approximation to real conditions.
 the increase of the packet loss as the number of flows in OVS increases. This limitation implies that in order for the tests to run successfully, there needs to be
 a care in the amount of flows that are generated.
 
-% XXX - Redo this graphic
 \begin{figure} [H]
     \centering
     \includegraphics[width=0.6\textwidth]{meter_eleph/ovs_packet_loss}
@@ -257,7 +256,7 @@ values' prediction and error calculation, these trends should be removed.
 
 \par In the initial detection strategy, the error detection is based in comparing the calculated prediction error to a certain threshold. Choosing this threshold 
 requires previous knowledge of the magnitude of the change, and figure \ref{fig:detect_dumb} represents the output of the prediction error calculation using this
-method. We assume a value of $\delta > 2$ for the threshold, due to XXX ... 
+method. We assume a value of $\delta > 2$ for this detection threshold, to show that the detection threshold may be tuned depending on the use case.
 
 \par In figure \ref{fig:detect_dumb} we plot the prediction error calculated for every port on the switch, including the inter-switch connection. Since the developed
 algorithm monitors the changes in traffic characteristics on the switch ports connected to a host, applying the change detection to the inter-switch connection
@@ -266,7 +265,7 @@ does not provide any useful information, as such, we do not apply the algorithms
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{meter_eleph/detect_dumb}
+    \includegraphics[width=.8\textwidth]{meter_eleph/detect_dumb}
     \caption {Simple detection}
     \label{fig:detect_dumb}
 \end{figure} 
@@ -278,8 +277,8 @@ only raised when the traffic characteristics change. Regardless, the same change
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\textwidth]{meter_eleph/detection_results_plotted}
-    \caption{Detection results}
+    \includegraphics[width=.8\textwidth]{meter_eleph/detection_results_plotted}
+    \caption{CUSUM Detection results}
     \label{fig:color_plot}
 \end{figure}
 
@@ -294,9 +293,9 @@ offline output can be analysed for the number of expected alarms on this testing
 \ref{fig:errors_comparaison}, we conclude that the number of errors are similar to the offline version, which means that we can accurately detect every change in
 the test scenario with the online algorithm.
 
-\begin{figure} [H]
+\begin{figure}
     \centering
-    \includegraphics[width=0.9\textwidth]{meter_eleph/evaluation_error}
+    \includegraphics[width=.8\textwidth]{meter_eleph/evaluation_error}
     \caption {Number of errors comparison between optimized and non optimized version}
     \label{fig:errors_comparaison}
 \end{figure} 
