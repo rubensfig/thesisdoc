@@ -22,12 +22,12 @@ a cost function considering the variables associated to VM placement, computing 
 is selected with the least amount of generated impact.
 
 \par \textbf{Caching} is act of duplicating content across a network, in order to optimize access to frequently accessed content, minimizing network congestion
-at peak access hours \cite{maddah-ali_fundamental_2014}. For Software Defined Networking, the centralized controller provides an optimal environment to implement caching 
-in data centers due to high level knowledge of the tenants in the network. Moirai \cite{stefanovici_software-defined_2015} presents a programmable data-plane caching 
-system, that allows to prioritize workloads, providing per-workload bandwidth guarantees. In \cite{georgopoulos_cache_2014}, the last mile delivery of Video-On-
-Demand problem is solved with the inclusion of OpenFlow to create dynamic caches using hardware independent statistics, and provide support for additional policies
-like load balancing. These systems show an evolution from historical caching mechanisms, that do not tend to support operations necessary in data center network 
-operations, with higher bandwidth and storage requirements \cite{stefanovici_software-defined_2015}.
+at peak access hours \cite{maddah-ali_fundamental_2014}. For Software Defined Networking, the centralized controller provides an optimal environment to implement 
+caching in data centers due to high level knowledge of the tenants in the network. Moirai \cite{stefanovici_software-defined_2015} presents a programmable 
+data-plane caching system, that allows to prioritize workloads, providing per-workload bandwidth guarantees. In \cite{georgopoulos_cache_2014}, the last mile
+delivery of Video-On- Demand problem is solved with the inclusion of OpenFlow to create dynamic caches using hardware independent statistics, and provide support
+for additional policies like load balancing. These systems show an evolution from historical caching mechanisms, that do not tend to support operations necessary in
+data center network operations, with higher bandwidth and storage requirements \cite{stefanovici_software-defined_2015}.
 
 \subsection {DCN Traffic}
 
@@ -128,8 +128,8 @@ based on different techniques \cite{curtis_mahout:_2011}:
 \par Mahout \cite{curtis_mahout:_2011} presents a system that allows for elephant flow detection by monitoring end hosts. Via implementation of a shim layer on top
 of every host present in the network, the proposed system allows to tag the traffic that belongs to larger flows, reducing the complexity that is generated 
 if the monitoring was done at the aggregation or core switches. Detection itself is done by comparing the number of bytes in a buffer to a certain threshold.
-In Hedera \cite{al-fares_hedera:_2010} the problem of maximizing network bandwidth is approached, via detection of large flows, and optimizing the placement on the switches
-according to the demands of these flows. A sampling approach for detection of network anomalies is explored in \cite{jun_ddos_2014}, where the 
+In Hedera \cite{al-fares_hedera:_2010} the problem of maximizing network bandwidth is approached, via detection of large flows, and optimizing the placement on the 
+switches according to the demands of these flows. A sampling approach for detection of network anomalies is explored in \cite{jun_ddos_2014}, where the 
 proposed method relies on analysing the sampled packets and building a tuple of the traffic characteristics, like the source and destination IP, source and 
 destination ports, and the protocol. Using machine learning methods, this system then calculates the entropy of each field to a certain threshold, which
 allows for detection and classification of different types of DDoS attacks. In TE, the use of entropy has been vastly discussed \cite{brauckhoff_impact_2006,
@@ -138,10 +138,9 @@ detect the changes in traffic distribution, and changes that would be small enou
 classification is now possible, since similar changes in traffic distribution cause the same changes in entropy, and this factor can be used in classifying the 
 different types of DDoS attacks, for example.
 
-\par In the case of systems that explore the changes in packet and bytes, \cite{munz_traffic_2010} proposes a simple approach
-for traffic change detection, based in time series and Principal component analysis (PCA). By measuring the state of the network, using the links, flows and packets
-statistics, a statistical approach to finding the time locations of change points in the network traffic is designed, by combining different types of statistical
-process control techniques.
+\par In the case of systems that explore the changes in packet and bytes, \cite{munz_traffic_2010} proposes a simple approach for traffic change detection, based in
+time series and Principal component analysis (PCA). By measuring the state of the network, using the links, flows and packets statistics, a statistical approach to 
+finding the time locations of change points in the network traffic is designed, by combining different types of statistical process control techniques.
 PCA removes the correlation of a set of observations, separating the seasonal variation from the residual variability. Another system exploring PCA for anomaly
 detection is studied in \cite{lakhina_characterization_2004}, where traffic flow measurements from Origin-Destination (OD) links are used to determine the anomalies
 present in the link. 
