@@ -2,9 +2,9 @@
 
 Understanding the impact of elephant flows in the normal operation of a data center requires understanding the traffic characteristics of the typical cloud 
 data center. The geographical proximity and localization of large data centers optimizes the interoperability that applications may require by minimizing 
-propagation delay that could be present if the links between servers was larger, however cloud data centers used for costumer faced applications and those employed
-in data intensive tasks may present different requirements, which poses a problem in optimizing the network. Furthermore, absence of publicly available data
-contributes to the challenge of researching data centers \cite{benson_network_2010}.
+propagation delay that could be present if the links between servers, however cloud data centers used for costumer faced applications and those employed
+in data intensive tasks may present different requirements, which poses a problem in optimizing the underlying network. Furthermore, absence of publicly available
+data contributes to the challenge of researching data centers \cite{benson_network_2010}.
 
 \par Typical cloud data centers operate at a ratio of 1:1000 staff members to servers \cite{greenberg_cost_2008}, which points to an essential need for 
 extensible automation and failure recovery plans for optimal operation. Automation is central for cost reduction strategies in data centers, reducing the 
@@ -15,13 +15,13 @@ impact of failures caused by human errors.
 which reduces performance degradation, and increase recovery from failures \cite{singh_server-storage_2008}. In a virtualised environment the possibility
 of moving Virtual Machines (VMs) across servers and racks facilitates distributing the load without downtime, but the migration decision is not trivial due to the
 large amount of variables involved, for example, the bandwidth, memory and CPU that is available on each server supporting the migrated VM. Furthermore, if an
-application's workload change over time, one decision may not apply for further migrations \cite{xu_multi-objective_2010}. Netshare
+application's workload changes over time, one decision may not apply for further migrations \cite{xu_multi-objective_2010}. Netshare
 \cite{radhakrishnan_netshare_2012} proposes a system that optimizes bandwidth allocation by imposing max-min fair sharing on services, using a 
 centralized controller for orchestration. In \cite{shrivastava_application-aware_2011}, a minimization approach is applied to the migration problem, by generating
 a cost function considering the variables associated to VM placement, computing the impact of moving a certain VM to a physical host, and the migration destination
 is selected with the least amount of generated impact.
 
-\par \textbf{Caching} is act of duplicating content across a network, in order to optimize access to frequently accessed content, minimizing network congestion
+\par \textbf{Caching} is the act of duplicating content across a network, in order to optimize access to frequently accessed content, minimizing network congestion
 at peak access hours \cite{maddah-ali_fundamental_2014}. For Software Defined Networking, the centralized controller provides an optimal environment to implement 
 caching in data centers due to high level knowledge of the tenants in the network. Moirai \cite{stefanovici_software-defined_2015} presents a programmable 
 data-plane caching system, that allows to prioritize workloads, providing per-workload bandwidth guarantees. In \cite{georgopoulos_cache_2014}, the last mile
@@ -31,7 +31,7 @@ data center network operations, with higher bandwidth and storage requirements \
 
 \subsection {DCN Traffic}
 
-\par The several studies proposed in traffic engineering for traditional networks do need to be revised in DCN's, since metrics like propagation delay can be
+\par The techniques proposed for traffic engineering in traditional networks do need to be revised in DCN's, since metrics like propagation delay can be
 negligible, due to the physical proximity of nodes in DC's \cite{bari_data_2013}. However, research in this topic can be a difficult task,
 since many data center operators do not publish information about their applications and services.
 
@@ -46,9 +46,9 @@ since many data center operators do not publish information about their applicat
         The counterpart to these are the \textit {elephant} flows, which occupy a very large share of the bandwidth, and degrade application performance, due to a
         choking effect to the latency-sensitive mice flows. 
         Applications are tied to the type of traffic they generate, where online gaming, VoIP and multimedia broadcasting usually originate mice flows, where the 
-        large data transfers and file-sharing originate in elephant flows. Despite 90\% flows are small and last hundreds of milliseconds, total traffic volume is 
+        large data transfers and file-sharing generate elephant flows. Despite 90\% flows are small and last hundreds of milliseconds, total traffic volume is 
         largely dominated by the remainder, called \textbf{elephant flows} \cite{benson_network_2010}
-    \item In a normal situation, link utilization is low in the layers apart from the core switches. In addition to this discovery, losses are associated with 
+    \item In a normal situation, link utilization is low in the layers apart from the core switches. In addition to this discovery, losses are not associated with 
         spikes in traffic, instead being related to high utilization  of the link, which is one of the effects of the previously mentioned elephant flows.
 \end {itemize}
 
@@ -57,7 +57,8 @@ since many data center operators do not publish information about their applicat
 querying the switches, allowing to reduce the load associated with these queries and taking into account the different processing power of each device. Another 
 method for estimating the link utilization is present in FlowSense \cite{yu_flowsense:_2013}, in which PACKET\_IN and FLOW\_REMOVED OpenFlow messages 
 are monitored since these messages carry information of arrival of new flows and expiration of flow entries, providing a zero-overhead monitoring technique. This 
-method has optimal performance when the flows in the network are short lived, posing worse performance as the flow time increases.
+method has optimal performance when the flows in the network are short lived, posing worse performance as the flow time increases. Due to the absence of these 
+messages in longer lived flows, the performance decreases when applying this technique on elephant flows.
 
 \subsection {Elephant flows} \label{sec:el_fl}
 
@@ -66,12 +67,12 @@ and provide different results to different use cases. In this section we focus o
 
 \subsubsection{General formulation of elephant flows}
 
-Networks can be defined as an undirected graph $G(V, E)$, which contains a certain multicast group $M \subseteq V$, and a multicast tree $T \subseteq E$ 
+Networks can be represented as an undirected graph $G(V, E)$, which contains a certain multicast group $M \subseteq V$, and a multicast tree $T \subseteq E$ 
 \cite{lorenz_optimal_2003}. Considering the nodes $u, v \in M$, and the unique paths $p_{u \to v}$, an approach to define elephant flows
 is to consider the optimal Quality-of-Service (QoS) partition of the unicast path $p$, or the multicast tree $T$ such as in 
 \cite{lorenz_optimal_2003, lorenz_optimal_2002}. 
 
-\par Considering the set of flows $F$ on the path $p$,
+\par Considering the partitioned set of flows $F$ on the path $p$,
 
 \begin{equation*}
     \centering
@@ -101,10 +102,27 @@ must satisfy the condition
 since bandwidth can be classified as a bottleneck parameter, where the link with the lowest bandwidth sets the total for the link. Considering the additive case, 
 where the delay of the links can be used as an example, the total delay of the links will be the sum of the delays of each link.
 
-\par Using this notation, $<F_e, F_m>$ identifies the optimal QoS partition where $F_e$ is the set of elephant flows, and $F_m$ is the set containing 
-mouse flows. 
+\par Using this notation, $<F'_e, F'_m>$ identifies the optimal QoS partition where $F_e$ is the set of elephant flows, and $F_m$ is the set containing 
+mouse flows. From this framework, the set of elephant flows $F'_e$ is
 
-\subsubsection{Detection}
+\begin{equation*}
+    \centering
+    F'_e = <F'_1, ..., F'_X> \subset F,
+\end{equation*}
+
+\par that are bound to the following restrictions
+
+\begin{equation*}
+    \centering
+    %\left\{\begin{matrix}
+        \begin{split}
+        &min(X), \\ 
+        &max(q(F'_e)) < Q.
+        \end{split}
+    %\end{matrix}\right.
+\end{equation*}
+
+\subsubsection{Elephant flow detection}
 
 The problem of detection of traffic anomalies has been subject to extensive research, and several different approaches have been proposed. These methods are
 based on different techniques \cite{curtis_mahout:_2011}:
@@ -113,25 +131,23 @@ based on different techniques \cite{curtis_mahout:_2011}:
     \item Modifications to the applications and services to notify the controller about the state of the traffic on each service. Despite this approach resulting
          in the most accurate "detection" of network anomalies, support for this technique is not extensive, due to the required changes to each service, 
          and it does not account for abrupt changes on the traffic
-    \item By setting hard limits on the transmission capabilities of each port and switch, the controller is ensured of the non existence of flows that could 
-        impact network performance. This is a mitigation strategy that does not scale well to very large networks, since it requires the storage of the rules
-        imposed to every port, and can potentially lead to the inefficient use of network resources, reducing flexibly on the DCN's.
+    \item By setting hard limits on the transmission capabilities of each port and switch, and enforcing via shaping mechanisms, the controller is ensured of the 
+        non existence of flows that could impact network performance. This is a mitigation strategy that does not scale well to very large networks, since it 
+        requires the storage of the rules imposed to every port, and can potentially lead to the inefficient use of network resources, reducing flexibly on the DCN's.
     \item By employing sampling and collection techniques, using mechanisms like sFlow (see \ref{sec:sflow}), and building the profile of the normal state of 
-        the network,
-        this method can detect outliers that deviate from the normal state of the network. Utilizing this method reduces impact that continuously polling the network
-        might have, while reducing impact on the packet and byte counts \cite{brauckhoff_impact_2006}, but 
-        the loss of information inherent to sampling may be a challenge on successful deployment, which should account for optimal sampling 
-        strategies and inference from the obtained statistics.
+        the network, this method can detect outliers that deviate from the normal state of the network. Utilizing this method reduces the impact of continuously 
+        polling the network, while reducing impact on the packet and byte counts \cite{brauckhoff_impact_2006}, but the loss of information inherent to
+        sampling may be a challenge to successful deployments, which should account for optimal sampling strategies and inference from the obtained statistics.
     \item Periodic polling of the statistics from the switch, and employing statistical analysis methods to determine change points in the state of the network.
 \end {itemize}
 
 \par Mahout \cite{curtis_mahout:_2011} presents a system that allows for elephant flow detection by monitoring end hosts. Via implementation of a shim layer on top
 of every host present in the network, the proposed system allows to tag the traffic that belongs to larger flows, reducing the complexity that is generated 
-if the monitoring was done at the aggregation or core switches. Detection itself is done by comparing the number of bytes in a buffer to a certain threshold.
-In Hedera \cite{al-fares_hedera:_2010} the problem of maximizing network bandwidth is approached, via detection of large flows, and optimizing the placement on the 
+if the monitoring was done at the aggregation or core switches. Detection itself is done by comparing the number of bytes in a buffer to a pre-defined threshold.
+In Hedera \cite{al-fares_hedera:_2010} the problem of maximizing network bandwidth is via detection of large flows and optimization of the placement on the 
 switches according to the demands of these flows. A sampling approach for detection of network anomalies is explored in \cite{jun_ddos_2014}, where the 
-proposed method relies on analysing the sampled packets and building a tuple of the traffic characteristics, like the source and destination IP, source and 
-destination ports, and the protocol. Using machine learning methods, this system then calculates the entropy of each field to a certain threshold, which
+proposed method relies on analysing the sampled packets and building a tuple of the traffic characteristics (source and destination IP, source and 
+destination ports, and the protocol). Using machine learning methods, this system then compares the entropy of each field to a pre-defined threshold, which
 allows for detection and classification of different types of DDoS attacks. In TE, the use of entropy has been vastly discussed \cite{brauckhoff_impact_2006,
 lall_data_2006}, since it can be used in fine grained traffic engineering systems, as well as anomaly detection systems, since entropy based methods
 detect the changes in traffic distribution, and changes that would be small enough for volume change detectors are visible in these systems. Furthermore, traffic
@@ -145,7 +161,7 @@ PCA removes the correlation of a set of observations, separating the seasonal va
 detection is studied in \cite{lakhina_characterization_2004}, where traffic flow measurements from Origin-Destination (OD) links are used to determine the anomalies
 present in the link. 
 
-\subsubsection{Mitigation}
+\subsubsection{Elephant flow mitigation}
 
 Now that the methods for identifying elephant flows were presented, discussion of mitigation techniques to decrease the impact on the smaller, latency sensitive
 flows must be addressed. 
@@ -153,9 +169,9 @@ flows must be addressed.
 \par In general, post-detection actions for solving elephant flows can be based in \cite{pettit_open_2014, noauthor_mice_2013}
 
 \begin{itemize}
-    \item separation the queues from elephants and mice flows,
+    \item separating the queues from elephants and mice flows,
     \item routing the elephants on a separate path or forwarding them in separate networks,
-    \item separation the elephants into smaller flows, using different ports, and rely on reliable transmission mechanisms, such as those present on TCP
+    \item splitting the elephants into smaller flows, using different ports, and relying on reliable transmission mechanisms, such as those present on TCP
         to organize and re-order the packets.
 \end{itemize}
 
@@ -165,12 +181,12 @@ periodicity. Basic functionality of this system is the management of the timeout
 long inter packet arrival periods, the flow rules on the switch could become out dated, leading to a possible switch table overflow; and if the timeouts are 
 too short, the control plane can be overloaded, causing possible controller failures.
 
-\par Another solution proposed for managing elephants are present in congestion-aware systems, where the routing or forwarding decisions are done with a dynamic
-overview of each links properties. The proposals in congestion-aware systems are relevant, due to the inefficiency of Equal-cost multi-path (ECMP) routing in data
+\par Another solution proposed for managing elephant flows are present in congestion-aware systems, where the routing or forwarding decisions are done with a dynamic
+overview of each link properties. The proposals in congestion-aware systems are relevant, due to the inefficiency of Equal-cost multi-path (ECMP) routing in data
 centers, which causes low throughput and bandwidth utilization for elephant flows, and increases latency for mice flows \cite{wang_expeditus:_2017}. In 
 \cite{wilson_better_2011}, link capacity is managed per flow by analysing the \textit{flow deadline} \footnote{Flow deadline is defined as the time that the flow has
 to finish transmission, usually due to Service Level Agreements (SLAs)}. The reasoning behind analysis of the flow deadline is due to splitting resources on the link.
 If the link's capacity is shared equally between every flow, then every flow will arrive at the same time, but likely the deadline will have been missed by some. 
 Furthermore, consideration of the flow implies that every packet must arrive before the deadline. In the case of elephant flow mitigation, assigning larger portions
-of the link's capacity to the shorter flows can be a possible strategy. In \cite{mittal_timely:_2015} presents a similar approach, instead analysing Round-Trip Time
+of the link's capacity to the shorter flows can be a possible strategy. A similar approach is present in \cite{mittal_timely:_2015}, instead analysing Round-Trip Time
 (RTT), since this metric directly reflects the end-to-end latency of a link.

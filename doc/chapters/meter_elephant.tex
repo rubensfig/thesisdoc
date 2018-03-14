@@ -284,19 +284,19 @@ only raised when the traffic characteristics change. Regardless, the same change
 
 \par Analysing the output of the algorithm after the tests finish indicates the corresponding timestamps of the alarms. Blindly applying the sliding window technique
 in the algorithm will result in repeated alarms across the window, and as we vary the length of the window, the algorithm may raise notifications even if the change
-has taken place at some time in the past. A simple optimization to the proposed algorithm is to consider only the first occurrence of the alarms. Figure
+has taken place at some time in the past. A simple enhancement to the proposed algorithm is to consider only the first occurrence of the alarms. Figure
 \ref{fig:errors_comparaison} shows the result of plotting the number of alarms against the changing size of the window, the upper figure considering only the
 timestamps of the first occurrence of the alarm, on the contrary of the lower figure.
 
 \par This proposed approach also allows the comparison between the offline and the online approach to change detection. In figure \ref{fig:offline_cusum}, the 
-offline output can be analysed for the number of expected alarms on this testing scenario. Comparing this result to the optimized version in figure 
+offline output can be analysed for the number of expected alarms on this testing scenario. Comparing this result to the enhanced version in figure 
 \ref{fig:errors_comparaison}, we conclude that the number of errors are similar to the offline version, which means that we can accurately detect every change in
 the test scenario with the online algorithm.
 
 \begin{figure}
     \centering
     \includegraphics[width=.8\textwidth]{meter_eleph/evaluation_error}
-    \caption {Number of errors comparison between optimized and non optimized version}
+    \caption {Number of errors comparison between enhanced and non enhanced version}
     \label{fig:errors_comparaison}
 \end{figure} 
 

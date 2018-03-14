@@ -36,6 +36,7 @@
 }
 
 \title[Management Interface]{API design and implementation of a management interface for SDN whitebox switches }
+
 \author{Rubens Jesus Alves Figueiredo}
 \institute{FEUP}
 \date{\today}
@@ -95,15 +96,6 @@
 
 \begin{frame}
     \begin{figure}[!tbph]
-      \centering
-      \subfloat{\includegraphics[width=0.4\textwidth]{bib/network_trad}\label{fig:net_trad}}
-      \subfloat{\includegraphics[width=.4\textwidth]{bib/network_sdn}\label{fig:net_sdn}}
-      \caption {Traditional vs SDN network architecture}
-    \end{figure}
-\end{frame}
-
-\begin{frame}
-    \begin{figure}[!tbph]
         \centering
         \includegraphics[width=.5\textwidth]{sdn/sdn_division}
     \end{figure}
@@ -113,35 +105,7 @@
     \end{itemize}
 \end{frame}
 
-%\begin{frame}{Basebox}
-%\end{frame}
-
-\begin{frame}{Basebox}
-    \begin{figure}[!tbph]
-        \centering
-        \includegraphics[width=.35\textwidth]{bisdn/baseboxd}
-    \end{figure}
-
-\end{frame}
-
-\begin{frame}{Basebox}
-    \begin{figure}[!tbph]
-        \centering
-        \includegraphics[width=.7\textwidth]{bisdn/cawr}
-    \end{figure}
-\end{frame}
-
-\section{Problem}
-
-\begin{frame}{Goals}
-    \begin{itemize}
-        \item Definition and implementation of a management stack for both controllers, to monitor port statistics and visualize topology changes
-            \pause 
-        \item Research and develop a solution for monitoring \textbf{elephant flows}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{Elephant Flows}
+\begin{frame}{DC Network Traffic}
     \begin{itemize}
         \item In typical Data Center Networks, their traffic characteristics show that \cite{mori_identifying_2004}:
             \pause
@@ -154,10 +118,29 @@
     \end{itemize}
 \end{frame}
 
+\section{Problem}
+
+\begin{frame}{Basebox}
+    \begin{figure}
+        \includegraphics[width=.7\textwidth]{bisdn/basebox}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Goals}
+    \begin{itemize}
+        \item Definition and implementation of an management environment to provide an interface to develop applications 
+            to manage and monitor network traffic, like
+            \pause 
+        \item Graphical User Interfaces (GUI), to display network topology and port statistics;
+            \pause
+        \item monitoring \textbf{elephant flows};
+    \end{itemize}
+\end{frame}
+
 \begin{frame}{Proposed Architecture}
-        \begin{figure}
-            \includegraphics[width=.7\textwidth]{proposed_work/proposed_system}
-        \end{figure}
+    \begin{figure}
+        \includegraphics[width=.7\textwidth]{proposed_work/proposed_system}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{Testing Environment}
@@ -179,14 +162,39 @@
     \end{figure}
 \end{frame}
 
-\section{Elephant Flow Monitoring}
+\section{Management API}
 
-\begin{frame}{Impact}
-    \begin{figure}
-        \includegraphics[width=1\textwidth]{meter_eleph/bandwidth_loss_per_data_size}
-        \caption{The impact on the bandwidth of a link as the packet data sizes increase}
+\begin{frame}{Design}
+    \begin{itemize}
+        \item By modifying the controllers to expose already available information like port statistics
+            and link status, we created a simple GUI for simple visualization of this information
+            \pause
+        \item Based on a Remote Process Call framework, gRPC, we leverage this protocol's serialization model
+            and RPC definition to create the endpoints between the GUI client and the controllers
+            \pause
+        \item We model the data according to standardized Yang data models, as defined by OpenConfig and IETF
+            \pause
+        \item The GUI client is a web page based on the Django Framework
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Proof-of-concept}
+    \begin{figure}[!tbph]
+      \centering
+      \includegraphics[width=0.8\textwidth]{bisdn/cawr_gui}
+      \caption {CAWR topology, with the underlying switch topology}
     \end{figure}
 \end{frame}
+
+\begin{frame}{Proof-of-concept}
+    \begin{figure}[!tbph]
+      \centering
+      \includegraphics[width=0.7\textwidth]{bisdn/basebox_gui}
+      \caption {baseboxd's statistics, with the statistics of a single port}
+    \end{figure}
+\end{frame}
+
+\section{Elephant Flow Monitoring}
 
 \begin{frame}{Proposed Algorithm}
     \begin{algorithm}[H]
@@ -194,26 +202,24 @@
         \begin{algorithmic}[1]
             \Procedure {Elephant Flow Detection}{}
                 \State Initialization
+                \pause
                 \Loop
                     \State Query controller
-                    \State Error calculation
-                    \State Prediction
-                    \State Detection
+                    \pause
+                    \State Calculate the prediction error
+                    \pause
+                    \State Predict the next values
+                    \pause
+                    \State Detect the elephant flows
                     \If {Detection}
                         \State Raise Alarm
                     \EndIf
                     \State wait 2 seconds
+                    \pause
                 \EndLoop
             \EndProcedure 
            \end{algorithmic}
     \end{algorithm}
-\end{frame}
-
-\begin{frame}{Initialization}
-    \begin{figure}
-        \includegraphics[width=.5\textwidth]{meter_eleph/init_period_lin}
-        \caption{Initialization period plotted}
-    \end{figure}
 \end{frame}
 
 \begin{frame}{Error calculation}
@@ -225,17 +231,19 @@
 
 \begin{frame}{Detection}
     \begin{figure}
-        \includegraphics[width=1\textwidth]{meter_eleph/detect_dumb}
+        \includegraphics[width=.8\textwidth]{meter_eleph/detect_dumb}
         \caption{First detection results}
     \end{figure}
 \end{frame}
 
 \begin{frame}{Detection}
     \begin{itemize}
+
         \item Previous detection results are not ideal, purely comparing the output
             of a value to a pre selected threshold, and raising several alarms
             even no change has been detected
             \pause
+
         \item The CUSUM algorithm is commonly used for change detection mechanisms employed
             in economics, health care, industrial engineering, ...
         \item Allows for keeping track of a parameter of an output of a process, and 
@@ -255,7 +263,7 @@
     \end{itemize}
     \pause
     \begin{figure}
-        \includegraphics[width=.7\textwidth]{meter_eleph/online_cusum_output}
+        \includegraphics[width=.6\textwidth]{meter_eleph/detection_results_plotted}
         \caption{Online CUSUM output}
     \end{figure}
 \end{frame}
@@ -267,41 +275,20 @@
     \end{figure}
 \end{frame}
 
-\section{Management API}
-
-\begin{frame}{Design}
-    \begin{itemize}
-        \item By modifying the controllers to expose already available information like port statistics
-            and link status, we created a simple GUI for simple visualization of this information
-            \pause
-        \item Based on a Remote Process Call framework, gRPC, we leverage this protocol's serialization model
-            and RPC definition to create the endpoints between the GUI client and the controllers
-            \pause
-        \item We model the data according to standardized Yang data models, as defined by OpenConfig and IETF
-            \pause
-        \item The GUI client is a web page based on the Django Framework
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{Results}
-    \begin{figure}[!tbph]
-      \centering
-      \includegraphics[width=0.8\textwidth]{bisdn/cawr_gui}
-      \caption {CAWR topology, with the underlying switch topology}
-    \end{figure}
-\end{frame}
-
-\begin{frame}{Results}
-    \begin{figure}[!tbph]
-      \centering
-      \includegraphics[width=0.7\textwidth]{bisdn/basebox_gui}
-      \caption {baseboxd's statistics, with the statistics of a single port}
-    \end{figure}
-\end{frame}
 \section{Conclusion}
 
-\begin{frame}{}
+\begin{frame}{Summary of Achievements}
+\end{frame}
+
+\begin{frame}{Future Work}
     TBD
+\end{frame}
+
+\begin{frame}{}
+    \begin{figure}
+        \includegraphics[width=.9\textwidth]{presentation/basebox_paris}
+        \caption{Image of the developed GUI, present in the SENDATE Mid Term Event in Paris}
+    \end{figure}
 \end{frame}
 
 \printbibliography

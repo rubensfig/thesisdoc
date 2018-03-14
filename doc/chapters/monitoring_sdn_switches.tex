@@ -10,7 +10,7 @@ of the network devices. Such a system should
     \item display the topology information reported by CAWR, including the internal switch links, and the LACP discovered bond interfaces on the servers,
     \item display the port and link statistics for both switches,
     \item design an alerting system, so that network operators can be informed of changes on the network state,
-    \item provide some diagnostic capabilities.
+    \item provide diagnostic capabilities.
 \end {itemize}
 
 \par Also addressed by this system should be the definition of Quality-of-Service (QoS) policies, that maintains the levels of accepted traffic behaviour of each 
@@ -28,7 +28,7 @@ statistical analysis to manage the impact caused by elephant flows.
 \end{figure}
 
 \par Following the previously presented requirements, the proposed system is present in figure \ref{fig:pro_sys}. By adding an interface for the controllers that 
-exposes management information like the network's topology, statistics, etc, we are able to build a \textbf{Operations Support System} (OSS) that provides the basis 
+exposes management information like the network's topology, statistics, etc, we build an \textbf{Operations Support System} (OSS) that provides the basis 
 for the development of applications that monitor the state of the network. This system allows further separation of roles in the network, in contrast to a system 
 where the controller would gather the roles of managing and monitor the network's status. Furthermore, this architecture increases the modularity of the components, 
 enabling hot-swapping different modules, and allows parallel development of different features in the monitoring and management stack.
