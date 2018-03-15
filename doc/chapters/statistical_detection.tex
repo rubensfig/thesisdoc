@@ -1,4 +1,4 @@
-\section{Statistical Detection} \label{chap:stat_det}
+\section{Time series analysis} \label{chap:stat_det}
 
 As a result of the large scale of current data centers, maintaining control over these networks proves a difficult task. Networks operators must then adapt to the
 current situation by improving the monitoring infrastructures to allow faster response to problems, and \textbf{Root-Cause Analysis} (RCA) \footnote{method of
@@ -10,11 +10,6 @@ removed or mitigated. These include not only cases where the anomalies are cause
 devices or changes in user behaviour \cite{munz_traffic_2010}. These systems are equipped with alarm capabilities, so that system administrators can quickly respond
 to changes, possibly even giving some information about the source of the problem. However, the automation of these monitoring processes means that the possible 
 existence of false alarms reduces the operators capabilities to act on actual failures. 
-
-\par This chapter focuses on the recent research done in order to implement systems that rely on statistical analysis for monitoring the state of the networks and
-detection of abnormalities.
-
-\subsection {Time series analysis}
 
 Understanding processes and their results is a key factor in the success of implementing new features, or analysing existing ones for their efficiency and output.
 This analysis, important for the different fields in engineering, economics, health, allows obtaining information about the normal and abnormal state of each 
@@ -42,10 +37,10 @@ when the metrics are too sensitive to traffic changes, and limit the network ope
         detection on new samples. Parametric approaches rely on learning a probability distribution from the monitored variables, and using this learned data to 
         estimate the unknown parameters, after which the training data can be discarded. Non-parametric models however, do not take into consideration the
         distribution of the monitored variables, and analyse statistical properties instead. The cost of this analysis is that the previous data must be stored to
-        provide better results, but this problem can be mitigated using algorithms like sliding window or moving averages.
+        provide better results, but this problem can be mitigated using algorithms like sliding windows or moving averages.
 \end {itemize}
 
-\subsubsection {Mathematical formulations} \label{sec:math_form}
+\subsection{Mathematical formulations} \label{sec:math_form}
 
 A time series can be defined as a stream of observations $X = \{x_1, ... x_i\}$, where $x_i$ is a vector arriving at time $i$. The time series $X$ can also be
 described as the sum (in equation \ref{eq:ts_sum}), or product (in equation \ref{ts:pr}) of the following components: $S_t$, which refers to the seasonal component
@@ -72,14 +67,9 @@ y_t = S_t * T_t * R_t
   \item \textbf {Stochastic} when the opposite happens
 \end {itemize}
 
-\par Approximating the time series data to a model allows for generating predictions for the next values, since the relationship between two variables in the data is
-then known. The Box-Jenkins method defines the steps of building the model as \cite{box_time_2016}:
-
-\begin {enumerate}
-  \item \textbf{Identification} Model the data, by reducing the variables to a stationary state, and removing the possible seasonality in the series
-  \item \textbf{Fitting} Estimate the parameters for the model
-  \item \textbf{Checking} Verify if the model accurately fits the available data, returning to the identification step if its not adequate
-\end {enumerate}
+\par Time series data usually present a non stationary behaviour, that are characterized by changes in the mean and variance. Statistical methods require, however,
+stationarity in the data. The presence of trends and cyclic behaviours is the most common violation of stationary, and table \ref{tab:trends_here} shows the most 
+common trends present in the data, and the parameters that need to be learned from the time series in study. 
 
 \begin{table}[h]
 \centering
@@ -93,24 +83,24 @@ Logarithmic & $y = a \cdot ln(x) + b$
 \label{tab:trends_here}
 \end{table}
 
-\par Time series data usually present a non stationary behaviour, that are characterized by changes in the mean and variance. Statistical methods require, however,
-stationarity in the data. The presence of trends and cyclic behaviours is the most common violation of stationary, and table \ref{tab:trends_here} shows the most 
-common trends present in the data, and the parameters that need to be learned from the time series in study. Removing systematic changes like trends is also possible
-with differencing,
+Removing systematic changes like trends is also possible with differencing,
 
 \begin {equation*}
 \centering
 \nabla X_t = X_t - X_{t-1}.
 \end {equation*}
 
-\par By modelling the time series data with moving average (MA), autoregression (AR) or a mix of the two (ARMA) processes, under the assumption that the underlying
-process can be modeled by previous historical values, and assuming this model remains true for future measurements, the time series data historical behaviour can
-be used to generate forecasts for future values in the time series. The one step ahead prediction is referred as $\hat{x}_t$.
+\subsection{Forecasting}
 
-\par Exponential smoothing allows for generating predictions using the historical behaviour, but differs from normal MA methods by applying a set of weights to the
-data that exponentially decreases over time. Considering the time series $X_t$, the prediction $\hat{x}_t$ can be obtained by equation \ref{eq:exp_smooth}. 
-In this model, the smoothing factor $\alpha (0 < \alpha < 1)$ should be obtained empirically, and its value will determine the forgetting factor for the past
-observations.
+Time-series' have the possibility of applying statistical models to extract the next value prediction based on past observations. Under the assumption that the
+underlying process can be modeled by previous historical values, and assuming this model remains true for future measurements, the time series data historical 
+behaviour can be used to generate these forecasts for future values in the time series. 
+
+\subsubsection{Exponential smoothing}
+
+\par Exponential smoothing allows for generating predictions using the historical behaviour, by applying a set of weights to the data that exponentially decreases 
+over time. Considering the time series $X_t$, the one-step ahead prediction $\hat{x}_t$ can be obtained by equation \ref{eq:exp_smooth}.  In this model, the 
+smoothing factor $\alpha (0 < \alpha < 1)$ should be obtained empirically, and its value will determine the forgetting factor for the past observations.
 
 \begin {equation*}
     \centering
@@ -152,12 +142,76 @@ forecasting. These methods introduce further components to dampen the effects of
 
 \par The components these methods introduce account for the cyclic behaviours in the data: $L_t$ accounts for the baseline behaviour of the data, which is 
 calculated on the simple method; $T_t$ smooths the trend with the $\beta$ parameter; and $S_t$ accounts for the seasonal components with the $\gamma$ parameter.
-As with $\alpha$ these parameters are defined mostly by previous experience, but a common optimization is the minimization of the square sum of prediction errors 
-(SSE), defined by:
+As with $\alpha$ these parameters should be defined mostly by previous experience.
+
+\subsubsection{Autoregressive Moving average}
+
+\par Approximating the time series data to a model allows for generating predictions for the next values, since the relationship between two variables in the data is
+then known. The Box-Jenkins method defines the steps of building this model as \cite{box_time_2016}:
+
+\begin {enumerate}
+  \item \textbf{Identification} Model the data, by reducing the variables to a stationary state, and removing the possible seasonality in the series
+  \item \textbf{Fitting} Estimate the parameters for the model
+  \item \textbf{Checking} Verify if the model accurately fits the available data, returning to the identification step if its not adequate
+\end {enumerate}
+
+\par Modelling the time series data is possible through moving average (MA), autoregression (AR) or a mix of the two (ARMA) processes. 
+The autoregressive model, also referred to as AR(\textit{p}), considers the linear regression of the $p$ past values, as equation \ref{eq:ar} shows.
+
+\begin{equation}
+    X_t = \sum^p_{i=1}\phi_i X_{t-i} + \epsilon_t,
+    \label{eq:ar}
+\end{equation}
+
+\par where $\epsilon_t$ is the white noise component, a purely random process of mean 0 and variance $\sigma^2$, $\phi_i$ are the constant parameters of the model,
+and $p$ defines the order of the model.
+
+\par The moving average process models the time series to the white noise that has occurred in the previous periods, as shown in equation \ref{eq:ma}. In this
+equation, $\theta_i$ are the parameters of the model, $\mu$ is the mean of the series, and $\epsilon_t$ are the white noise components. Similarly as in the 
+autoregressive model, the moving average process can be defined as MA(q), where $q$ is the order of this model.
+
+\begin{equation}
+    X_t = \sum^q_{i=1}\theta_i\epsilon_i + \mu,
+    \label{eq:ma}
+\end{equation}
+
+\par Finally, the ARMA($p$, $q$) process is defined as the combination of both methods, as shown in equation \ref{eq:arma}.
+
+\begin{equation}
+    X_t = \mu + \sum^q_{i=1}\theta_i\epsilon_i + \sum^p_{i=1}\phi_i X_{t-i}.
+    \label{eq:arma}
+\end{equation}
+
+\par Finding the $p$ and $q$ parameters of the models is done via observation of autocorrelation and partial autocorrelation functions, as introduced in the
+Box-Jenkins method \cite{box_time_2016}. The autocorrelation function calculates the correlation of a time series with its own lagged values. The behaviour 
+of this function can provide us with the information on the these parameters: if the sample autocorrelation shows an exponential decrease then the process can be 
+modelled with an AR method; and if this function shows a drop after a certain value $q$, then the moving average model is better suited for modelling the time series
+\cite{munz_traffic_2010}.
+
+\subsubsection{Error calculation}
+
+A very important part of building forecasting modules is assessing the associated errors with the prediction. Minimizing prediction errors improves the quality of the
+forecasts, via the adjustment of the chosen parameters for the model.
+
+\par A common way to calculate the error is via the Squared Sum of Errors (SSE), which is shown in equation \ref{eq:sse}. 
 
 \begin {equation*} 
     \label{eq:sse}
     SSE = \sum_{t=1}^T{(x_t-\hat{x}_{t})^2} = \sum_{t=1}^T{\epsilon_t^2}
+\end {equation*}
+
+\par Other methods include the Root Mean Squared Error (RMSE),
+
+\begin {equation*} 
+    \label{eq:mape}
+     RMSE = \sqrt{\sum_{t=1}^n\frac{(x_t-\hat{x}_{t})^2}{n}} 
+\end {equation*}
+
+\par or the Mean Absolute Percentage Error (MAPE),
+
+\begin {equation*} 
+    \label{eq:mape}
+    MAPE = \frac{100}{n} \sum_{i=1}^n{\left | \frac{x_i - \hat{x}_i}{x_i} \right |},
 \end {equation*}
 
 \subsubsection {Change Detection} \label{sec:change_detection}
