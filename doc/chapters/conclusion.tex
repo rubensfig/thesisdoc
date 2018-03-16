@@ -4,7 +4,7 @@
 
 The main objective for this thesis was building a management system that would integrate with a pre-existing Software-Defined Network controller, exposing information
 for network operators to manage and configure their networking infrastructure. With these requirements, we have built a management environment that extends the
-previously existing system, by adding a modular interface to baseboxd and CAWR, allowing further developments in the field of Traffic Engineering in the Basebox
+previously existing system, by adding an interface to baseboxd and CAWR, allowing further developments in the field of Traffic Engineering in the Basebox
 environment.  Complementing this system, we have also designed a Graphical User Interface for interaction with the users, allowing for simple visualisation of the
 network's physical topology, and the display of interfaces' statistics, like the packets and bytes received and sent, or the number of errors. 
 
@@ -16,9 +16,9 @@ to provide them with alarms of port changes.
 \section{Future Work}
 
 Despite our conclusion that the main objectives of the thesis were achieved, the large scope of themes that this topic encompasses means that not everything could be 
-successfully covered. As for more immediate concerns, the next steps in guaranteeing a stabler product would be to expand the GUI to report and configure VLANs in 
-each port that is monitored; and support layer 3 functionality, such as visualising next hop neighbours, routing tables, etc. In regards to longer term goals, 
-continuing the work on monitoring not only the port change, but the actual flow that contributes to the largest changes in ports. This could be expanded into a
-system that analyses the services and applications that contribute the most to the traffic volumes in the network, which can then be further optimized by reporting
-the periodicity of the largest traffic volumes. The aspect of providing a system that can discriminate the traffic by transport protocol is also an interesting
-research topic for providing Quality of Service techniques to Software-Defined Networks.
+successfully covered. As for more immediate concerns, the next steps in guaranteeing a stable product would be the expansion  of the GUI to report and configure 
+VLANs in each port that is monitored; and support layer 3 functionality, such as visualising next hop neighbours, routing tables, etc. In regards to longer term
+ goals, continuing the work on monitoring not only the port change, but the actual flow that contributes to the largest changes in ports. This could be expanded 
+into a system that analyses the services and applications that contribute the most to the traffic volumes in the network, which can then be further optimized by 
+reporting the periodicity of the largest traffic volumes. The aspect of providing a system that can discriminate the traffic by transport protocol is also an 
+interesting research topic for improving Quality of Service in Software-Defined Networks.
