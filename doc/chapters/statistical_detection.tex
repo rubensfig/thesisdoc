@@ -90,7 +90,7 @@ Removing systematic changes like trends is also possible with differencing,
 \nabla X_t = X_t - X_{t-1}.
 \end {equation*}
 
-\subsection{Forecasting}
+\subsection{Forecasting} \label{sec:forecasting}
 
 Time-series' have the possibility of applying statistical models to extract the next value prediction based on past observations. Under the assumption that the
 underlying process can be modeled by previous historical values, and assuming this model remains true for future measurements, the time series data historical 
@@ -159,7 +159,7 @@ then known. The Box-Jenkins method defines the steps of building this model as \
 The autoregressive model, also referred to as AR(\textit{p}), considers the linear regression of the $p$ past values, as equation \ref{eq:ar} shows.
 
 \begin{equation}
-    X_t = \sum^p_{i=1}\phi_i X_{t-i} + \epsilon_t,
+    x_t = \sum^p_{i=1}\phi_i X_{t-i} + \epsilon_t,
     \label{eq:ar}
 \end{equation}
 
@@ -171,14 +171,14 @@ equation, $\theta_i$ are the parameters of the model, $\mu$ is the mean of the s
 autoregressive model, the moving average process can be defined as MA(q), where $q$ is the order of this model.
 
 \begin{equation}
-    X_t = \sum^q_{i=1}\theta_i\epsilon_i + \mu,
+    x_t = \sum^q_{i=1}\theta_i\epsilon_i + \mu,
     \label{eq:ma}
 \end{equation}
 
 \par Finally, the ARMA($p$, $q$) process is defined as the combination of both methods, as shown in equation \ref{eq:arma}.
 
 \begin{equation}
-    X_t = \mu + \sum^q_{i=1}\theta_i\epsilon_i + \sum^p_{i=1}\phi_i X_{t-i}.
+    x_t = \mu + \sum^q_{i=1}\theta_i\epsilon_i + \sum^p_{i=1}\phi_i X_{t-i}.
     \label{eq:arma}
 \end{equation}
 
@@ -195,24 +195,36 @@ forecasts, via the adjustment of the chosen parameters for the model.
 
 \par A common way to calculate the error is via the Squared Sum of Errors (SSE), which is shown in equation \ref{eq:sse}. 
 
-\begin {equation*} 
+\begin {equation} 
     \label{eq:sse}
     SSE = \sum_{t=1}^T{(x_t-\hat{x}_{t})^2} = \sum_{t=1}^T{\epsilon_t^2}
-\end {equation*}
+\end {equation}
 
 \par Other methods include the Root Mean Squared Error (RMSE),
 
 \begin {equation*} 
     \label{eq:mape}
-     RMSE = \sqrt{\sum_{t=1}^n\frac{(x_t-\hat{x}_{t})^2}{n}} 
+     RMSE = \sqrt{\sum_{t=1}^T\frac{(x_t-\hat{x}_{t})^2}{n}} 
 \end {equation*}
 
 \par or the Mean Absolute Percentage Error (MAPE),
 
 \begin {equation*} 
     \label{eq:mape}
-    MAPE = \frac{100}{n} \sum_{i=1}^n{\left | \frac{x_i - \hat{x}_i}{x_i} \right |},
+    MAPE = \frac{100}{n} \sum_{t=1}^T{\left | \frac{x_t - \hat{x}_t}{x_t} \right |},
 \end {equation*}
+
+In \cite{hyndman_another_2006} a comparative study of these measures is presented to determine the most adequate measure for univariate time series forecasts. They
+analyse simple forecasting methods like the exponential smoothing and Holt's method, and the out-of-sample \footnote{used for evaluating the forecasting 
+accuracy, by using samples not belonging to the initial fitting period} and in-sample \footnote{using data available on the initial fitting period to generate one 
+step ahead forecasts} performance of these methods. This analysis of the different forecasting accuracy measures is finished by concluding that the Mean Absolute
+Scaled Error (MASE), seen in equation \ref{eq:mase} due to simple interpretations, and independent of the scale of the data, which poses problems when comparing 
+forecasts with different scales. In equation \ref{eq:mase}, the numerator $e_t$ is the forecast error for a certain period, or $e_t = x_t - \hat{x}_t$.
+
+\begin {equation} 
+    \label{eq:mase}
+    MASE = \frac{1}{T} \sum_{t=1}^T{\left ( \frac{\left | e_t \right |}{\frac{1}{T-1}\sum_{t=2}^T \left | x_t - x_{t-1} \right |} \right )}
+\end {equation}
 
 \subsubsection {Change Detection} \label{sec:change_detection}
 
@@ -267,7 +279,7 @@ when a test statistic $g_t$ is larger than a threshold $h$, and can be obtained 
 \par In the case when $P_{\theta}(x)$ is not known, the log likelihood parameter cannot be calculated, a non-parametric approach must be used, as mentioned in \cite{
 ahmed_novel_2008}.  
 
-\subsubsection {Performance Evaluation} \label{subsec:performance_evaluation}
+\subsubsection {Performance Evaluation} \label{sec:performance_evaluation}
 
 A relevant metric for designing change detection models for application under network traffic is the \textit{false alarm rate}, due to the impact that incorrectly 
 identifying the normal state of the network as abnormal can have on the operators capability of addressing real abnormalities. This statistical difference of errors

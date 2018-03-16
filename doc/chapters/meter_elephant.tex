@@ -73,8 +73,10 @@ Time series analysis can generate forecasts for future values, assuming the temp
 analyses the difference between the predicted value to the observation, by analysing the prediction error. In this section we present the prediction and error
 calculation sections of the elephant flow detection algorithm.
 
-\par For readers convenience, the prediction equations are repeated here from section \ref{sec:math_form}, since they provide the mathematical baseline for the 
-development of prediction module of the algorithm. The equations are:
+\par For calculating forecasts, we have presented in section \ref{sec:forecasting} two possible methods for generating predictions. During the design phase of the 
+algorithm, we selected the exponential smoothing technique, since this is a commonly used technique \cite{jasek_usage_2013, munz_traffic_2010} in the reviewed
+literature, and provides a generally simple way to generate forecasts based in historical data. For readers convenience, the prediction equations are repeated 
+here from section \ref{sec:math_form}, since they provide the mathematical baseline for the  development of prediction module of the algorithm. The equations are:
 
 \begin{equation}
     \centering
@@ -106,7 +108,7 @@ does not provide insight to the level of change caused by larger payloads in the
     \label{fig:error_plot_division}
 \end{figure}
 
-\par The alternate approach devised was to consider the squared prediction errors, as equation \ref{eq:sse_rep} shows. 
+\par The alternate approach devised was to consider the squared prediction errors, as shown in equation \ref{eq:sse_rep}.
 
 \begin {equation} 
     \label{eq:sse_rep}
@@ -216,9 +218,10 @@ against the designed setups. In picture \ref{fig:hping_setup} the command line i
     \label{fig:hping_setup}
 \end{figure}
 
-\par We consider two different test scenarios, the first where we assume no background traffic between the hosts, and the other where every host is communicating
-with each other, simulating background traffic. This has the purpose of simulating low traffic intensities in the network, and verify the behaviour of the designed
-algorithm in an approximation to real conditions.
+\par We consider a test scenario, where every host is communicating with each other, simulating background traffic. This has the purpose of simulating low traffic 
+intensities in the network, and verify the behaviour of the designed algorithm in an approximation to real conditions. In this test scenario, we initialize the 
+network with the background traffic for a specified amount of time, where we assume no abnormal traffic conditions. After this initialization period, we generate
+traffic between the hosts H\_4 and H\_2 during a period of 30 seconds, increasing the payload of the packets each time.
 
 % XXX - Find a citation for this, cant find it anywhere
 \par The utilization of Open vSwitch has, however some limitations that should be address when the tests are being designed. Figure \ref{fig:ovs_packet_loss} shows
@@ -275,7 +278,7 @@ host H\textsubscript{4}. From this result, we conclude that with this algorithm 
 the previous mechanism is the reduction in the number of alarms, since this algorithm does the detection across a sliding window of observations, and the alarms are
 only raised when the traffic characteristics change. Regardless, the same changes in port traffic are detected.
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=.8\textwidth]{meter_eleph/detection_results_plotted}
     \caption{CUSUM Detection results}
@@ -293,12 +296,50 @@ offline output can be analysed for the number of expected alarms on this testing
 \ref{fig:errors_comparaison}, we conclude that the number of errors are similar to the offline version, which means that we can accurately detect every change in
 the test scenario with the online algorithm.
 
-\begin{figure}
+\begin{figure}[H]
     \centering
-    \includegraphics[width=.8\textwidth]{meter_eleph/evaluation_error}
-    \caption {Number of errors comparison between enhanced and non enhanced version}
+    \includegraphics[width=.7\textwidth]{meter_eleph/evaluation_error}
+    \caption {Comparison of the alarm count between enhanced and non enhanced version}
     \label{fig:errors_comparaison}
 \end{figure} 
+
+\par Continuing the analysis of the impact caused by the variation of the window size, the analysis of a single elephant flow (as shown in figure 
+\ref{fig:single_elephant}) allows us to evaluate the performance of the algorithm, with the methods mentioned in section \ref{sec:performance_evaluation}. Obtaining
+a baseline for the amount of raised alarms and detection timestamps was done by applying the offline CUSUM algorithm to this test case.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.7\textwidth]{meter_eleph/single_elephant_flow}
+    \caption{Single elephant flow}
+    \label{fig:single_elephant}
+\end{figure} 
+
+\par The analysis of the error detection time will provide us with the performance of this change detection algorithm. By establishing the baseline detection times
+obtained from the CUSUM algorithm, using the same threshold and drift parameters in the online and offline case, we can determine the difference between these
+baseline values and the values obtained online. Figure \ref{fig:time_error} shows the result of this analysis, and the variation caused to the time to detection
+from the varying window size. To generate this result, we have performed 30 different measures for each window size, and compare the time of detection to the baseline
+value. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.8\textwidth]{meter_eleph/time_error}
+    \caption{Analysis of the time to detect the change}
+    \label{fig:time_error}
+\end{figure} 
+
+\par Analysing the single elephant flow, and the output of the online detection algorithm also allows us to compare the baseline amount of alarms. This will give 
+us an insight to the amount of false alarms generated, and the relationship of these with the window size. Figure \ref{fig:false_alarms} shows us the obtained
+statistics of the number of alarms, which confirms a worse accuracy for the number of alarms with the smaller windows.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.8\textwidth]{meter_eleph/false_alarms}
+    \caption{Smaller window statistics}
+    \label{fig:false_alarms}
+\end{figure} 
+
+\par In spite of the expected result of quicker detection for smaller windows, figure \ref{fig:time_error} does not present much variation in the detection time
+
 
 \par Finally, an interesting consequence of applying a change detection method applied to the statistics on the ports on the switch, is the independence of the 
 protocol, allowing us to understand traffic changes on the ports regardless if the transport protocol is TCP or UDP.

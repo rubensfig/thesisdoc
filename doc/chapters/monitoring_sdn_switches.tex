@@ -27,11 +27,12 @@ statistical analysis to manage the impact caused by elephant flows.
     \caption{High-level visual description of the proposed system} \label{fig:pro_sys}
 \end{figure}
 
-\par Following the previously presented requirements, the proposed system is present in figure \ref{fig:pro_sys}. By adding an interface for the controllers that 
-exposes management information like the network's topology, statistics, etc, we build an \textbf{Operations Support System} (OSS) that provides the basis 
-for the development of applications that monitor the state of the network. This system allows further separation of roles in the network, in contrast to a system 
-where the controller would gather the roles of managing and monitor the network's status. Furthermore, this architecture increases the modularity of the components, 
-enabling hot-swapping different modules, and allows parallel development of different features in the monitoring and management stack.
+\par Following the previously presented requirements, the proposed system is present in figure \ref{fig:pro_sys}. First, we add an interface for the controllers that 
+exposes management information like the network's topology, statistics, etc. After this, we build an \textbf{Operations Support System} (OSS) that provides the basis 
+for the development of applications that monitor the state of the network, using the implemented API to obtain the relevant information. This system allows
+further separation of roles in the network, in contrast to a system where the controller would gather the roles of managing and monitor the network's status, 
+increasing the load on the controllers. Furthermore, this architecture increases the modularity of the components, enabling hot-swapping different modules, and
+allows parallel development of different features in the monitoring and management stack.
 
 \par We provide a proof-of-concept composed of two components: the first is a Graphical User Interface (GUI) providing an user friendly interface to display 
 topology and statistics, and the second is an intelligent system enabling the detection of elephant flows. In this section we describe in a high level way the 
@@ -55,6 +56,7 @@ systems, and the RFCs, or similar standardized documents that exist.
 The second component of our system was developed for monitoring the system statistics, and displaying alerts when elephant flows are detected. For this end, we have
 implemented an algorithm for the detection part. 
 
-\par The developed system aims to detect the elephant flows before the effect of these is detected in the rest of the network. As we assume the tree topology in data
-centers, seen in figure \ref{fig:fattree}, the testing environment must be designed to monitor the lower layer edge switches, connected directly to the physical 
-hosts. By monitoring the ports on these switches, we detect changes in the reported traffic statistics via a developed Python script.
+\par By monitoring traffic changes in the switches ports, the developed system aims to detect the presence of large flows based on the traffic statistics obtained
+from the API. As we assume the tree topology in data centers, seen in figure \ref{fig:fattree}, the testing environment must be designed to monitor the lower layer
+edge switches, connected directly to the physical hosts. By monitoring the ports on these switches, we detect changes in the reported traffic statistics via a
+developed Python script.
