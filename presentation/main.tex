@@ -94,17 +94,6 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}
-    \begin{figure}[!tbph]
-        \centering
-        \includegraphics[width=.5\textwidth]{sdn/sdn_division}
-    \end{figure}
-    \begin{itemize}
-        \item The SDN controller plays a central role in this architecture by connecting the network applications that connect to the Northbound interface to the
-            networking devices running on the Southbound plane
-    \end{itemize}
-\end{frame}
-
 \begin{frame}{DC Network Traffic}
     \begin{itemize}
         \item In typical Data Center Networks, their traffic characteristics show that \cite{mori_identifying_2004}:
@@ -121,14 +110,19 @@
 \section{Problem}
 
 \begin{frame}{Basebox}
+    \begin{itemize}
+        \item The SDN controller plays a central role in this architecture by connecting the network applications that connect to the Northbound interface to the
+            networking devices running on the Southbound plane
+    \end{itemize}
+    \pause
     \begin{figure}
-        \includegraphics[width=.7\textwidth]{bisdn/basebox}
+        \includegraphics[width=.5\textwidth]{bisdn/basebox}
     \end{figure}
 \end{frame}
 
 \begin{frame}{Goals}
     \begin{itemize}
-        \item Definition and implementation of an management environment to provide an interface to develop applications 
+        \item Design and implementation of an management environment to provide an interface to develop applications 
             to manage and monitor network traffic, like
             \pause 
         \item Graphical User Interfaces (GUI), to display network topology and port statistics;
@@ -151,9 +145,6 @@
         \item The controller chosen was Floodlight, due to simplicity of installation and REST interface
         \item For development of the Graphical User Interface, the standard Basebox topology was used
     \end{itemize}
-    \begin{figure}
-        \includegraphics[width=.7\textwidth]{}
-    \end{figure}
 \end{frame}
 
 \begin{frame}{Testing Environment}
@@ -268,23 +259,68 @@
     \end{figure}
 \end{frame}
 
+\begin{frame}{Detection}
+    \begin{figure}
+        \includegraphics[width=.7\textwidth]{meter_eleph/evaluation_error}
+        \caption{Comparison of the number of alarms raised by the enhanced (top) and non enhanced (bottom) versions}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Detection}
+    \begin{figure}
+        \includegraphics[width=.9\textwidth]{meter_eleph/single_elephant_flow}
+        \caption{Single Elephant Flow}
+    \end{figure}
+\end{frame}
+
 \begin{frame}{Evaluation of detection algorithm}
     \begin{figure}
-        \includegraphics[width=.9\textwidth]{meter_eleph/evaluation_error}
-        \caption{Number of alarms, optimized and non optimized}
+        \includegraphics[width=.7\textwidth]{meter_eleph/time_error}
+        \caption{Detection time difference for different window sizes}
     \end{figure}
+\end{frame}
+
+\begin{frame}{Evaluation of detection algorithm}
+    \begin{table}[]
+        \centering
+        \caption{False alarms statistics}
+        \label{tab:false_alarms}
+        \begin{tabular}{|c|c|c|c|c|c|}
+            \hline
+            Window Size   & 5        & 10       & 15  & 20  & 25  \\ \hline
+            count         & 30       & 30       & 30  & 30  & 30  \\ \hline
+            $\bar{x}$            & 2.833333 & 2.166667 & 2.0 & 2.0 & 2.0 \\ \hline
+            $\sigma^2$& 0.791478 & 0.379049 & 0.0 & 0.0 & 0.0 \\ \hline
+        \end{tabular}
+    \end{table}
 \end{frame}
 
 \section{Conclusion}
 
 \begin{frame}{Summary of Achievements}
+    \item We have proposed and implemented a system that
+    \begin{itemize}
+        \item integrates a Software-Defined Controller environment, and exposes internal
+            management information
+            \pause
+        \item allows the development of management applications, that we have proven 
+            by developing a Proof-of-Concept containing on a Graphical User Interface
+            \pause
+        \item extends the controllers capability for monitoring network traffic, 
+            by analysing traffic statistics for elephant flow detection
+    \end{itemize}
 \end{frame}
 
 \begin{frame}{Future Work}
-    TBD
+    \begin{itemize}
+        \item Extend the GUI for displaying VLANs and layer 3 information like routes and neighbours;
+        \item Extend the traffic change monitoring for closer insights on possible offending flows;
+        \item Research the capacity that the controllers have for implementation of OpenFlow meters,
+            allowing us to shape individual traffic flows.
+    \end{itemize}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Achievements}
     \begin{figure}
         \includegraphics[width=.9\textwidth]{presentation/basebox_paris}
         \caption{Image of the developed GUI, present in the SENDATE Mid Term Event in Paris}

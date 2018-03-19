@@ -3,22 +3,23 @@
 \section{Summary of Results}
 
 The main objective for this thesis was building a management system that would integrate with a pre-existing Software-Defined Network controller, exposing information
-for network operators to manage and configure their networking infrastructure. With these requirements, we have built a management environment that extends the
-previously existing system, by adding an interface to baseboxd and CAWR, allowing further developments in the field of Traffic Engineering in the Basebox
-environment.  Complementing this system, we have also designed a Graphical User Interface for interaction with the users, allowing for simple visualisation of the
-network's physical topology, and the display of interfaces' statistics, like the packets and bytes received and sent, or the number of errors. 
+for network operators to manage and configure their networking infrastructure. With these requirements, we have proposed a management environment that extends a
+previously existing system, by adding an interface to baseboxd and CAWR, two SDN controllers composing the Basebox environment, allowing further developments in the 
+field of Traffic Engineering with these systems.  Integrating this system, we have designed a Graphical User Interface for interaction with the users, allowing for
+simple visualisation of the network's physical topology, and the display of interfaces' statistics, like the packets and bytes received and sent, or the number of 
+errors. 
 
 \par We have also proposed an algorithm that allows for monitoring traffic changes in ports, in order to detect elephant flows in the network. Despite not having
 used the Basebox system for testing this algorithm, due to differences in the testing environment, we believe that the same algorithm can be used for large flow 
-detection in the Basebox stack. We have shown that a simple method can be employed by operators to monitor the state of their network, and rely on this algorithm
-to provide them with alarms of port changes.
+detection in the Basebox stack, by changing the interface for obtaining statistics. We have shown that a simple method can be employed by operators to monitor the
+state of their network, and rely on this algorithm to provide them with alarms of port changes.
 
 \section{Future Work}
 
 Despite our conclusion that the main objectives of the thesis were achieved, the large scope of themes that this topic encompasses means that not everything could be 
 successfully covered. As for more immediate concerns, the next steps in guaranteeing a stable product would be the expansion  of the GUI to report and configure 
 VLANs in each port that is monitored; and support layer 3 functionality, such as visualising next hop neighbours, routing tables, etc. In regards to longer term
- goals, continuing the work on monitoring not only the port change, but the actual flow that contributes to the largest changes in ports. This could be expanded 
+goals, continuing the work on monitoring not only the port change, but the actual flow that contributes to the largest changes in ports. This could be expanded 
 into a system that analyses the services and applications that contribute the most to the traffic volumes in the network, which can then be further optimized by 
 reporting the periodicity of the largest traffic volumes. The aspect of providing a system that can discriminate the traffic by transport protocol is also an 
 interesting research topic for improving Quality of Service in Software-Defined Networks.
