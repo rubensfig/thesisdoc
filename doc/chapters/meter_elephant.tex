@@ -328,15 +328,27 @@ value.
 \end{figure} 
 
 \par Analysing the single elephant flow, and the output of the online detection algorithm also allows us to compare the baseline amount of alarms. This will give 
-us an insight to the amount of false alarms generated, and the relationship of these with the window size. Figure \ref{fig:false_alarms} shows us the obtained
+us an insight to the amount of false alarms generated, and the relationship of these with the window size. Table \ref{tab:false_alarms} shows us the obtained
 statistics of the number of alarms, which confirms a worse accuracy for the number of alarms with the smaller windows.
 
-\begin{figure}[H]
+\begin{table}[]
     \centering
-    \includegraphics[width=.8\textwidth]{meter_eleph/false_alarms}
-    \caption{Smaller window statistics}
-    \label{fig:false_alarms}
-\end{figure} 
+    \caption{False alarms statistics}
+    \label{tab:false_alarms}
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        Window Size   & 5        & 10       & 15  & 20  & 25  \\ \hline
+        count         & 30       & 30       & 30  & 30  & 30  \\ \hline
+        $\bar{x}$            & 2.833333 & 2.166667 & 2.0 & 2.0 & 2.0 \\ \hline
+        $\sigma^2$& 0.791478 & 0.379049 & 0.0 & 0.0 & 0.0 \\ \hline
+    \end{tabular}
+\end{table}
+%\begin{figure}[H]
+%    \centering
+%    \includegraphics[width=.8\textwidth]{meter_eleph/false_alarms}
+%    \caption{Smaller window statistics}
+%    \label{fig:false_alarms}
+%\end{figure} 
 
 \par In spite of the expected result of quicker detection for smaller windows \cite{choudhary_runtime-efficacy_2017}, figure \ref{fig:time_error} does not present 
 much variation in the detection time, but the amount of false alarms raised by the smaller windows suggest a better performance of the algorithm using larger 

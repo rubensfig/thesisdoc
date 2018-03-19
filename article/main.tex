@@ -61,43 +61,41 @@ Software-Defined Networking, Cloud Data centers, OpenFlow, Networks, SDN
 
 \IEEEPARstart{T}{he} rapid expansion of the cloud computing environment in the previous decade is related to the increasing demand in computational power that 
 applications like distributed databases or data analysis have. Public cloud solutions like Amazon's Web Services, Microsoft's Azure, or private solutions offered
-through OpenStack provide a very large pool of resources for developers to deploy applications with ease. Through economies of scale, these vendors have
-centralized their solutions in very large scale data centers, consolidating their operations in a single location, allowing increased performance of applications, and
-easier maintenance. The offer of virtualisation solutions also contributes to the recent surge in popularity of these systems, due to the less spending in
-operational costs and improved utilization of hardware \cite{sims_david_carousels_2011}. Subscription based systems are typically available for renting, allowing 
-users to use services on a Virtual Machine.
+through OpenStack provide a very large pool of resources for developers to deploy applications with ease. 
 
 \par Using open source applications and whitebox hardware has also contributed to the success of these environments, due to the possible cost reductions. Software
 Defined Networking (SDN), has proven to be a reliable environment to manage data center environments, due to the centralization of the network
 controllers, improved programmability of the network's data plane, and improved management systems. Network programmability, despite not being exclusive to the 
-SDN framework, eliminates the effort in individually configuring every network device, which in large scale environments becomes an impossible task. This model
-also provides the network engineers and software developers a high level network abstraction that is used to monitor network utilization and optimize resource
-utilization.
+SDN framework, eliminates the effort in individually configuring every network device, which in large scale environments becomes an impossible task. 
 
-\par Due to data center's traffic profile, one common challenge for optimizing the networks resource utilization
-is the asymmetry of traffic, where most of the networking flows are short-lived, latency-sensitive quick bursts of packets, but do not amount for the total traffic 
-in the network. The main contributor for the total traffic volume are the large and long-lived flows, usually called elephant flows. By maintaining a system that
-monitors and alarms network operators of the occurrences of large data streams, this will provide insight to the network operators to plan ahead their network 
-resources.
+\par Due to data center's traffic profile, one common challenge for optimizing the networks resource utilization is the asymmetry of traffic, where most of the 
+networking flows are short-lived, latency-sensitive quick bursts of packets, but do not amount for the total traffic in the network. The main contributor for the 
+total traffic volume are the large and long-lived flows, usually called elephant flows. By maintaining a system that monitors and alarms network operators of the
+occurrences of large data streams, this will provide insight to the network operators to plan ahead their network resources.
 
 \par This document is organized in:
 
 \begin{itemize}
-    \item \textbf{Related Work} is an overview of Software-Defined Networking, providing an insight on the protocol behind these environments,
-and presenting information on the existing applications. This section also sums up a formal framework for change detection mechanisms;
+    \item \textbf{Related Work} is an overview of Software-Defined Networking environments and presenting information on the existing applications. 
     \item \textbf{Proposed Architecture} details the proposed architecture for this work, and the technologies used for implementation;
-    \item \textbf{Implementation} details the employed technologies
-    \item \textbf{Results} provides an overview of the results, by displaying the developed Graphical User Interface, and the results of the change detection method
-        implemented for monitoring elephant flows;
+    \item \textbf{Results} displays the developed Graphical User Interface, and the results of the change detection method implemented for monitoring elephant flows;
     \item \textbf{Conclusion} sums up the main contributions of this work.
 \end{itemize}
 
 \section{Related Work}
 
+\par Mahout \cite{curtis_mahout:_2011} presents a system that allows for elephant flow detection by monitoring end hosts. Via implementation of a shim layer on top 
+of every host present in the network, the proposed system allows to tag the traffic that belongs to larger flows, reducing the complexity that is generated if the 
+monitoring was done at the aggregation or core switches. Detection itself is done by comparing the number of bytes in a buffer to a pre-defined threshold. In
+Hedera \cite{al-fares_hedera:_2010} the problem of maximizing network bandwidth is via detection of large flows and optimization of the placement on the switches
+according to the demands of these flows. A sampling approach for detection of network anomalies is explored in \cite{jun_ddos_2014}, where the proposed method 
+relies on analysing the sampled packets and building a tuple of the traffic characteristics (source and destination IP, source and destination ports, and the 
+protocol).
+
 \section{Proposed Architecture}
 
 \begin{figure}
-    \includegraphics[scale=0.4]{../doc/figures/bisdn/prp_system_low_level.png}
+    \includegraphics[scale=0.4]{../doc/figures/bisdn/prp_system_low_level}
     \caption{Proposed system}
     \label{fig:fig}
 \end{figure}
@@ -107,17 +105,9 @@ implemented API to obtain the relevant information. This system allows further s
 gather the roles of managing and monitor the network’s status, increasing the load on the controllers. Furthermore, this architecture increases the modularity of 
 the components, enabling hot-swapping different modules, and allows parallel development of different features in the monitoring and management stack.
 
-We provide a proof-of-concept composed of two components: the first is a Graphical User Interface (GUI) providing an user friendly interface to display topology and
-statistics, and the second is an intelligent system enabling the detection of elephant flows. In this section we describe in a high level way the approaches for the 
-development of this system.
-
-\section{Implementation}
-
-We have developed an Operations Support System (OSS), visible in figure \ref{fig:fig}. The controllers had to be extended to support the gRPC interfaces, and this 
-connection is accessible through port 5000 on baseboxd and port 5001 on CAWR.  To demonstrate the interfaces capability of exposing the topology and statistics 
-information, we have developed a simple Graphical User Interface (GUI) as a proof-of-concept of this platform. This GUI can be accessed via a web page, since this
-provides an ease of access to the system. The web page was developed on top of the Django Framework, since it is a framework developed in the Python programming 
-language, support for official gRPC integration and ease of implementation. For drawing the topology we used the JavaScript library D3.js.
+\par We provide a proof-of-concept composed of two components: the first is a Graphical User Interface (GUI) providing an user friendly interface to display 
+topology and statistics, and the second is an intelligent system enabling the detection of elephant flows. In this section we describe in a high level way the 
+approaches for the development of this system.
 
 \section{Results}
 
@@ -149,9 +139,8 @@ possible, and clicking on each provides an insight to the statistics related to 
        \end{algorithmic}
 \end{algorithm}
 
-\par The initialization step of the algorithm is a crucial step for obtaining correct results in the algorithm. These steps, allowing the correct initialization of
-the model parameters, including the trend component, and to provide a baseline for the expected traffic on the network. It is assumed that no traffic abnormalities
-exist during this stage, but a longer period for initialization can account for short bursts of higher traffic.
+\par The initialization step of the algorithm is a crucial step for obtaining correct results in the algorithm, since they allow the correct initialization of
+the model parameters to provide a baseline for the expected traffic on the network. It is assumed that no traffic abnormalities exist during this stage.
 
 \par Time series analysis can generate forecasts for future values, assuming the temporal behaviour is maintained for future observations. During the design phase 
 of the algorithm, we selected the exponential smoothing technique, since this is a commonly used technique in the reviewed literature \cite{jasek_usage_2013, 
@@ -165,18 +154,16 @@ amount of memory needed to apply this method.
 
 \section{Conclusion}
 % referências
-\par The main objective for this thesis was building a management system that would integrate with a pre-existing Software-Defined Network controller, exposing 
-information for network operators to manage and configure their networking infrastructure. We have built a management environment that extends the previously 
-existing system, allowing further developments in the field of Traffic Engineering in the Basebox environment. Complementing this system, we have also designed a
-Graphical User Interface for interaction with the users, allowing for simple visualisation of the network’s physical topology, and the display of interfaces’ 
-statistics, like the packets and bytes received and sent, or the number of errors.
+\par We have built a management environment that extends the previously existing SDN controllers, allowing developments in the field of Traffic Engineering in the 
+Basebox environment. We have also designed a Graphical User Interface for interaction with the users, allowing for simple visualisation of the network’s physical 
+topology, and the display of interfaces’ statistics, like the packets and bytes received and sent, or the number of errors.
 
-\par We have also proposed an algorithm that allows for monitoring traffic changes in ports, in order to detect elephant flows in the network. Despite not having 
-used the Basebox system for testing this algorithm, due to differences in the testing environment, we believe that the same algorithm can be used for large flow 
-detection in the Basebox stack. We have shown that a simple method can be employed by operators to monitor the state of their network, and rely on this algorithm to
-provide them with alarms of port changes.
+\par We have also proposed an algorithm that allows for monitoring traffic changes in ports, in order to detect elephant flows in the network. We have shown that a 
+simple method can be employed by operators to monitor the state of their network, and rely on this algorithm to provide them with alarms of port changes.
 
-\bibliographystyle{IEEEtran}
-%\bibliography{../doc/thesis_reference}
+\bibliographystyle{plain}
+\bibliography{thesis_reference}
+%\PrintBib{../doc/thesis_reference}
+%\input{thesis_ordered.tex}
 
 \end{document}
