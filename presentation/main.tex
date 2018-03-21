@@ -1,43 +1,45 @@
-\documentclass{beamer}
+\documentclass[aspectratio=43]{beamer}
 %
 % Choose how your presentation looks.
 %
 % For more themes, color themes and font themes, see:
 % http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
 %
-\mode<presentation>
-{
-  \usetheme{Darmstadt}      % or try Darmstadt, Madrid, Warsaw, ...
-  \usecolortheme{beaver} % or try albatross, beaver, crane, ...
-  \usefonttheme{serif}  % or try serif, structurebold, ...
-  \setbeamertemplate{navigation symbols}{}
-  \setbeamertemplate{caption}[numbered]
-} 
+\usetheme{Madrid}      % or try Darmstadt, Madrid, Warsaw, ...
+\usecolortheme{beaver} % or try albatross, beaver, crane, ...
+\usefonttheme{serif}  % or try serif, structurebold, ...
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{caption}[numbered]
+
+%\setbeameroption{show notes}
+\setbeameroption{show notes on second screen=right}
 
 \usepackage[english]{babel}
-\usepackage[utf8x]{inputenc}
+\usepackage[utf8]{inputenc}
 \usepackage{xcolor}
 \usepackage{listings}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage[citestyle=numeric]{biblatex}
+\usepackage{pgfpages}
+
 
 \addbibresource{thesis_references.bib}
 
-\lstset
-{
-    language=[LaTeX]TeX,
-    breaklines=true,
-    basicstyle=\tt\scriptsize,
-    %commentstyle=\color{green}
-    keywordstyle=\color{blue},
-    %stringstyle=\color{black}
-    identifierstyle=\color{magenta},
-}
+%\lstset
+%{
+    %language=[LaTeX]TeX,
+    %breaklines=true,
+    %basicstyle=\tt\scriptsize,
+    %%commentstyle=\color{green}
+    %keywordstyle=\color{blue},
+    %%stringstyle=\color{black}
+    %identifierstyle=\color{magenta},
+%}
 
 \title[Management Interface]{API design and implementation of a management interface for SDN whitebox switches }
 
-\author{Rubens Jesus Alves Figueiredo}
+\author[Rubens]{Rubens Jesus Alves Figueiredo}
 \institute{FEUP}
 \date{\today}
 
@@ -67,41 +69,43 @@
 \section{Introduction}
 
 \begin{frame}{Motivation}
-    \begin{figure}
-        \centering
-        \includegraphics[width=.8\textwidth]{presentation/google_data_center}
-    \end{figure}
+
+  \begin{figure}
+      \centering
+      \includegraphics[width=.8\textwidth]{presentation/google_data_center}
+  \end{figure}
+
+  \note{The state of the current data centers nowadays, and the image represents a google deployement}
+  %\note[item]{Very large scale deployements, with lots of networking devices}
+
+  %\note[item]{Large scale Data Center Networks are hard to operate at a highly efficient and cost effective way}
+  %\note[item]{Individually managing each network device (switches, server, ...) is a time consuming task}
+  %\note[item]{Move to cloud based environments requires planning and research to create a scalable and simple environment}
+
 \end{frame}
 
 \begin{frame}{Motivation}
+  \note[item]{Very large scale deployements, with lots of networking devices}
 	\begin{itemize}
-  		\item Large scale Data Center Networks are hard to operate at a highly efficient and cost effective way
-        \item Individually managing each network device (switches, server, ...) is a time consuming task
-  		\item Move to cloud based environments requires planning and research to create a scalable and simple environment
-	\end{itemize}
-\end{frame}
+        \item Networking services are bound to a fast changing environment, there is a need for a network design methodology that supports this
+            fast evolution
 
-\begin{frame}{Software Defined Networking}
-    \begin{itemize}
-    \item Networking services are bound to a fast changing environment, there is a need for a network design methodology that supports this
-        fast evolution
-        \pause
-    \item \textbf{Software Defined Networking} is a solution that provides:
-        \pause
-    \item \textbf{Separation of control and data planes} 
-        \pause
-    \item \textbf{Centralization of network management functions}
-    \end{itemize}
+        \item \textbf{Software Defined Networking} is a solution that provides:
+
+        \item \textbf{Separation of control and data planes} 
+
+        \item \textbf{Centralization of network management functions}
+	\end{itemize}
 \end{frame}
 
 \begin{frame}{DC Network Traffic}
     \begin{itemize}
         \item In typical Data Center Networks, their traffic characteristics show that \cite{mori_identifying_2004}:
-            \pause
+
         \item For cloud data centers, the majority of traffic is internal to each rack
-            \pause
+
         \item Link utilizations are low in aggregation and edge layers
-            \pause
+
         \item Despite 90\% flows are small and last hundreds of milliseconds, total traffic volume is largely dominated by the remainder, called 
             \textbf{elephant flows} \cite{benson_network_2010}
     \end{itemize}
@@ -114,7 +118,7 @@
         \item The SDN controller plays a central role in this architecture by connecting the network applications that connect to the Northbound interface to the
             networking devices running on the Southbound plane
     \end{itemize}
-    \pause
+
     \begin{figure}
         \includegraphics[width=.5\textwidth]{bisdn/basebox}
     \end{figure}
@@ -126,7 +130,7 @@
             to manage and monitor network traffic, like
             \pause 
         \item Graphical User Interfaces (GUI), to display network topology and port statistics;
-            \pause
+
         \item monitoring \textbf{elephant flows};
     \end{itemize}
 \end{frame}
@@ -159,12 +163,12 @@
     \begin{itemize}
         \item By modifying the controllers to expose already available information like port statistics
             and link status, we created a simple GUI for simple visualization of this information
-            \pause
+
         \item Based on a Remote Process Call framework, gRPC, we leverage this protocol's serialization model
             and RPC definition to create the endpoints between the GUI client and the controllers
-            \pause
+
         \item We model the data according to standardized Yang data models, as defined by OpenConfig and IETF
-            \pause
+
         \item The GUI client is a web page based on the Django Framework
     \end{itemize}
 \end{frame}
@@ -193,20 +197,15 @@
         \begin{algorithmic}[1]
             \Procedure {Elephant Flow Detection}{}
                 \State Initialization
-                \pause
                 \Loop
                     \State Query controller
-                    \pause
                     \State Calculate the prediction error
-                    \pause
                     \State Predict the next values
-                    \pause
                     \State Detect the elephant flows
                     \If {Detection}
                         \State Raise Alarm
                     \EndIf
                     \State wait 2 seconds
-                    \pause
                 \EndLoop
             \EndProcedure 
            \end{algorithmic}
@@ -233,14 +232,14 @@
         \item Previous detection results are not ideal, purely comparing the output
             of a value to a pre selected threshold, and raising several alarms
             even no change has been detected
-            \pause
+
 
         \item The CUSUM algorithm is commonly used for change detection mechanisms employed
             in economics, health care, industrial engineering, ...
         \item Allows for keeping track of a parameter of an output of a process, and 
             compare it to pre selected thresholds, guaranteeing that the process is "in control"
     \end{itemize}
-    \pause
+
     \begin{figure}
         \includegraphics[width=1\textwidth]{meter_eleph/offline_cusum_output}
         \caption{Offline CUSUM output}
@@ -252,7 +251,7 @@
         \item Adaptation of the CUSUM algorithm to an online context is based on a sliding window
             method 
     \end{itemize}
-    \pause
+
     \begin{figure}
         \includegraphics[width=.6\textwidth]{meter_eleph/detection_results_plotted}
         \caption{Online CUSUM output}
@@ -302,10 +301,10 @@
     \begin{itemize}
         \item integrates a Software-Defined Controller environment, and exposes internal
             management information
-            \pause
+
         \item allows the development of management applications, that we have proven 
             by developing a Proof-of-Concept containing on a Graphical User Interface
-            \pause
+
         \item extends the controllers capability for monitoring network traffic, 
             by analysing traffic statistics for elephant flow detection
     \end{itemize}

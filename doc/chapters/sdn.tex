@@ -44,7 +44,7 @@ and controllers set the actual rules.
   \centering
   \includegraphics[width=0.4\textwidth]{sdn/sdn_division}
   \label{fig:sdn_div}}
-  \caption {SDN Interfaces division}
+  \caption {General overview of the SDN architectural components}
 \end{figure}
 
 \par Understanding SDN platforms is then composed of understanding the operation of both interfaces, and defining requirements for their operation, which are
@@ -223,14 +223,13 @@ protocol, which shows the flexibility that can be achieved by combining all the 
 
 Central for operation of the networks, SDN controllers allow the orchestration of the multiple parts required for correctly operating a large scale network.
 Separate from the data traffic on the network, these are responsible for the interaction between the Northbound networking applications and the Southbound
-devices, as described in figure 2.4.
-%\ref{fig:sdn_interf_xx}.
+devices, as described in figure \ref{fig:sdn_division}.
 
 \begin{figure}[!tbph]
   \centering
   \includegraphics[width=0.5\textwidth]{sdn/sdn_controller_arch}
-  \label{fig:sdn_interf_xx}
   \caption {SDN Interfaces division}
+  \label{fig:sdn_division}
 \end{figure}
 
 \par Although the use case of the controllers will depend on each deployment and implementation, the basic use case is to provide connectivity across layer 2 and 3
