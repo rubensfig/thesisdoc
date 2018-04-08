@@ -49,7 +49,7 @@ received data in that port.
 
 The initialization step of the algorithm is a crucial step for obtaining correct results in the algorithm. Algorithm \ref{alg:init} defines the actual steps in this
 algorithm, allowing the correct initialization of the model parameters, including the trend component, and to provide a baseline for the expected traffic on the
-network. It is assumed that no traffic abnormalities exist during this stage, but a longer period for initialization can account for short bursts of higher traffic.
+network. It is assumed that no traffic anomalies exist during this stage, but a longer period for initialization can account for short bursts of higher traffic.
 
 \begin{algorithm}[H]
     \caption{Elephant Detection Algorithm - Initialization} \label{alg:init}
@@ -70,8 +70,8 @@ network. It is assumed that no traffic abnormalities exist during this stage, bu
 \subsection{Prediction and error calculation}
 
 Time series analysis can generate forecasts for future values, assuming the temporal behaviour is maintained for future observations. A change detection mechanism
-analyses the difference between the predicted value to the observation, by analysing the prediction error. In this section we present the prediction and error
-calculation sections of the elephant flow detection algorithm.
+analyses the difference between the predicted value to the observation. In this section we present the prediction and error calculation sections of the elephant
+flow detection algorithm.
 
 \par For calculating forecasts, we have presented in section \ref{sec:forecasting} two possible methods for generating predictions. During the design phase of the 
 algorithm, we selected the exponential smoothing technique, since this is a commonly used technique \cite{jasek_usage_2013, munz_traffic_2010} in the reviewed
@@ -82,7 +82,7 @@ here from section \ref{sec:math_form}, since they provide the mathematical basel
     \centering
         \begin {split}
             &\hat{x}_1 = x_0, \\
-            &\hat{x}_t = \alpha x_{t} + (1-\alpha)x_{t-1}, t > 1.
+            &\hat{x}_t = \alpha x_{t} + (1-\alpha)\hat{x}_{t-1}, t > 1.
         \end {split}
     \label{eq:exp_smooth_rep}
 \end{equation}
@@ -90,47 +90,6 @@ here from section \ref{sec:math_form}, since they provide the mathematical basel
 \par With this method are able to predict the values that are expected in the following sample. In this step, the most important consideration is the adjustment of 
 the forgetting factor, $\alpha (0 < \alpha < 1)$, that determines the impact of previous samples on the calculation of the prediction. The value of this factor must
 be adjusted experimentally, by tuning the value according to the desired output.
-
-\par For calculating the prediction error $\epsilon_t$, we have analysed two possibilities. The first, obtained with
-
-\begin{equation}
-    \centering
-    \label{eq:division}
-    \epsilon_t = (x_i(t)/\hat{x}_i(t))^2,
-\end{equation}
-
-\par provides the output present in figure \ref{fig:error_plot_division}, and while it clearly indicates the deviations created by the elephant flows, it 
-does not provide insight to the level of change caused by larger payloads in the flows.
-
-\begin{figure}[H]
-    \includegraphics[width=1.2\textwidth]{meter_eleph/error_plot_division}
-    \caption{Error calculation, with two different values for $\alpha$, obtained with equation \ref{eq:division}}
-    \label{fig:error_plot_division}
-\end{figure}
-
-\par The alternate approach devised was to consider the squared prediction errors, as shown in equation \ref{eq:sse_rep}.
-
-\begin {equation} 
-    \label{eq:sse_rep}
-    \epsilon_t^2 = (x_t-\hat{x}_{t})^2 
-\end {equation}
-
-This method allows to obtain the prediction error, while increasing the impact of larger changes to the flow data size, and minimizing smaller changes. In figure
-\ref{fig:error_plot_sse} we can visualise the output of this method, which displays the traffic behaviour in the ports of a switch, and the impact of larger payloads
-of data is visible, as shown by the increasing level of $\epsilon_t$.
-
-\begin{figure}[H]
-    \label{fig:error_sse}
-    \includegraphics[width=1.2\textwidth]{meter_eleph/error_plot_sse}
-    \caption{$\epsilon^2$ calculation using the method present in \ref{eq:sse_rep}}
-    \label{fig:error_plot_sse}
-\end{figure}
-
-\par In figure \ref{fig:error_plot_division} and \ref{fig:error_plot_sse} , we test the error prediction behaviour for two different values of the $\alpha$ parameter
-of the prediction equations, to see the impact that the previous observations have on the error behaviour. We consider the output of the bottom plot of 
-\ref{fig:error_plot_sse} as the desired one, where we assume $\alpha = 0.8$ since it clearly indicates the start and end times of the variation, which in contrast 
-to the upper plot in this figure, where the value $\alpha = 0.2$ is used, does not present a rising trend. Due to this result, we propose higher ($\alpha \rightarrow 
-1$) values for the smoothing factor for posterior results, more specifically $\alpha = 0.8$.
 
 \subsection{Detection}
 
@@ -185,7 +144,7 @@ alternative to deploying these changes in hardware.
 to the implementation of the OpenFlow protocol in the hardware and software switches. Hardware switches that were used for the implementation of
 the OSS have a modified version of the OpenFlow tables structure, OF-DPA (see section \ref{sec:ofdpa}), and the libraries that make up the 
 controller are designed around this. To utilize the controllers, changes to Open vSwitch or other alternatives steps would be required in order to use the
-environment, which was decided out-of-scope for this thesis.
+environment, which was decided out-of-scope for this thesis. Also, the limited access to the hardware setup meant that an alternative solution was required.
 
 \par To solve this issue we adopt a different controller for interaction with the virtual environment. In addition, researching the traffic engineering modules in
 other controllers provides ideas that can later be adopted in Basebox. The chosen controller was Floodlight (see section \ref{chap:flood}), since it exposes a simple
@@ -201,8 +160,8 @@ we based these applications on VMs and containers, and the installation files ca
     \label{fig:test_setup}
 \end{figure} 
 
-\par Figure \ref{fig:test_setup} describes the testing setup designed for testing. This setup provides a close approximation to setups used
-to the Top-of-Rack switches connected to the servers on the edge layers (see figure \ref{fig:fattree}) of data centers, while keeping the resource consumption of
+\par Figure \ref{fig:test_setup} describes the testing setup designed for testing. This setup provides a close approximation to setups used to the Top-of-Rack
+switches connected to the servers on the edge layers (see figure \ref{fig:fattree}) of data centers, while keeping the resource consumption of
 the virtualised network and controller to a minimum. In the diagram, the hosts are shown using the H\textsubscript{X} notation, ranging from 1 to 4, and the switches
 use the S\textsubscript{X} notation. Information about the hosts, like the IP and MAC addresses can also be seen, and the port numbers used are also displayed.
 
@@ -257,6 +216,49 @@ values' prediction and error calculation, these trends should be removed.
     \label{fig:init_plot_pkts}
 \end{figure} 
 
+\par For calculating the prediction error $\epsilon_t$, we analysed two possibilities. The first, obtained with
+
+\begin{equation}
+    \centering
+    \label{eq:division}
+    \epsilon_t = (x_i(t)/\hat{x}_i(t))^2,
+\end{equation}
+
+\par provides the output present in figure \ref{fig:error_plot_division}, and while it clearly indicates the deviations created by the elephant flows, it 
+does not provide insight to the level of change caused by larger payloads in the flows.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.8\textwidth]{meter_eleph/error_plot_division}
+    \caption{Error calculation, with two different values for $\alpha$, obtained with equation \ref{eq:division}}
+    \label{fig:error_plot_division}
+\end{figure}
+
+\par The alternate approach devised was to consider the squared prediction errors, as shown in equation \ref{eq:sse_rep}.
+
+\begin {equation} 
+    \label{eq:sse_rep}
+    \epsilon_t^2 = (x_t-\hat{x}_{t})^2 
+\end {equation}
+
+This method allows to obtain the prediction error, while increasing the impact of larger changes to the flow data size, and minimizing smaller changes. In figure
+\ref{fig:error_plot_sse} we can visualise the output of this method, which displays the traffic behaviour in the ports of a switch, and the impact of larger payloads
+of data is visible, as shown by the increasing level of $\epsilon_t$.
+
+\begin{figure}[H]
+    \centering
+    \label{fig:error_sse}
+    \includegraphics[width=.8\textwidth]{meter_eleph/error_plot_sse}
+    \caption{$\epsilon^2$ calculation using the method present in \ref{eq:sse_rep}}
+    \label{fig:error_plot_sse}
+\end{figure}
+
+\par In figure \ref{fig:error_plot_division} and \ref{fig:error_plot_sse} , we test the error prediction behaviour for two different values of the $\alpha$ parameter
+of the prediction equations, to see the impact that the previous observations have on the error behaviour. We consider the output of the bottom plot of 
+\ref{fig:error_plot_sse} as the desired one, where we assume $\alpha = 0.8$ since it clearly indicates the start and end times of the variation, which in contrast 
+to the upper plot in this figure, where the value $\alpha = 0.2$ is used, does not present a rising trend. Due to this result, we propose higher ($\alpha \rightarrow 
+1$) values for the smoothing factor for posterior results, more specifically $\alpha = 0.8$.
+
 \par In the initial detection strategy, the error detection is based in comparing the calculated prediction error to a certain threshold. Choosing this threshold 
 requires previous knowledge of the magnitude of the change, and figure \ref{fig:detect_dumb} represents the output of the prediction error calculation using this
 method. We assume a value of $\delta > 2$ for this detection threshold, to show that the detection threshold may be tuned depending on the use case.
@@ -294,7 +296,7 @@ timestamps of the first occurrence of the alarm, on the contrary of the lower fi
 \par This proposed approach also allows the comparison between the offline and the online approach to change detection. In figure \ref{fig:offline_cusum}, the 
 offline output can be analysed for the number of expected alarms on this testing scenario. Comparing this result to the enhanced version in figure 
 \ref{fig:errors_comparaison}, we conclude that the number of errors are similar to the offline version, which means that we can accurately detect every change in
-the test scenario with the online algorithm.
+the test scenario with the online algorithm. In this figure, the shaded area represents the measured variation in the number of alarms.
 
 \begin{figure}[H]
     \centering

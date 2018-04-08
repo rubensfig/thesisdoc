@@ -41,12 +41,14 @@ data centers, network administrators' familiarity with the Linux networking stac
 library and networking devices. This provides a familiar and stable Application Programming Interface to configure ports, Virtual Local Area Network (VLAN) 
 and routes, and the advantages of using tools like systemd-networkd and iptables.
 
+\par Despite providing a stable platform, Basebox also provides a 
+
 \section {Aims and objectives}
 
 % Importance of proposed research 
 % Research aims
 
-In a first stage, this thesis aims to plan and develop a system that exposes the physical topology of connections between switches and server, and monitoring
+This thesis aims to plan and develop a system that exposes the physical topology of connections between switches and server, and monitoring
 the port configuration and statistics. This management system aims to clearly display changes in configuration and behaviour of the networking infrastructure
 connected to a SDN controller, which will allow system operators to maintain finer control over their resources. In this first part, we aim to define the 
 components to implement this management system, from the necessary modifications to the existing controllers, to the Graphical User Interface that users will 
@@ -54,35 +56,35 @@ interact with. Typical management solutions like Icinga \footnote{\url{https://w
 Graphana \footnote{\url{https://grafana.com/}} display relevant metrics for monitoring of network devices, including the display of the
 physical topology, monitor the port status, display devices temperature, among others. In this stage, we define the Minimum Viable Product (MVP) for this system as a
 simple Graphical User Interface that can display the connections between switches and servers, and expose port statistics like the number of received packets
-and bytes, the number of errors.
+and bytes and the number of errors.
 
-\par To support these features, we propose an Operations Support System (OSS) that interacts with the controllers and implements intelligence for monitoring 
-the state of the network. Due to data center's traffic profile, one common challenge for optimizing the networks resource utilization is the asymmetry of traffic, 
-where most of the networking flows are short-lived, latency-sensitive quick bursts of packets, but do not
-amount for the total traffic in the network. The main contributor for the total traffic volume are the large and long-lived flows, usually called elephant flows.
+\par We propose an Operations Support System (OSS) that interacts with the controllers and implements intelligence for monitoring the state of the network.
+Due to data center's traffic profile, one common challenge for optimizing the networks resource utilization is the asymmetry of traffic, where most of the 
+networking flows are short-lived, latency-sensitive quick bursts of packets, but do not amount for the total traffic in the network. The main contributor for the
+total traffic volume are the large and long-lived flows, usually called \textit{elephant flows}.
 Solution to this problem will increase the networks capability of splitting resources between the multiple competing virtualised applications, and, as a consequence,
 their associated flows. Furthermore, by maintaining a system that monitors and alarms network operators of the occurrences of large data streams, this will provide
 insight to the network operators to plan ahead their network resources. To implement this functionality, we researched the most common ways that detection of network
-abnormalities are done, and propose an algorithm that enables quick detection of changes in the network traffic behaviour via simple statistical methods.
+traffic changes are done, and propose an algorithm that enables quick detection of changes in the network traffic behaviour via simple statistical methods.
 
 \section{Organization}
 
 % Order of the document
 
-This paper is divided in the following sections:
+This dissertation is divided in the following chapters:
 
 \begin{itemize}
     \item \textbf{Background} begins with an overview of Software-Defined Networking, providing an insight on the protocol behind these environments,
-and presenting information on the existing applications. We also give an overview of network management, and approach what the roles of management systems have
-in current data centers. We then provide a description on the architecture of the system this thesis will integrate.
+and presenting information on the existing applications. We also give an overview of network management, and approach what the roles of management systems are
+in current data centers. 
 
     \item \textbf{Related Work} explores the deeper concepts of statistical detection, providing a formal framework for change detection mechanisms. We approach
 the techniques traditionally used in change detection mechanisms, and evaluate the performance measures used to assess their efficiency. We also explore further
 the concept of elephant flows, exploring a possible mathematical representation, and present the mechanisms typically used for detection and mitigation of this 
-network phenomena.
+network phenomenon.
 
-    \item \textbf{Monitoring SDN switches} is a chapter dedicated to defining the proposed architecture for this thesis, by defining the components and the high
-level approaches for implementing this solution.
+    \item \textbf{Monitoring SDN Switches} is a chapter dedicated to defining the proposed architecture for this thesis, by defining the components and the high
+level approaches for implementing this solution, providing a description on the architecture of the system this thesis will integrate.
 
     \item \textbf{Management API} approaches the first stage of the developed work. First, we design the networking entities with a set of standardized data models
 for networks, so that the structure for creating the management interface is logically organized. Then we explore the researched alternatives for implementing

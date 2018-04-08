@@ -1,12 +1,12 @@
 \section{Software Defined Networking} \label{chap:sdn}
 
-Computer networking is a vital part of the services that are offered today, and as such, the performance in technology backing these is central to the
+Computer networking is a vital part of the services that are offered today, and, as such, the performance in technology backing these is central to the
 quality of these services. As the service providers move their data centers to cloud computing environments, enabling several improvements in the predictability,
 Quality of Service and ease of use of their services, new technologies are required to make sure that their services are adapted to the fast changing landscape of 
-networking. One of the most notable innovations in this field is called \textbf{Software Defined Networking}, which, as described by the Open Networking
-Foundation, \textit{ In the SDN architecture, the control and data planes are decoupled, network intelligence and state are logically centralized, and the underlying
+networking. One of the most notable innovations in this field is called \textbf{Software Defined Networking}, where, as described by the Open Networking
+Foundation, \textit{the control and data planes are decoupled, network intelligence and state are logically centralized, and the underlying
 network infrastructure is abstracted from the applications} \cite{open_networking_foundation_sdn_2014}. 
-The two main contributions of this architecture is:
+The two main contributions of this architecture are:
 
 \begin {itemize}
     \item \textbf{Separation of data and control planes} SDN allows for the separation of the network control plane from the data forwarding plane by having network
@@ -17,10 +17,9 @@ The two main contributions of this architecture is:
 \end {itemize}
 
 \par This new paradigm introduces programmability in the configuration and management of networks, by consolidating the control of network devices to a single
-central controller, achieving separation of the control and the data plane, and supporting a more dynamic and flexible infrastructure. Another important development
-following the development of SDN is the concept of Network Function Virtualisation (NFV). This concept allows to remove \textit {middleboxes}
-\footnote {Computer networking device that does some operations on traffic, besides packet forwarding. Examples include caches, Intrusion Detection System (IDS),
-Network Address Translation (NAT), ..}, by replacing these with generic software applications.
+central controller, achieving separation of the control and the data plane, and supporting a more dynamic and flexible infrastructure. This concept removes 
+\textit {middleboxes} \footnote {Computer networking device that does some operations on traffic, besides packet forwarding. Examples include caches, Intrusion 
+Detection System (IDS), Network Address Translation (NAT), etc} replacing them with generic software applications.
 
 \begin{figure}[H]
   \centering
@@ -66,10 +65,9 @@ entire network.
 \subsection {OpenFlow} \label{sec:of}
 
 With the growth of the networking infrastructure of the past few decades, the need for an environment that allows for experimentation and testing of different
-protocols and equipment became evident. If networking research would depend on the previously existing methods, then new ways of creating and developing protocols
-would become increasingly hard to implement and develop. As such, there was need for a framework that could enable testing of new ideas on close to realistic
-settings. So, on February 2011 the version 1.1 of OpenFlow was released, and this proposal quickly became the standard for networking in a Software Defined Network.
-Since 2011, this protocol has suffered some revisions, and the latest version released is version 1.5.1. 
+protocols and equipment became evident. As such, there was need for a framework that could enable testing of new ideas on close to realistic settings. So, on 
+February 2011 OpenFlow was released, and this proposal quickly became the standard for networking in a Software Defined Network. Since 2011, this protocol has 
+suffered some revisions, and the latest version released is version 1.5.1. 
 
 \par Several reasons led to the quick standardization of this protocol, which are related not only to the initial requirements of the platform, like the capability
 of supporting high-performance and low-cost implementations, but also the extensibility that the open source development model provides, removing the limitations
@@ -88,10 +86,10 @@ controller. The components that are part of this system and enable this function
         to send them to the controller, in the case of a miss of match; and finally the ability to drop packets, which is useful for DDoS mitigation, or other
         security concerns.
     \item \textbf {OpenFlow Protocol} The OpenFlow Protocol between the switch and the controller defines several messages that allow for the control of the switch.
-        This protocol enables capabilities such as adding, deleting and updating flow rules in the switch, referred to as \textit {Controller-to-Switch}
-        messages. Other relevant message types are the \textit {Asynchronous} messages, that provide notifications of events that occurred. This type includes
-        the PACKET\_IN message, which is a type of message that is sent to the controller when a certain packet has no match in
-        the flow tables present in the switch. Finally, the \textit{Synchronous} message, like the Hello message, which are used for negotation of the OpenFlow
+        This protocol enables capabilities such as requesting the available features on the switch, configuration of flow rules, among others, using the 
+        messages referred to as \textit {Controller-to-Switch}. Other relevant message types are the \textit {Asynchronous} messages, that provide notifications of
+        events that occurred. This type includes the PACKET\_IN message, which is a type of message that is sent to the controller when a certain packet has no match
+        in the flow tables present in the switch. Finally, the \textit{Symmetric} message, like the Hello message, which are used for negotation of the OpenFlow
         version and other elements to help connection setup. The initial connection is initialized by either the switch or the controllers over the defined
         transport protocol, but after the transport connection is established, the OpenFlow channel should behave the same way 
         \cite{open_networking_foundation_openflow_2015}.
@@ -118,8 +116,9 @@ switch, but lacks the connection of the OpenFlow switch to the data plane switch
 and the packet in originates from the switches' ingress port, and after processing, the packet will exit through the switches' egress port.
 
 \par In the case of controller failover, then the backup controllers should act on this failure, and act as the new master. OF switches should connect to the set of
-available controllers, which should coordinate the management of the switch amongst themselves. After the switches first connection to the controllers, they should
-maintain this connection alive, but the controllers have the possibility of changing their roles. The controller roles are as follows:
+available controllers, which should coordinate the management of the switch amongst themselves, according to a set of certain roles. After the switches' first
+connection to the controllers, they should maintain these connections alive, but the controllers have the possibility of changing their roles. These roles are as
+follows:
 
 \begin {itemize}
     \item \textsc {OFPCD\_ROLE\_EQUAL}, where the controller has full access to the switch, receiving all incoming messages, and can modify the state of the switch
@@ -130,7 +129,8 @@ maintain this connection alive, but the controllers have the possibility of chan
 \end {itemize}
 
 The OpenFlow switches maintain a set of counters, similar to SNMP, that provide information about the state of the ports, group, flow and table stats. The
-statistics that are exposed from OF are shown in table \ref{tab:of_port_stats}.
+statistics that are exposed from OF are shown in table \ref{tab:of_port_stats}. In this table, the fields duration\_sec and duration\_nsec specify the time that 
+each port has been configured, in seconds and nanoseconds respectively.
 
 \begin{table}[H]
     \centering
@@ -179,8 +179,8 @@ Networking devices are a central part of network operation, performing routing, 
 The investment in dedicated hardware to perform management functions can potentially be replaced by SDN controllers, offloading the QoS policies and traffic
 engineering (TE) functions from hardware to software. As such, in this section we focus on the devices that are responsible for the operation on layers 2 and 3 of
 the standardized networking stack, switches and routers. A networking switch is a device that connects multiple devices on a computer network, using hardware
-addresses (MAC) to forward data inside the network, by mapping each port with a certain MAC address, while a router is responsible of forwarding packets between
-different computer networks. These devices run at different layers of the networking stack, the former operating at the data-link, or layer 2, and the latter
+addresses (MAC) to forward data inside the network, by mapping each port with a one (or more) MAC addresses, while a router is responsible of forwarding packets 
+between different computer networks. These devices run at different layers of the networking stack, the former operating at the data-link, or layer 2, and the latter
 operating at layer 3, or network. This is not a clear separation however with multilayer devices, where switches also provide routing capabilities. Typical vendors
 for these solutions include Cisco and Juniper, but the rise of whitebox switches that have support for deployments in SDN environments enables network operators to
 avoid vendor lock-in, and take advantage of the open nature of these devices. Commonly associated with whitebox switches is the support for the OpenFlow protocol,
@@ -198,15 +198,15 @@ is expected of SDN based infrastructures. This performance is linked with the ha
         A notable example of platforms based in these systems is NetFPGA \footnote {https://netfpga.org/site/\#/}, an open source hardware platform designed for
         research, and supporting up to 100 Gbps operation. 
     \item \textbf{Application-specific integrated circuits (ASIC)} are integrated circuits that are customized for one particular application, removing the
-        programmability, but also providing the greatest performance of the former options.
+        programmability, but also providing greater performance than the former options.
 \end {itemize}
 
-\par These architectures generally allow to design SDN architectures around general purpose hardware, contributing to the flexibility of this paradigm, even
+\par These architectures generally allows us to design SDN architectures around general purpose hardware, contributing to the flexibility of this paradigm, even
 considering the proprietary nature of the ASICs, which can be bundled with Software Development Kits (SDKs) for developing other
 applications on top of these. 
 
 \par Considering OF enabled hardware switches, the processing of incoming packets is done as by matching a (up to) 15 field tuple \cite{raz_2014_2014} to several 
-flow tables, that have rules sent from the controller. In these cases, the possibility of bottlenecks are due to several factors, including the latency
+flow tables, that have rules sent from the controller. In these cases, the possibility of bottlenecks is due to several factors, including the latency
 of the installation of new flow rules, and the memory limitation on the hardware. Solutions to the memory limitations in OF switches include DevoFlow 
 \cite{nunes_survey_2014}, which utilizes wild card rules to reduce the number of flow entries that are installed on the devices, while also aggregating 
 traffic, simplifying detection and management of unexpected large volumes of traffic (see section \ref{sec:el_fl}), due to reduced control plane load; and SmartTime
@@ -281,7 +281,7 @@ link state, and port statistics, which is visible in figure 2.10.
   \centering
   \includegraphics[width=.6\textwidth]{sdn/odl_arch}
   \label{fig:odl_arch}
-  \caption {OpenDaylight controller architecture \cite{medved_opendaylight:_2014}}
+  \caption{OpenDaylight controller architecture \cite{medved_opendaylight:_2014}}
 \end{figure}
 
 OpenDaylight \footnote{https://www.opendaylight.org/} (ODL) is a project supported by the major vendors. The main differences between ODL and other controllers
@@ -337,9 +337,9 @@ failover should occur with minimal changes to the underlying flow rules and over
 
 So that the management tools can correctly display information about the state of the network, status statistics should be continuously collected and analysed. These
 statistics should provide the information about flows, packets and ports, so that the measured metrics can serve as a baseline for the decisions of the controller to
-adapt the flow rules to enable the best possible performance. The statistics collection can be collected in two possible ways: by continuously sampling
-packets from the switches; or applying sampling techniques, and generalizing the information from the sampled data \cite{curtis_mahout:_2011}. The problem here lies
-in the collection of the statistics in poses a problem for large scale deployments, where continuously polling the network devices introduces both overhead and very 
+adapt the flow rules to enable the best possible performance. Statistics can be collected in two possible ways: by continuously sampling
+packets from the switches; or applying sampling techniques and generalizing the information from the sampled data \cite{curtis_mahout:_2011}. The problem here lies
+in the collection of the statistics poses a problem for large scale deployments, where continuously polling the network devices introduces both overhead and very 
 large amounts of data to be parsed, or the data is not enough to detect failures in a short amount of time. 
 
 \subsection {Statistics}

@@ -49,6 +49,7 @@
 \setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
 
 % ADD NUMBERS TO CAPTIONS
+\setbeamertemplate{footline}[frame number]
 \setbeamertemplate{caption}[numbered]
 %\setbeameroption{show notes}
 %\setbeameroption{hide notes}
@@ -98,7 +99,7 @@
 Faculty of Engineering, University of Porto \and
 \inst{2} Berlin Institute for Software Defined Networks\\ % Your institution for the title page
 \medskip
-\textit{r.figueiredo.52@gmail.com} % Your email address
+\textit{ee12010@fe.up.pt} % Your email address
 }
 \date{\today} % Date, can be changed to a custom date
 
@@ -146,46 +147,29 @@ Faculty of Engineering, University of Porto \and
 
 \begin{frame}
 \frametitle{Software-Defined Networking}
+    \begin{columns}
+    \begin{column}{0.5\textwidth}
+    
+        \begin{itemize}
+            \item<1->\textbf{Software Defined Networking} is a solution that provides:
+            \begin{itemize}
+                \item<2->\textbf{Separation of control and data planes} 
+                \item<3->\textbf{Centralization of network management functions}
+            \end{itemize}
+            \item<4->The SDN controller plays a central role in this architecture 
+        \end{itemize}
+    \end{column}
 
-\begin{columns}
-\begin{column}{0.5\textwidth}<1->
-\begin{itemize}
-    \item Networking services are bound to a fast changing environment, there is a need for a network design methodology that supports this
-            fast evolution
-    \item<1->\textbf{Software Defined Networking} is a solution that provides:
-    \begin{itemize}
-        \item<2->\textbf{Separation of control and data planes} 
-        \item<3->\textbf{Centralization of network management functions}
-    \end{itemize}
-\end{itemize}
-\end{column}
-
-\begin{column}{0.5\textwidth}<4->
-  \begin{figure}
-      \centering
-      \includegraphics[width=1\textwidth]{sdn/sdn_controller_arch}
-  \end{figure}
-\end{column}
-\end{columns}
-\end{frame}
-
-\begin{frame}
-\frametitle{Basebox}
-    The SDN controller plays a central role in this architecture by connecting the network applications that connect to the Northbound interface to the networking 
-        devices running on the Southbound plane.
-    \only<1>{
+    \begin{column}{0.5\textwidth} 
         \begin{figure}
-            \includegraphics[width=.5\textwidth]{bisdn/basebox}<1->
+            \includegraphics[width=.8\textwidth]{bisdn/basebox}<4->
         \end{figure}
-    }
-    \only<2>{
-        \begin{figure}
-            \includegraphics[width=.5\textwidth]{presentation/basebox_cawr_low_level}<2->
-        \end{figure}
-    }
+    \end{column}
 
     \note{
     \begin{itemize}
+        \item O controlador SDN e fulcral nesta arquitectura, ja que permite ligar aplicacoes pela NorthBound Interface,
+            para os dispositivos na interface sul
         \item Esta tese foi feita em parceria com a BISDN, uma empresa alema que desenvolve controladores SDN
         \item Basebox é um controlador baseado em Linux, que integra switches e controladores SDN
         \item Configurar dispositivos com base numa API familiar graças à vasta utilização de Linux em ambientes de centros de dados
@@ -195,7 +179,7 @@ Faculty of Engineering, University of Porto \and
         \item Facilita o scale up de ambientes de rede, e gestão de múltiplos dispositivos de rede.
     \end{itemize}
     }
-
+\end{columns}
 \end{frame}
 
 %------------------------------------------------
@@ -212,11 +196,13 @@ Faculty of Engineering, University of Porto \and
     \begin{itemize}
         \item<2-> display the topology information reported by CAWR, including the internal switch links, and the LACP discovered bond interfaces on the servers,
         \item<3-> display the port and link statistics for both switches,
-        \item<4-> provide an alerting system, so that network operators can be informed of changes on the network state,
-        \item<5-> provide diagnostic capabilities.
-        \item<6-> allow defining Quality-of-Service policies, maintaining the traffic behaviour in the network
+        \item<4-> provide an alerting system, 
+        \item<5-> allow defining Quality-of-Service policies, maintaining the traffic behaviour in the network
     \end{itemize}
 \end{itemize}
+    \note{
+        ALERTING SYSTEM = THAT NETWORK OPERATORS CAN BE INFORMED OF CHANGES ON THE NETWORK STATE, PROVIDING DIAGNOSTIC CAPABILITIES.
+    }
 \end{frame}
 
 \begin{frame}
@@ -231,7 +217,6 @@ Faculty of Engineering, University of Porto \and
     \end{itemize}
 \end{itemize}
 \end{frame}
-
 
 %------------------------------------------------
 \section{Proposed Architecture}
@@ -309,7 +294,10 @@ Faculty of Engineering, University of Porto \and
             \item a etapa de inicialiação aprende o estado do tráfego "normal" da rede. Nesta etapa considera-se que não existem condições de tráfego anómalas
             \item o sistema de deteção de mudança de tráfego é feito com base na diferença entre o valor medido, e o valor originado pela previsão 
                 anterior
-            \item o cálculo das previsões é feito com base na função de exponential smoothing, onde os valores históricos determinam o valor mais um
+            \item o cálculo das previsões é feito com base na função de exponential smoothing, onde os valores históricos determinam o proximo valor. A razão de
+                escolha deste algoritmo baseou-se no facto de ser bastante comum em tecnicas de analise de series de dados temporais, permitindo calcular, de 
+                formas simples as previsoes.
+
             \item A deteção dos elephant flows é feito com base num Algoritmo de deteção, que controla os desvios face a um valor pré estabelecido
         \end{itemize}
     }
@@ -322,6 +310,11 @@ Faculty of Engineering, University of Porto \and
 %------------------------------------------------
 \subsection{Management API}
 %------------------------------------------------
+
+\begin{frame}[plain]
+    \centering
+        \Huge{Management API}
+\end{frame}
 
 \begin{frame}{Graphical User Interface}
     \begin{figure}[!tbph]
@@ -343,18 +336,30 @@ Faculty of Engineering, University of Porto \and
 \subsection{Meter the Elephant}
 %------------------------------------------------
 
-\begin{frame}{Testing Environment}
-    \begin{figure}
-        \includegraphics[width=.7\textwidth]{meter_eleph/testing_setup}
-    \end{figure}
+\begin{frame}[plain]
+    \centering
+        \Huge{Elephant Flow monitoring}
+\end{frame}
+%\begin{frame}{Testing Environment}
+    %\begin{figure}
+        %\includegraphics[width=.7\textwidth]{meter_eleph/testing_setup}
+    %\end{figure}
 
-    \note{
-    \begin{itemize}
-        \item Due to the differences between the OF-DPA compliant hardware switches and the standard OpenFlow implementation used in the virtualised 
-            network Mininet, testing the elephant flow detection mechanism proved impossible with Basebox, which led us to choosing a different controller
-        \item The controller chosen was Floodlight, due to simplicity of installation and REST interface
-        \item For development of the Graphical User Interface, the standard Basebox topology was used
-    \end{itemize}
+    %\note{
+    %\begin{itemize}
+        %\item Due to the differences between the OF-DPA compliant hardware switches and the standard OpenFlow implementation used in the virtualised 
+            %network Mininet, testing the elephant flow detection mechanism proved impossible with Basebox, which led us to choosing a different controller
+        %\item The controller chosen was Floodlight, due to simplicity of installation and REST interface
+        %\item For development of the Graphical User Interface, the standard Basebox topology was used
+    %\end{itemize}
+    %}
+%\end{frame}
+
+\begin{frame}{Management System Architecture}
+    \only<1>{
+        \begin{figure}
+            \includegraphics[width=.7\textwidth]{meter_eleph/testing_setup}
+        \end{figure}
     }
 \end{frame}
 
@@ -408,8 +413,8 @@ Faculty of Engineering, University of Porto \and
             method 
     \end{itemize}
 
-    \begin{figure}<1->
-        \includegraphics[width=.6\textwidth]{meter_eleph/detection_results_plotted}
+    \begin{figure}
+        \includegraphics[width=.5\textwidth]{meter_eleph/detection_results_plotted}<1->
         \caption{Online CUSUM output}
     \end{figure}
 
@@ -425,23 +430,23 @@ Faculty of Engineering, University of Porto \and
     }
 \end{frame}
 
-\begin{frame}{Detection}
-    \begin{figure}
-        \includegraphics[width=.7\textwidth]{meter_eleph/evaluation_error}
-        \caption{Comparison of the number of alarms raised by the enhanced (top) and non enhanced (bottom) versions}
-    \end{figure}
+%\begin{frame}{Detection}
+    %\begin{figure}
+        %\includegraphics[width=.7\textwidth]{meter_eleph/evaluation_error}
+        %\caption{Comparison of the number of alarms raised by the enhanced (top) and non enhanced (bottom) versions}
+    %\end{figure}
 
-    \note{
-        \begin{itemize}
-            \item Embora o algoritmo nao seja aplicado de forma offline, podemos estabelecer um baseline de numero de alarmes,
-                e o tempo de detecao esperado para a forma online, para que se veja o efeito da janela no calculo dos alarmes
-            \item Neste grafico podemos ver a variacao causada quando se aplica o algoritmo cegamente. O tamanho da janela tem uma
-                relacao direta com o numero de alarmes, ja que os mesmos alarmes irao ser levantados repetidamente.
-            \item Tambem pode acontecer que, com uma janela grande o suficiente, os alarmes levantados ja tenham sido num tempo suficientemente
-                passado, que ja nao tenham relevancia
-        \end{itemize}
-    }
-\end{frame}
+    %\note{
+        %\begin{itemize}
+            %\item Embora o algoritmo nao seja aplicado de forma offline, podemos estabelecer um baseline de numero de alarmes,
+                %e o tempo de detecao esperado para a forma online, para que se veja o efeito da janela no calculo dos alarmes
+            %\item Neste grafico podemos ver a variacao causada quando se aplica o algoritmo cegamente. O tamanho da janela tem uma
+                %relacao direta com o numero de alarmes, ja que os mesmos alarmes irao ser levantados repetidamente.
+            %\item Tambem pode acontecer que, com uma janela grande o suficiente, os alarmes levantados ja tenham sido num tempo suficientemente
+                %passado, que ja nao tenham relevancia
+        %\end{itemize}
+    %}
+%\end{frame}
 
 \begin{frame}{Detection}
     \begin{figure}
@@ -498,7 +503,7 @@ Faculty of Engineering, University of Porto \and
 %------------------------------------------------
 \begin{frame}[plain]
     \centering
-        \Huge{Proposed Architecture}
+        \Huge{Conclusion}
 \end{frame}
 
 

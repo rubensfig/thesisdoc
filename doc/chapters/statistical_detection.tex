@@ -25,26 +25,26 @@ characteristics. One key part on the application of changepoint detection is the
 are sensitive to the traffic changes. One other important consideration in applying changepoint detection mechanisms is the reduction of false alarms, that occur 
 when the metrics are too sensitive to traffic changes, and limit the network operators capability of accurately responding to real network issues. 
 
-\par Change detection mechanisms are classified as follow  \cite{munz_traffic_2010}:
+\par Change detection mechanisms are classified as follow \cite{munz_traffic_2010}:
 
 \begin {itemize}
-    \item In change detection theory, an important distinction is the difference between online and offline detection. Offline, or batch detection 
-        methods consider a fixed length of observations, and retrospectively analyse the dataset to determine the time where the change, or changes took place. 
-        Online detection, or sequential detection, unlike batch detection which uses all the available observations to detect the changes, including the
+    \item \textbf{Online vs Offline} In change detection theory, an important distinction is the difference between online and offline detection. Offline, or batch 
+        detection methods consider a fixed length of observations, and retrospectively analyse the dataset to determine the time where the change, or changes took 
+        place.  Online detection, or sequential detection, unlike batch detection which uses all the available observations to detect the changes, including the
         ones obtained after the change took place, is based on the determination of the change points based on the arrival of the new data, allowing for determining
         the change as fast as possible \cite{ahmed_novel_2008}. 
-    \item Another important distinction is related to the scalability, and the amount of data that needs to be stored to accurately implement
-        detection on new samples. Parametric approaches rely on learning a probability distribution from the monitored variables, and using this learned data to 
-        estimate the unknown parameters, after which the training data can be discarded. Non-parametric models however, do not take into consideration the
-        distribution of the monitored variables, and analyse statistical properties instead. The cost of this analysis is that the previous data must be stored to
-        provide better results, but this problem can be mitigated using algorithms like sliding windows or moving averages.
+    \item \textbf{Parametric vs Non-parametric}Another important distinction is related to the scalability, and the amount of data that needs to be stored to 
+        accurately implement detection on new samples. Parametric approaches rely on learning a probability distribution from the monitored variables, and using 
+        this learned data to estimate the unknown parameters, after which the training data can be discarded. Non-parametric models however, do not take into 
+        consideration the distribution of the monitored variables, and analyse statistical properties instead. The cost of this analysis is that the previous data 
+        must be stored to provide better results, but this problem can be mitigated using algorithms like sliding windows or moving averages.
 \end {itemize}
 
 \subsection{Mathematical formulations} \label{sec:math_form}
 
 A time series can be defined as a stream of observations $X = \{x_1, ... x_i\}$, where $x_i$ is a vector arriving at time $i$. The time series $X$ can also be
 described as the sum (in equation \ref{eq:ts_sum}), or product (in equation \ref{ts:pr}) of the following components: $S_t$, which refers to the seasonal component
-of the data; $T_t$, which defines the trend of the data, and $R_t$ represents the residual values, accounting for non expected variation and noise.
+of the data; $T_t$, which defines the trend of the data, and $R_t$ represents the residual values, accounting for uexpected variation and noise.
 
 \begin {equation}
 \centering
@@ -56,18 +56,18 @@ Or:
 
 \begin {equation}
 \centering
-y_t = S_t * T_t * R_t
+X = S_t * T_t * R_t
 \label{ts:pr}
 \end {equation}
 
 \par In regards to the classification of the trends according to the type of change, they can be classified as:
 
 \begin {itemize}
-  \item \textbf {Deterministic} when the trend consistently increase/decrease
+  \item \textbf {Deterministic} when the trend is consistently increasing/decreasing
   \item \textbf {Stochastic} when the opposite happens
 \end {itemize}
 
-\par Time series data usually present a non stationary behaviour, that are characterized by changes in the mean and variance. Statistical methods require, however,
+\par Time series data usually present a non stationary behaviour, that is characterized by changes in the mean and variance. Statistical methods require, however,
 stationarity in the data. The presence of trends and cyclic behaviours is the most common violation of stationary, and table \ref{tab:trends_here} shows the most 
 common trends present in the data, and the parameters that need to be learned from the time series in study. 
 
@@ -102,14 +102,14 @@ behaviour can be used to generate these forecasts for future values in the time 
 over time. Considering the time series $X_t$, the one-step ahead prediction $\hat{x}_t$ can be obtained by equation \ref{eq:exp_smooth}.  In this model, the 
 smoothing factor $\alpha (0 < \alpha < 1)$ should be obtained empirically, and its value will determine the forgetting factor for the past observations.
 
-\begin {equation*}
+\begin {equation}
     \centering
         \begin {split}
             &\hat{x}_1 = x_0, \\
-            &\hat{x}_t = \alpha x_{t} + (1-\alpha)x_{t-1}, t > 1.
+            &\hat{x}_t = \alpha x_{t} + (1-\alpha)\hat{x}_{t-1}, t > 1.
         \end {split}
     \label{eq:exp_smooth}
-\end {equation*}
+\end {equation}
 
 \par Due to its simplicity, this method is not suitable for situations where the data has trends, or seasonal behaviours \cite{kalekar_time_2004}. The solution for
 this problem is introduced with double exponential smoothing, also know as Holt forecasting, and triple exponential smoothing, also known as Holt-Winters

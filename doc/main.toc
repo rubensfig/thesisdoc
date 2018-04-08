@@ -1,61 +1,73 @@
 \select@language {english}
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}
 \contentsline {section}{\numberline {1.1}Context}{1}{section.1.1}
-\contentsline {section}{\numberline {1.2}Motivation}{1}{section.1.2}
-\contentsline {section}{\numberline {1.3}Goals}{1}{section.1.3}
-\contentsline {chapter}{\numberline {2}Software Defined Networking}{2}{chapter.2}
-\contentsline {section}{\numberline {2.1}OpenFlow}{4}{section.2.1}
-\contentsline {section}{\numberline {2.2}Network Devices}{5}{section.2.2}
-\contentsline {section}{\numberline {2.3}SDN Controllers}{7}{section.2.3}
-\contentsline {subsection}{\numberline {2.3.1}Performance Overview}{7}{subsection.2.3.1}
-\contentsline {subsection}{\numberline {2.3.2}Existing Platforms}{7}{subsection.2.3.2}
-\contentsline {subsubsection}{\numberline {2.3.2.1}Floodlight}{7}{subsubsection.2.3.2.1}
-\contentsline {subsubsection}{\numberline {2.3.2.2}OpenDaylight}{7}{subsubsection.2.3.2.2}
-\contentsline {chapter}{\numberline {3}Network Management}{8}{chapter.3}
-\contentsline {section}{\numberline {3.1}Introduction}{8}{section.3.1}
-\contentsline {section}{\numberline {3.2}Requirements for management systems}{8}{section.3.2}
-\contentsline {section}{\numberline {3.3}SNMP}{9}{section.3.3}
-\contentsline {section}{\numberline {3.4}Data Center Networks (DCN)}{10}{section.3.4}
-\contentsline {subsection}{\numberline {3.4.1}DCN Traffic}{11}{subsection.3.4.1}
-\contentsline {subsection}{\numberline {3.4.2}Limitations}{12}{subsection.3.4.2}
-\contentsline {subsection}{\numberline {3.4.3}DCN and SDN}{12}{subsection.3.4.3}
-\contentsline {subsubsection}{\numberline {3.4.3.1}Flow management}{12}{subsubsection.3.4.3.1}
-\contentsline {subsubsection}{\numberline {3.4.3.2}Fault tolerance}{13}{subsubsection.3.4.3.2}
-\contentsline {subsubsection}{\numberline {3.4.3.3}Traffic analysis}{13}{subsubsection.3.4.3.3}
-\contentsline {section}{\numberline {3.5}Statistics}{14}{section.3.5}
-\contentsline {subsection}{\numberline {3.5.1}OpenFlow}{14}{subsection.3.5.1}
-\contentsline {subsection}{\numberline {3.5.2}sFlow}{14}{subsection.3.5.2}
-\contentsline {chapter}{\numberline {4}BISDN}{16}{chapter.4}
-\contentsline {section}{\numberline {4.1}Existing product}{17}{section.4.1}
-\contentsline {subsection}{\numberline {4.1.1}baseboxd}{17}{subsection.4.1.1}
-\contentsline {subsection}{\numberline {4.1.2}CAWR}{17}{subsection.4.1.2}
-\contentsline {chapter}{\numberline {5}Statistical Detection}{18}{chapter.5}
-\contentsline {section}{\numberline {5.1}Elephant flow detection}{18}{section.5.1}
-\contentsline {section}{\numberline {5.2}Time series analysis}{19}{section.5.2}
-\contentsline {subsection}{\numberline {5.2.1}Mathematical formulations}{20}{subsection.5.2.1}
-\contentsline {subsection}{\numberline {5.2.2}Change Detection}{22}{subsection.5.2.2}
-\contentsline {subsection}{\numberline {5.2.3}Performance Evaluation}{24}{subsection.5.2.3}
-\contentsline {section}{\numberline {5.3}Existing methods}{24}{section.5.3}
-\contentsline {chapter}{\numberline {6}Monitoring SDN Switches}{25}{chapter.6}
-\contentsline {section}{\numberline {6.1}Problem}{25}{section.6.1}
-\contentsline {section}{\numberline {6.2}Solution}{25}{section.6.2}
-\contentsline {subsection}{\numberline {6.2.1}GUI}{26}{subsection.6.2.1}
-\contentsline {subsection}{\numberline {6.2.2}Policy manager}{26}{subsection.6.2.2}
-\contentsline {chapter}{\numberline {7}Management API}{28}{chapter.7}
-\contentsline {section}{\numberline {7.1}Data models}{28}{section.7.1}
-\contentsline {subsection}{\numberline {7.1.1}Topology}{29}{subsection.7.1.1}
-\contentsline {subsection}{\numberline {7.1.2}Port statistics}{30}{subsection.7.1.2}
-\contentsline {section}{\numberline {7.2}Protocols}{31}{section.7.2}
-\contentsline {subsection}{\numberline {7.2.1}NETCONF}{31}{subsection.7.2.1}
-\contentsline {subsection}{\numberline {7.2.2}gRPC}{32}{subsection.7.2.2}
-\contentsline {section}{\numberline {7.3}Results}{33}{section.7.3}
-\contentsline {chapter}{\numberline {8}Elephant Flow Monitoring}{34}{chapter.8}
-\contentsline {section}{\numberline {8.1}Testing Environment}{34}{section.8.1}
-\contentsline {subsection}{\numberline {8.1.1}Performed tests}{35}{subsection.8.1.1}
-\contentsline {subsubsection}{\numberline {8.1.1.1}}{35}{subsubsection.8.1.1.1}
-\contentsline {section}{\numberline {8.2}Algorithm design}{35}{section.8.2}
-\contentsline {subsection}{\numberline {8.2.1}Formal definition}{35}{subsection.8.2.1}
-\contentsline {section}{\numberline {8.3}Testing setup}{35}{section.8.3}
-\contentsline {section}{\numberline {8.4}Tests}{35}{section.8.4}
-\contentsline {section}{\numberline {8.5}Results}{35}{section.8.5}
-\contentsline {chapter}{References}{36}{section*.22}
+\contentsline {section}{\numberline {1.2}Motivation}{2}{section.1.2}
+\contentsline {section}{\numberline {1.3}Aims and objectives}{2}{section.1.3}
+\contentsline {section}{\numberline {1.4}Organization}{3}{section.1.4}
+\contentsline {chapter}{\numberline {2}Background}{4}{chapter.2}
+\contentsline {section}{\numberline {2.1}Network Management}{4}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}Requirements for management systems}{4}{subsection.2.1.1}
+\contentsline {subsection}{\numberline {2.1.2}SNMP}{5}{subsection.2.1.2}
+\contentsline {subsection}{\numberline {2.1.3}Data Center Networks (DCN)}{6}{subsection.2.1.3}
+\contentsline {section}{\numberline {2.2}Software Defined Networking}{7}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}OpenFlow}{9}{subsection.2.2.1}
+\contentsline {subsubsection}{\numberline {2.2.1.1}OpenFlow Data-Path Abstraction}{11}{subsubsection.2.2.1.1}
+\contentsline {subsection}{\numberline {2.2.2}Network Devices}{12}{subsection.2.2.2}
+\contentsline {subsection}{\numberline {2.2.3}SDN Controllers}{14}{subsection.2.2.3}
+\contentsline {subsubsection}{\numberline {2.2.3.1}Existing Platforms}{14}{subsubsection.2.2.3.1}
+\contentsline {subsubsection}{\numberline {2.2.3.2}Floodlight}{15}{subsubsection.2.2.3.2}
+\contentsline {subsubsection}{\numberline {2.2.3.3}OpenDaylight}{16}{subsubsection.2.2.3.3}
+\contentsline {subsubsection}{\numberline {2.2.3.4}Data center monitoring with SDN}{17}{subsubsection.2.2.3.4}
+\contentsline {subsubsection}{\numberline {2.2.3.5}Flow management}{17}{subsubsection.2.2.3.5}
+\contentsline {subsubsection}{\numberline {2.2.3.6}Fault tolerance}{18}{subsubsection.2.2.3.6}
+\contentsline {subsubsection}{\numberline {2.2.3.7}Traffic analysis}{18}{subsubsection.2.2.3.7}
+\contentsline {subsection}{\numberline {2.2.4}Statistics}{18}{subsection.2.2.4}
+\contentsline {subsubsection}{\numberline {2.2.4.1}OpenFlow}{18}{subsubsection.2.2.4.1}
+\contentsline {subsubsection}{\numberline {2.2.4.2}sFlow}{19}{subsubsection.2.2.4.2}
+\contentsline {section}{\numberline {2.3}BISDN}{20}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}Existing product}{21}{subsection.2.3.1}
+\contentsline {subsubsection}{\numberline {2.3.1.1}baseboxd}{21}{subsubsection.2.3.1.1}
+\contentsline {subsubsection}{\numberline {2.3.1.2}CAWR}{21}{subsubsection.2.3.1.2}
+\contentsline {chapter}{\numberline {3}Related Work}{23}{chapter.3}
+\contentsline {section}{\numberline {3.1}Traffic engineering in data centers}{23}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}DCN Traffic}{24}{subsection.3.1.1}
+\contentsline {subsection}{\numberline {3.1.2}Elephant flows}{25}{subsection.3.1.2}
+\contentsline {subsubsection}{\numberline {3.1.2.1}General formulation of elephant flows}{25}{subsubsection.3.1.2.1}
+\contentsline {subsubsection}{\numberline {3.1.2.2}Elephant flow detection}{26}{subsubsection.3.1.2.2}
+\contentsline {subsubsection}{\numberline {3.1.2.3}Elephant flow mitigation}{27}{subsubsection.3.1.2.3}
+\contentsline {section}{\numberline {3.2}Time series analysis}{28}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Mathematical formulations}{29}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Forecasting}{30}{subsection.3.2.2}
+\contentsline {subsubsection}{\numberline {3.2.2.1}Exponential smoothing}{30}{subsubsection.3.2.2.1}
+\contentsline {subsubsection}{\numberline {3.2.2.2}Autoregressive Moving average}{31}{subsubsection.3.2.2.2}
+\contentsline {subsubsection}{\numberline {3.2.2.3}Error calculation}{32}{subsubsection.3.2.2.3}
+\contentsline {subsubsection}{\numberline {3.2.2.4}Change Detection}{33}{subsubsection.3.2.2.4}
+\contentsline {subsubsection}{\numberline {3.2.2.5}Performance Evaluation}{34}{subsubsection.3.2.2.5}
+\contentsline {chapter}{\numberline {4}Monitoring SDN Switches}{36}{chapter.4}
+\contentsline {section}{\numberline {4.1}Problem}{36}{section.4.1}
+\contentsline {section}{\numberline {4.2}Solution}{36}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}GUI}{37}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Elephant Flow detection}{38}{subsection.4.2.2}
+\contentsline {chapter}{\numberline {5}Management API}{39}{chapter.5}
+\contentsline {section}{\numberline {5.1}Data models}{39}{section.5.1}
+\contentsline {subsection}{\numberline {5.1.1}Topology}{40}{subsection.5.1.1}
+\contentsline {subsection}{\numberline {5.1.2}Port statistics}{41}{subsection.5.1.2}
+\contentsline {section}{\numberline {5.2}Protocols}{41}{section.5.2}
+\contentsline {subsection}{\numberline {5.2.1}NETCONF}{42}{subsection.5.2.1}
+\contentsline {subsection}{\numberline {5.2.2}gRPC}{43}{subsection.5.2.2}
+\contentsline {subsection}{\numberline {5.2.3}Comparison}{44}{subsection.5.2.3}
+\contentsline {section}{\numberline {5.3}Implementation}{44}{section.5.3}
+\contentsline {subsection}{\numberline {5.3.1}Testing}{45}{subsection.5.3.1}
+\contentsline {subsection}{\numberline {5.3.2}Proof-of-concept}{46}{subsection.5.3.2}
+\contentsline {chapter}{\numberline {6}Elephant Flow Monitoring}{48}{chapter.6}
+\contentsline {section}{\numberline {6.1}Elephant flow detection algorithm}{48}{section.6.1}
+\contentsline {subsection}{\numberline {6.1.1}Initialization}{48}{subsection.6.1.1}
+\contentsline {subsection}{\numberline {6.1.2}Prediction and error calculation}{49}{subsection.6.1.2}
+\contentsline {subsection}{\numberline {6.1.3}Detection}{50}{subsection.6.1.3}
+\contentsline {section}{\numberline {6.2}Testing}{51}{section.6.2}
+\contentsline {section}{\numberline {6.3}Results and Evaluation}{53}{section.6.3}
+\contentsline {chapter}{\numberline {7}Conclusion}{62}{chapter.7}
+\contentsline {section}{\numberline {7.1}Summary of Results}{62}{section.7.1}
+\contentsline {section}{\numberline {7.2}Future Work}{62}{section.7.2}
+\contentsline {chapter}{\numberline {A}Appendix}{64}{appendix.A}
+\contentsline {section}{\numberline {A.1}GUI icons mapping}{64}{section.A.1}

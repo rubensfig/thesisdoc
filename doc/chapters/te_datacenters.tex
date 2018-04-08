@@ -69,30 +69,28 @@ and provide different results to different use cases. In this section we focus o
 
 Networks can be represented as an undirected graph $G(V, E)$, which contains a certain multicast group $M \subseteq V$, and a multicast tree $T \subseteq E$ 
 \cite{lorenz_optimal_2003}. Considering the nodes $u, v \in M$, and the unique paths $p_{u \to v}$, an approach to define elephant flows
-is to consider the optimal Quality-of-Service (QoS) partition of the unicast path $p$, or the multicast tree $T$ such as in 
+is to consider the set of flows that optimize the Quality-of-Service (QoS) on the unicast path $p$, or the multicast tree $T$ such as in 
 \cite{lorenz_optimal_2003, lorenz_optimal_2002}. 
 
-\par Considering the partitioned set of flows $F$ on the path $p$,
+\par Considering the set of flows $F$ on the path $p$,
 
 \begin{equation*}
     \centering
     F = <F_1, F_2, ..., F_n>,
 \end{equation*}
 
-\par and an arbitrary Quality of Service function $q()$, then $x_p = q(F)$ is the vector of QoS requirements 
-for path $p$. In \cite{ros-giralt_mathematical_2017}, the optimal partition is the configuration that improves the QoS in $p$, or, in a formal
-definition:
+\par and an arbitrary Quality of Service function $q()$, then $x_p = q(F)$ is the QoS requirements for path $p$. In \cite{ros-giralt_mathematical_2017},
+the optimal partition is the configuration that improves the QoS in $p$, or, in a formal definition:
 
 \begin{equation*}
     \centering
-    q(F'_1, F'_2, ... F'_n) \geq q(F_1, F_2, ..., F_n),
+    q(F'_1, F'_2, ... F'_n) > q(F_1, F_2, ..., F_n),
 \end{equation*}
 
-\par where $F'_{X}$ is the partitioned set of flows. $q()$ is a generic function, since QoS can be classified with several parameters, like bandwidth, latency,
-error rate, and so on, which must then be adapted from case to case. These parameters can be classified in two classes: \textit{bottleneck} and \textit{additive} 
-\cite{lorenz_optimal_2003}. As previously mentioned, the main effect of elephant flows is the choking effect of the bandwidth
-of the shorted lived flows, making the bandwidth a proper metric for usage in $q()$. Considering bandwidth as the global QoS requirement $Q$, the partition $x'_p$ 
-must satisfy the condition
+\par where $F'_{X}$ is an optimized set of flows on path $p$. $q()$ is a generic function, since QoS can be classified with several parameters, like bandwidth, 
+latency, error rate, and so on, which must then be adapted from case to case. These parameters can be classified in two classes: \textit{bottleneck} and 
+\textit{additive} \cite{lorenz_optimal_2003}. As previously mentioned, the main effect of elephant flows is the choking effect of the bandwidth of the shorted lived 
+flows, making the bandwidth a proper metric for usage in $q()$. Considering bandwidth as the global QoS requirement $Q$, $F'_p$ must satisfy the condition
 
 \begin{equation*}
     \centering
@@ -110,7 +108,7 @@ mouse flows. From this framework, the set of elephant flows $F'_e$ is
     F'_e = <F'_1, ..., F'_X> \subset F,
 \end{equation*}
 
-\par that are bound to the following restrictions
+\par that correspond to the smallest set of of flows that maximize the QoS function for a set of links. Formally, this restriction can be defined as
 
 \begin{equation*}
     \centering
@@ -133,7 +131,8 @@ based on different techniques \cite{curtis_mahout:_2011}:
          and it does not account for abrupt changes on the traffic
     \item By setting hard limits on the transmission capabilities of each port and switch, and enforcing via shaping mechanisms, the controller is ensured of the 
         non existence of flows that could impact network performance. This is a mitigation strategy that does not scale well to very large networks, since it 
-        requires the storage of the rules imposed to every port, and can potentially lead to the inefficient use of network resources, reducing flexibly on the DCN's.
+        requires the storage of the rules imposed to every port, and can potentially lead to the inefficient use of network resources, reducing the flexibillity on
+        the DCN's.
     \item By employing sampling and collection techniques, using mechanisms like sFlow (see \ref{sec:sflow}), and building the profile of the normal state of 
         the network, this method can detect outliers that deviate from the normal state of the network. Utilizing this method reduces the impact of continuously 
         polling the network, while reducing impact on the packet and byte counts \cite{brauckhoff_impact_2006}, but the loss of information inherent to
@@ -143,18 +142,18 @@ based on different techniques \cite{curtis_mahout:_2011}:
 
 \par Mahout \cite{curtis_mahout:_2011} presents a system that allows for elephant flow detection by monitoring end hosts. Via implementation of a shim layer on top
 of every host present in the network, the proposed system allows to tag the traffic that belongs to larger flows, reducing the complexity that is generated 
-if the monitoring was done at the aggregation or core switches. Detection itself is done by comparing the number of bytes in a buffer to a pre-defined threshold.
-In Hedera \cite{al-fares_hedera:_2010} the problem of maximizing network bandwidth is via detection of large flows and optimization of the placement on the 
+if the monitoring were done at the aggregation or core switches. Detection itself is done by comparing the number of bytes in a buffer to a pre-defined threshold.
+In Hedera \cite{al-fares_hedera:_2010} the problem of maximizing network bandwidth is via detection of large flows and optimization of the placement of the 
 switches according to the demands of these flows. A sampling approach for detection of network anomalies is explored in \cite{jun_ddos_2014}, where the 
 proposed method relies on analysing the sampled packets and building a tuple of the traffic characteristics (source and destination IP, source and 
 destination ports, and the protocol). Using machine learning methods, this system then compares the entropy of each field to a pre-defined threshold, which
 allows for detection and classification of different types of DDoS attacks. In TE, the use of entropy has been vastly discussed \cite{brauckhoff_impact_2006,
 lall_data_2006}, since it can be used in fine grained traffic engineering systems, as well as anomaly detection systems, since entropy based methods
-detect the changes in traffic distribution, and changes that would be small enough for volume change detectors are visible in these systems. Furthermore, traffic
+detect the changes in traffic distribution, and changes that would be too small for volume change detectors are visible in these systems. Furthermore, traffic
 classification is now possible, since similar changes in traffic distribution cause the same changes in entropy, and this factor can be used in classifying the 
 different types of DDoS attacks, for example.
 
-\par In the case of systems that explore the changes in packet and bytes, \cite{munz_traffic_2010} proposes a simple approach for traffic change detection, based in
+\par In the case of systems that explore the changes in packet and bytes, \cite{munz_traffic_2010} proposes a simple approach for traffic change detection, based on
 time series and Principal component analysis (PCA). By measuring the state of the network, using the links, flows and packets statistics, a statistical approach to 
 finding the time locations of change points in the network traffic is designed, by combining different types of statistical process control techniques.
 PCA removes the correlation of a set of observations, separating the seasonal variation from the residual variability. Another system exploring PCA for anomaly
@@ -169,9 +168,9 @@ flows must be addressed.
 \par In general, post-detection actions for solving elephant flows can be based in \cite{pettit_open_2014, noauthor_mice_2013}
 
 \begin{itemize}
-    \item separating the queues from elephants and mice flows,
+    \item separating the queues for elephants and mice flows,
     \item routing the elephants on a separate path or forwarding them in separate networks,
-    \item splitting the elephants into smaller flows, using different ports, and relying on reliable transmission mechanisms, such as those present on TCP
+    \item splitting the elephants into smaller flows, using different ports and relying on reliable transmission mechanisms, such as those present on TCP
         to organize and re-order the packets.
 \end{itemize}
 

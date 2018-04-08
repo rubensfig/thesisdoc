@@ -1,13 +1,13 @@
 \section{Network Management} \label{chap:nm} 
 
-\par The topic of network management is very extensive, due to the several components that make up today's networks, and the vast amount of information that they
+\par The topic of network management is very extensive, due to the many components that make up today's networks, and the vast amount of information that they
 provide. It can be summed up as the operation and maintenance of network infrastructure so that the service it provides is not only "healthy", but also is operated
 at a level that keeps costs down for service providers. 
 
 \subsection {Requirements for management systems}
 
 \par As the complexity of the networks, and network devices that compose them, grows bigger and bigger, the management systems should accommodate for the their
-necessities. As such, the basic groups of requirements for management functions  defined in the ITU-T X 700 Recommendation \cite{noauthor_recommendation_1992}
+necessities. As such, the basic groups of requirements for management functions defined in the ITU-T X 700 Recommendation \cite{noauthor_recommendation_1992}
 are:
 
 \begin {itemize}
@@ -24,7 +24,7 @@ are:
 
 \par A network management system usually consists of a centralized station, and management agents running on the network devices. Using management protocols, the
 agents can report to the station information about the its operational status, which includes information ranging from CPU load to bandwidth usage. Typically this
-information can be retrieved by the controller polling the agents, or the agents sending information on their own, usually to inform status changes. Using this 
+information can be retrieved by the controller polling the agents, or the agents sending information on their own, usually to inform of status changes. Using this 
 information, the network operator can get insight on the performance or possible errors of the devices that are monitored. In the next section, we explore one of the
 most popular management protocols, SNMP.
 
@@ -33,7 +33,7 @@ most popular management protocols, SNMP.
 The Simple Network Management Protocol is an IETF defined protocol that allows for the interconnection of networking devices, and provide a structured way to
 retrieve relevant information about these devices. As the name suggests, SNMP allows for a simplified approach to network monitoring, since it reduces the complexity
 of the functions that the management agent needs to comply with, which bring several advantages, like reducing the costs for development of management tools;
-provides a way to monitor, independently from different hardware providers the resources; and also supports freedom in extending the protocol in order to include
+providing a way to monitor, independently from different hardware providers the resources; and also supporting freedom in extending the protocol in order to include
 other aspects of network operation \cite{fedor_simple_1990}.
 \par The architectural model of SNMP can be described in figure \ref{fig:snmp}.
     
@@ -53,8 +53,8 @@ of all objects in a logical pattern, as there is a parent node that contains ref
 For human readability, there is usually an \textit {Object Descriptor}, to refer to the object type. 
 
 \par The syntax defines the type of data structure in the object type; and the encoding describes how the object type is transmitted on the network. In the context
-of this thesis, an important group is the interfaces group, as this exposes information about the interfaces present in a system. Its OID is the .3.6.1.2.1.2., 
-and contains the number of interfaces in a system, and a table containing the counters related to the interface status, like the received unicast packets, the 
+of this thesis, an important group is the interfaces group, as it exposes information about the interfaces present in a system. Its OID is .3.6.1.2.1.2., 
+and it contains the number of interfaces in a system, and a table containing the counters related to the interface status, like the received unicast packets, the 
 physical address, among others. The flexibility of the MIB allows for vendors to introduce their own databases into the MIB, while also remaining compatible 
 with the standardized one.
 
@@ -75,11 +75,11 @@ configuration and management, like \cite{schonwalder_overview_2003}:
 \subsection {Data Center Networks (DCN)}
 
 \par The design of the network architecture is central to the data-center networks, as the placement for physical hosts and virtual machines allows for sharing the 
-resources and create a logical hierarchy of network devices. The study on the design of DCN has resulted in the creation of typical DC topologies, like fat-tree
-topologies (as seen in \ref{fig:fattree}), or others, including de Bruijn server only networks, or BCube switch heavy networks \cite{popa_cost_2010}. This approach
-allows for the traffic characteristics, resource consumption and costs of the networking devices be monitored, so that causes for failure of this network are
-understood and mitigated, and the entire DC can run on the most optimal way possible. The organization in the DCN also allows for traffic in the network being
-resistant to failure scenarios, since there are multiple paths that can redirect packets to the correct destination, even if a link to a switch fails.
+resources and create a logical hierarchy of network devices. The study of the design of DCN has resulted in the creation of typical DC topologies, like fat-tree
+topologies (as seen in \ref{fig:fattree}), or others, including de Bruijn server only networks, or BCube switch heavy networks \cite{popa_cost_2010}. Using these
+standardized architectures monitoring the traffic characteristics, resource consumption and costs of the networking devices are easier, and causes for failure of
+are understood and mitigated, and the entire DC can run on the most optimal way possible. The organization in the DCN also allows for traffic in the network being 
+resistant to failure scenarios, since multiple paths can be used, redirecting packets to the correct destination even if a link to a switch fails.
 
 \begin{figure} [H]
     \centering

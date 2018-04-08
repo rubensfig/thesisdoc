@@ -102,15 +102,15 @@ operations in the base NETCONF protocol are \cite{enns_network_2011}:
     \centering
     \caption{NETCONF Operations}
     \begin{tabular}{c}
-       get  \\ \hline
-       get-config  \\ \hline
-       edit-config  \\ \hline
-       copy-config  \\ \hline
-       delete-config  \\ \hline
-       lock  \\ \hline
-       unlock  \\ \hline
-       close-session  \\ \hline
-       kill-session  
+                 get \\ \hline
+          get-config \\ \hline
+         edit-config \\ \hline
+         copy-config \\ \hline
+       delete-config \\ \hline
+                lock \\ \hline
+              unlock \\ \hline
+       close-session \\ \hline
+        kill-session
     \end{tabular}
 \end{table}
 
@@ -162,7 +162,7 @@ optimizations, protobuf improves performance on serializing and de-serializing m
     \label{fig:oss}
 \end{figure}
 
-By combination of the technologies presented in this chapter, we have developed an Operations Support System (OSS), visible in figure \ref{fig:oss}. The controllers
+By combination of the technologies presented in this chapter, we developed an Operations Support System (OSS), visible in figure \ref{fig:oss}. The controllers
 had to be extended to support the gRPC interfaces, and this connection is accessible through port 5000 on baseboxd and port 5001 on CAWR.
 
 \par To demonstrate the interfaces capability of exposing the topology and statistics information, we have developed a simple Graphical User Interface (GUI) as a 
@@ -184,21 +184,22 @@ with configuration of the bonded interfaces on the servers connected to both swi
 
 \subsection{Proof-of-concept}
 
+\begin{figure} [H]
+        \centering
+        \includegraphics[width=1\textwidth]{bisdn/cawr_gui}
+        \caption{Topology obtained from CAWR}
+        \label{fig:cawr_gui}
+\end{figure}
+
 \par Figure \ref{fig:cawr_gui} displays the topology that CAWR reports, similar to the one in the testing environment \ref{fig:gui_test_setup}. Table
 \ref{tab:gui-mapping} displays the meaning of the icons present in the GUI. Since this system is to be used in a real time deployment, there is no interest in
 storing the state of the network, which means that the topology must be drawn with every request to the server. Currently the topology is updated every two seconds,
 providing a balance between real time updates and the interval for requests to the controllers.
 
 \par A drawback present in figure \ref{fig:cawr_gui} is that the controllers do not have the mapping between each interface and the physical host, which is why 
-the connected server is displayed as unknown. This is a known bug of the system, that can be solved either by manually updating the host name to port mapping in
-a configuration file, or extending the controllers to interpret LLDP messages from the servers, although this was considered out-of-scope for this proof-of-concept.
-
-\begin{figure} [H]
-        \centering
-        \includegraphics[width=.9\textwidth]{bisdn/cawr_gui}
-        \caption{Topology obtained from CAWR}
-        \label{fig:cawr_gui}
-\end{figure}
+the connected server is displayed as unknown. This is a known limitation of the system, that can be solved either by manually updating the host name to port mapping 
+in a configuration file, or extending the controllers to interpret LLDP messages from the servers, although this was considered out-of-scope for this 
+proof-of-concept.
 
 \par The connection between both controllers to the GUI provides the view for both controllers, which means that CAWR will present the view for the physical
 switches, bonded ports and hosts, while the baseboxd only shows the giant switch created by CAWR. An advantage of this is the analysis of the global view of the
